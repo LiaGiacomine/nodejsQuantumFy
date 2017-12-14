@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+   
+<head>
+    <title>QuantumFy</title>
+    <link href="css/style.css" type="text/css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
+    <meta name="keywords" content="papers,blog,login">
+    <meta name="author" content="Liandra Giacomine">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+    
+<body>
+
+<!-- ******* HEADER ********* -->
+<header>
+<div id="header">
+
+<!-- Title -->
+<div id="above_menu">
+<h2 id="title">QuantumFy</h2>
+<!-- Register button -->
+
+<div align="right" id="register">
+<a href="../QuantumFy/register.php" class="#top"><button align="right"><i>Sign up</i></button></a>
+</div>
+    </div>
+    
+<hr class="menu_spacing">
+    
+<!-- Menu -->
+    
+<nav class="menu">
+<ul>
+    <li><a href="index.php" class="active">Home</a></li>
+    <div class="dropdown_papers">
+        <button class="papers_button"><a href="papers/index.php">Papers</a></button>
+          <div class="papers_content">
+            <a href="papers/metrology.php">Metrology</a>
+            <a href="papers/thermodynamics.php">Thermodynamics</a>
+            <a href="papers/cryptography.php">Cryptography</a>
+            <a href="papers/shannon.php">Shannon Theory</a>
+            <a href="papers/computing.php">Computing</a>
+            <a href="papers/black_hole.php">Black Hole</a>
+            <a href="papers/correlations.php">Correlations</a>
+          </div>
+        </div>
+    <li><a href="blog.php">Blog</a></li>
+    <li><a href="login.php">Login</a></li>
+    <li><a href="about.php">About</a></li>
+</ul>
+</nav>  
+<!-- Search Bar -->
+    
+<div align="middle" id="main_search">
+<form action="search.php" method="get">
+<input type="search" name="search" id="main_search_box" placeholder="Search..." />
+<button type="submit" value="Search" id="main_search_button"><img src="images/search_button.svg" alt="Register" height="15" width="15"></button>
+</form>
+</div>
+</div>
+</header>
+    
+<!-- SPACING so that content appears below menu -->
+
+<div id="blog_space"></div>
+    
+<!-- ****** END OF HEADER ***** -->  
+        
+<div id="blog_margin">
+<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Post a question</a></button>
+
+<div class="section_border">
+<div id="blog_table">
+    <h2 class="section_title">Announcements</h2>
+    <hr>
+    <div class="table">
+    <table>
+        <thead>
+            <tr>
+                <th>Post</th>
+                <th>Answers</th>
+                <th>Likes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="" class="table_link">question</a></td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="" class="table_link">question</a></td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="" class="table_link">question</a></td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="" class="table_link">question</a></td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+</div>
+
+
+
+<hr>
+<div id="post_question">
+    <legend><h3 id="ask_question">Enter your question below:</h3></legend>
+    <form action="/blog_question.php" method="get">
+    <textarea name="post_question" cols="60" rows="10"></textarea><br>
+    <label for="username" title="or email..." required="required">Username</label>
+    <input type="text" name="username" size="15" maxlength="30" /><br />
+    <input type="submit" name="submit" value="Submit">
+    </form>
+</div>
+    
+<div class="page_bottom">
+<a href="#top">Back to top</a>
+</div>
+</div>
+    
+</body>
+</html>

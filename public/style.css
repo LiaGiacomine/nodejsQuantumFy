@@ -1,0 +1,634 @@
+/****SAME ACROSS ALL PAGES******/
+
+/**** BODY ******/
+body {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+
+/* SPACE TO SHOW MENU */
+
+#home_space {
+    height: 150px;
+}
+
+#login_space {
+    height: 160px;
+}
+
+#register_space {
+    height: 140px;
+}
+
+#blog_space {
+    height: 150px;
+}
+
+#menu_space {
+    height: 150px;
+}
+
+#paper_space {
+    height: 150px;
+}
+
+#about_space {
+    height: 120px;
+}
+
+/* HEADER */
+
+#header {
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+}
+
+/* Title design */
+
+#above_menu {
+    top: 0;
+    left: 0;
+    right:0;
+    height: 42px;
+    width: 100%;
+    background-color: rgba(160,82,45, 1);
+}
+
+
+#title {
+    left: 0;
+    top: 0;
+    right: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 0;
+    border:0;
+    font-size: 2em;
+    text-align: left;
+    font-family: 'Avenir-Black', sans-serif;
+    color: white;
+}
+
+
+
+
+/* HR tag */
+
+hr {
+    border-color: gainsboro;
+}
+
+
+/* SPACING  */
+.menu_spacing {
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 4px;
+    background-color: black;
+}
+
+
+/* THE BIT ABOVE THE MENU */
+
+
+/* Register */
+
+#register button {
+    border-radius: 2px;
+    content: '\00bb';
+    margin: 5px;
+    height: 30px;
+    text-align: center;
+    border-right-color: rgba(119,136,153,1);
+    border-bottom-color: rgba(119,136,153,1);
+    border-left-color: rgba(119,136,153,.2);
+    border-top-color: rgba(119,136,153,.2);
+    position: fixed;
+    top: 1px;
+    right: 0; 
+    background:white;
+}
+
+#register i {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: darkgreen;
+}
+
+
+
+.welcome {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: darkgreen;
+    margin: 5px;
+    height: 30px;
+    position: fixed;
+    top: 1px;
+    right: 0;
+}
+
+
+
+
+
+
+
+/* --------THE MENU--------- */
+
+/* Styling of the navigation bar: eliminates list bullet points, puts it in a vertical block, nav_pages is the class for the ul in the navigation bar */
+
+.menu ul {
+    padding:0;
+    margin: 0;
+    border: 0;
+    list-style: none;
+    background-color: white;
+    text-align: center;
+    
+}
+
+.menu li {
+    font-family: 'Arial-Black', sans-serif;
+    font-size: 1.3em;
+    line-height: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    transition: .3s background-color;
+}
+
+/* Make section a different colour when on it */ 
+
+.menu a.active {
+    /* background-color: rgba(160,82,45, .6); */
+    background-color: #d3d3d3;
+    color: black;
+}
+
+
+@media screen and (min-width: 600px) {
+  .menu li {
+    width: 100px;
+    border-bottom: none;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.3em;
+} 
+.papers_button {
+    margin-right: 0px;
+}}
+
+/* BORDER in Home and Blog */
+
+.section_border {
+    background-color: white;
+    border: 1px solid gray;
+    margin: 20px;
+    padding: 5px;
+}
+
+/*---------- DROPDOWN Paper Button ------------*/
+
+.papers_button {
+    background-color: white;
+    font-family: 'Arial-Black', sans-serif;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+    width: 100px;
+    border: 0;
+    text-align: center;
+    font-size: 1.3em;
+    line-height: 40px;
+    height: 40px;
+    margin-right: 20px;
+}
+
+.dropdown_papers {
+    position: relative;
+    display: inline-block;
+}
+
+/* Show content */
+.papers_content {
+    display: none;
+    font-family: 'Arial-Black', sans-serif;
+    font-size: 1em;
+    position: absolute;
+    min-width: 0px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* How dropdown content looks*/
+.papers_content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: inherit;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.papers_content a:hover {
+    background-color: #d3d3d3;
+    
+    
+}
+
+/* hover */
+.dropdown_papers:hover .papers_content {
+    display: block;
+    background-color: whitesmoke;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown_papers:hover .papers_button {
+    color: #d3d3d3;
+    
+}
+
+/* THE BIT BELOW THE MENU */
+
+
+/* ------------ SEARCH BAR ----------- */
+
+#main_search {
+    background-color: whitesmoke;
+    
+}
+
+#main_search input[type=search]{
+    padding: 0;
+    margin: 10px;
+    width: 80%;
+    height: 25px;
+    color: orange;
+    font-size: 1em;
+    border: 2px double groove;
+    border-radius: 20px;
+    -webkit-appearance: none;
+    font-family: 'Avenir-Black', sans-serif;
+    background-color: white;
+   
+}
+
+#main_search input[type=search]{
+    color: black;
+}
+
+
+#main_search_button {
+    background-color: white;
+}
+/* code to get rid of the box outline */
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+
+#main_search_button:hover {
+    background-color: orange;
+    border-color:black;
+}
+
+
+
+/* ********** BOTTOM of Page ************ */
+
+.page_bottom {
+    margin: 10px;
+    border: 10px;
+    padding: 10px;
+}
+
+
+/* Same style for all titles of a section of a page */
+
+
+h3.section_title {
+    color: black;
+    font-family: sans-serif;
+}
+
+
+
+#papers, #blog, #register {
+    font-style: italic;
+    color: grey;
+}
+
+/* TOPICS section */
+
+
+#topics p {
+    font-family: inherit;
+    color: darkslategrey;
+    
+}
+
+#topics li a{
+    color: darkolivegreen;
+    
+}
+#topics li a:hover {
+    font-style: oblique;
+    color: black;
+}
+
+#topics li a.active {
+    color: black;
+}
+
+#topics ul {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    list-style: none;
+    background-color: royalblue;
+    text-align: center;
+}
+
+#topics li {
+    font-family: 'Arial', sans-serif;
+    font-size: 1em;
+    line-height: 1px;
+    height: 20px;
+    border-bottom: 1px solid lightyellow;
+    display: block;
+    margin-right: 4px;
+}
+
+/* ------ PAPERS TABLE -------- */
+
+td.table_link {
+    min-width: 450px;
+    max-width: 750px;
+    text-align: left;
+    padding: 20px;
+    margin:20px;
+    border: 50px;
+    
+}
+
+/* Layout of tables */ 
+
+.table {
+    width: 500px;
+    min-height: 200px;
+    overflow: scroll;
+}
+
+.table th {
+    color: black;
+}
+
+.table tr {
+    color: black;
+}
+
+
+/* HOME PAGE DESIGN */
+
+#home_header {
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+#home_main_section {
+    border:0px;
+    margin: 0px;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    background-image: url("../images/board.jpg");
+    background-blend-mode: difference;
+    background-size: 100% 100%;
+    opacity: .9;
+}
+
+
+#home_title {
+    font-size: 5em;
+    color: white;
+    text-align: center;
+    font-family: 'Avenir-Black', sans-serif;
+    color: whitesmoke;
+    
+}
+
+#home_description {
+    padding: 0px;
+    margin: 5%;
+    font-family: 'Avenir-Black', sans-serif;
+    border-radius: 10px;
+    font-size: 1.4em;
+    border: 0;
+    text-align: center;
+    color: rgba(0,0,0, 0.7);
+    top: 40%;
+    right: 20%;
+    left: 20%;
+    background-color: whitesmoke;
+}
+
+#home_scroll {
+    font-family: 'Avenir-Black', sans-serif;
+    border-radius: 10px;
+    margin: 0x;
+    border: 0;
+    text-align: center;
+    font-size: 2em;
+    color: black;
+    position: absolute;
+    top: 80%;
+    right: 20%;
+    left: 20%;
+    background-color: white;
+    animation-duration: 5s;
+    animation-name: home_scroll;
+    animation-iteration-count: infinite;
+}
+
+@keyframes home_scroll {
+  from {
+    transform: translate(0,0);
+  }
+
+  to {
+    transform: translate(0,50px);
+  }
+}
+
+
+/* LOGIN Page */
+
+legend.form_legend {
+    background-color: rosybrown;
+    width: 450px;
+    border-radius: 10px;
+    padding: 1px 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    color: white;
+}
+
+legend.form_legend h2{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+/* Fieldset */
+
+#loginField fieldset {
+    width: 900px;
+    margin-right: 25%;
+    margin-left: 30%;
+    top: 50%;
+    left: 50%;
+    padding: 10px;
+    border: 1px solid white;
+
+}
+
+@media screen and (max-width: 800px) {
+   #loginField fieldset {
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    padding: 10px;
+    border: 1px solid white;
+} }
+
+#loginField form {
+    align-content: center;
+    width: 500px;
+    margin: 20%;
+    padding: 20px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+#loginField input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid brown;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+#loginField input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid brown;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+
+#loginField input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#loginField label {
+    float:left;
+    width:15%;
+    margin-right:1em;
+    padding-top:0.2em;
+    padding-right: 10px;
+    text-align:left;
+    font-weight:bold;
+}
+
+
+
+
+/* BLOG */
+
+
+
+#blog_margin b {
+    margin-left: 20px;
+    font-size: 2em;
+    font-family: "Arial-Black";
+}
+
+
+#post_question_button {
+    float: right;
+    margin-right: 20px;
+    border-radius: 2px;
+    border-right-color: orangered;
+    border-bottom-color: orangered;
+    background-color: orangered;
+}
+
+#post_question_button a {
+    text-decoration:  none;
+    font-size: 2em;
+    color: white;
+    font-weight: bold;
+    font-family: "Avenir-Black";
+}
+
+#post_question { 
+    margin: 20px;
+}
+
+
+/* PAPER PAGE */
+
+.paper_topic{
+    border: 0;
+    margin: 20px;
+    padding: 5px;
+}
+    
+section.topic_section {
+    border: 0;
+    margin: 20px;
+    padding: 5px;
+}
+    
+/* ABOUT PAGE */
+    
+    
+#about_border {
+    margin: 20px;
+    padding: 5px;
+}
