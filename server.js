@@ -3,6 +3,8 @@
 // ================================================================
 var cron = require('node-cron');
 var express = require('express');
+var ExpressValidator = require('express-validator');
+var body_parser = require('body-parser');
 var routes = require('./routes/index.js');
 var app = express();
 
@@ -26,11 +28,31 @@ var port = process.env.PORT || 3000;
 app.use('/public', express.static(process.cwd() + '/public'));
 app.set('view engine', 'ejs');
 
+// ================================================================
+// BODYPASER middleware for LOGIN/REGISTRATION FORM
+// ================================================================
 
+app.use(body_parser.urlencoded({ extended : true }));
+app.use(body_parser.json());
+
+app.use(ExpressValidator({
+  errorFormatter: function(param, msg, value) {
+    var namespace = param.split(".")
+    , root = namespace.shift()
+    , formParam = root;
+
+    while(namespace.length){
+      formParam += '[' + namespace.shift() + ']';
+    } return {
+      param : formParam,
+      msg : msg,
+      value : value
+    };
+  }
+}));
 // ================================================================
 // setup routes
 // ================================================================
-
 routes(app);
 
 // ================================================================

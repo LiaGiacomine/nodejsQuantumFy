@@ -35,12 +35,12 @@
           <button class="papers_button"><a href="papers/index">Papers</a></button>
             <div class="papers_content">
               <a href="papers/metrology">Metrology</a>
-              <a href="papers/thermodynamics.php">Thermodynamics</a>
-              <a href="papers/cryptography.php">Cryptography</a>
-              <a href="papers/shannon.php">Shannon Theory</a>
-              <a href="papers/computing.php">Computing</a>
-              <a href="papers/black_hole.php">Black Hole</a>
-              <a href="papers/correlations.php">Correlations</a>
+              <a href="papers/thermodynamics">Thermodynamics</a>
+              <a href="papers/cryptography">Cryptography</a>
+              <a href="papers/shannon">Shannon Theory</a>
+              <a href="papers/computing">Computing</a>
+              <a href="papers/black_hole">Black Hole</a>
+              <a href="papers/correlations">Correlations</a>
             </div>
           </div>
       <li><a href="/blog">Blog</a></li>
@@ -65,17 +65,17 @@
 <div id="login_space"></div>
 
 <!-- ****** END OF HEADER ***** -->   
-<div class="loginField">
+<div id="loginField">
 <fieldset>
 <legend class="form_legend"><h2 >Login</h2></legend>
-<form class="loginForm" method="post">
+<form class="loginForm" action="http://localhost:3000/login" method="post">
 <label for="username">Username/Email: </label>
 <input id="username" type="text" name="username" size="15" maxlength="30" /><br />
 <label for="password">Password:</label>
 <input id="password" type="password" name="password" size="15" maxlength="30" /><br><br>
 <input type="submit" name="loginButton" value="Login">
     
-<h5>Or <a href="http://localhost/QuantumFy/register.php">register</a> now if you are not yet a member</h5>
+<h5>Or <a href="/register">register</a> now if you are not yet a member</h5>
 </form>
 </fieldset>
 </div>

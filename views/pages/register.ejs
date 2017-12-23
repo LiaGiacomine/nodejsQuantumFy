@@ -24,7 +24,7 @@
 <!-- Register button -->
 
 <div align="right" id="register">
-<a href="register.php" class="#top"><button align="right"><i>Sign up</i></button></a>
+<a href="/register" class="#top"><button align="right"><i>Sign up</i></button></a>
 </div>
 </div>
     
@@ -39,12 +39,12 @@
             <button class="papers_button"><a href="papers/index">Papers</a></button>
               <div class="papers_content">
                 <a href="papers/metrology">Metrology</a>
-                <a href="papers/thermodynamics.php">Thermodynamics</a>
-                <a href="papers/cryptography.php">Cryptography</a>
-                <a href="papers/shannon.php">Shannon Theory</a>
-                <a href="papers/computing.php">Computing</a>
-                <a href="papers/black_hole.php">Black Hole</a>
-                <a href="papers/correlations.php">Correlations</a>
+                <a href="papers/thermodynamics">Thermodynamics</a>
+                <a href="papers/cryptography">Cryptography</a>
+                <a href="papers/shannon">Shannon Theory</a>
+                <a href="papers/computing">Computing</a>
+                <a href="papers/black_hole">Black Hole</a>
+                <a href="papers/correlations">Correlations</a>
               </div>
             </div>
         <li><a href="/blog">Blog</a></li>
@@ -56,7 +56,7 @@
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
-<form action="search.php" method="get">
+<form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
@@ -67,51 +67,32 @@
     
 <!-- SPACING so that content appears below menu -->
 
-<div id="about_space"></div>
-    
-<!-- ****** END OF HEADER ***** -->  
-    
-<section id="about_border">
-    <h1><u><p>Description of what's available</p></u></h1>
+<div id="register_space"></div>
 
-    <p><b>QuantumFy</b> is a website designed and created to keep you up to date with the latest discoveries and discussions of Quantum Physics. Here you will be able to read, discuss, comment and rank the most recent papers. </p>
-    
-    <p>Find below information on the following pages on this website: <a href="about.php#papers">Papers,</a> <a href="about.php#blog"> Blog </a>and how to<a href="about.php#register"> Register.</a></p>
-    
+<!-- ****** END OF HEADER ***** -->   
 
-    <h2 id="papers">Papers</h2>
-        
-    <p>The Papers Page contains a <b>ranked list of papers</b> in 8 distinct specified areas, with golden stars being given by specialised members of our committee and likes by members of the public to these. It is possible to<i> contribute to our community</i> and rank papers by becoming a member, however this requires you to have an institutional email address. This is so that we can keep the website as professional as possible.</p>
+<div id="loginField">
+<fieldset>
+<legend class="form_legend"><h2>Register</h2></legend>
+<form class="loginForm" action="http://localhost:3000/register" method="post">
+<label for="username">Username:</label>
+<input name="username" type="text" size="15" maxlength="30" required/><br />
+<label for="email">Email**:</label>
+<input name="email" type="text"size="15" maxlength="30" required /><br />
+<label for="password">Password:</label>
+<input name="password" type="password" size="15" maxlength="30" required/><br />
+<label for="confirm">Confirm Password:</label>
+<input name="confirm_password" type="password" size="15" maxlength="30" required/><br />
+<i>** Your email address must be <b>institutional.</b></i>
     
-    <br>
-    
-    <ul>
-        <li><a href="papers/metrology.php">Quantum Sensing and Metrology</a></li>
-        <li><a href="papers/thermodynamics.php">Quantum Thermodynamics</a></li>
-        <li><a href="papers/cryptography.php">Quantum Cryptography</a></li>
-        <li><a href="papers/shannon.php">Quantum Shannon Theory</a></li>
-        <li><a href="papers/computing.php">Quantum Computing</a></li>
-        <li><a href="papers/black_hole.php">Relativistic and Black-Hole Quantum Information</a></li>
-        <li><a href="papers/correlations.php">Quantum Correlations</a></li>
-    </ul>
-   
-  
-    <h2 id="blog">Blog</h2>
-    
-    <p>Check out our <em><a href="blog.php">blog</a></em> for the <i>latest announcements, hot discussion topics and to ask or answer questions.</i></p>
-  
-    
-    <h2 id="register">Register</h2>
-    
-    <p>Becoming a member is simple, all you need is an <b>institutional email address</b>. <a href="register.php">Click here to register.</a></p>
+<input type="submit" name="registerButton" value="Submit">
+</form>
+</fieldset>
+</div>
 
-</section> 
-    
 <div class="page_bottom">
 <a href="#top">Back to top</a>
 </div>
 
 </body>
-
-	
 </html>
