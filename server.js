@@ -3,6 +3,8 @@
 // ================================================================
 var cron = require('node-cron');
 var express = require('express');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var ExpressValidator = require('express-validator');
 var body_parser = require('body-parser');
 var routes = require('./routes/index.js');
@@ -12,12 +14,11 @@ var app = express();
 // Configure server to call script that adds papers to the
 // database every day at 12:15
 // ================================================================
-var load_papers = require('./public/js/load_papers_test');
-cron.schedule('15 12 * * *', function(){
+var load_papers = require('./routes/upload_papers');
+cron.schedule('30 12 * * *', function(){
   load_papers();
   console.log('addData is running');
 });
-
 
 // Set up port 
 var port = process.env.PORT || 3000;
@@ -29,12 +30,19 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.set('view engine', 'ejs');
 
 // ================================================================
+// SETUP SESSION and
 // BODYPASER middleware for LOGIN/REGISTRATION FORM
 // ================================================================
+app.use(cookieParser());
+app.use(session({secret:"secret", saveUninitialized: false, resave: false}));
+
+// app.use(function(req, res, next) {
+//   res.locals.user = req.session.username;
+//   next();
+// });
 
 app.use(body_parser.urlencoded({ extended : true }));
 app.use(body_parser.json());
-
 app.use(ExpressValidator({
   errorFormatter: function(param, msg, value) {
     var namespace = param.split(".")
@@ -50,6 +58,7 @@ app.use(ExpressValidator({
     };
   }
 }));
+
 // ================================================================
 // setup routes
 // ================================================================

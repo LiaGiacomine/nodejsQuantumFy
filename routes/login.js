@@ -31,8 +31,9 @@ exports.register = function(req,res) {
     var email = req.body.email;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
-
+    
     var new_user = {"username": username, "email": email, "password":password};
+    
 
     db.query('INSERT INTO user_login SET ?', new_user, function(error, results, fields){
         if (error) {
@@ -43,10 +44,7 @@ exports.register = function(req,res) {
             })
         } else {
             console.log("solution is: ", results);
-            res.send({
-                "code": 204,
-                "success": "Email does not exist"
-            });
+            res.redirect("/login");
         }
     });
 
@@ -64,48 +62,36 @@ exports.register = function(req,res) {
     } else {
         console.log('nope.');
     }
-    console.log(username);
         
-    // bcrypt.genSalt(10,function(err,salt){
-    //     bcrypt.hash(new_user.password, salt, function(err, hash){
-    //         //Store hash in your password db
-    //         new_user.password = hash;
-    //         new_user.save(callback);
-    //     });
-    // });
 
 }
 
 exports.login = function(req,res){
     var email= req.body.username;
     var password = req.body.password;
+    
+    var user = {"email": email, "password":password};
+
     db.query('SELECT * FROM user_login WHERE email = ?',[email], function (error, results, fields) {
         if (error) {
-        // console.log("error ocurred",error);
-        res.send({
-            "code":400,
-            "failed":"error ocurred"
-        })
+            res.send({
+                "code":400,
+                "failed":"error ocurred"
+            });
         }else{
         if(results.length > 0){
             if(results[0].password == password){
-            res.send({
-                "code":200,
-                "success":"login sucessfull"
-                });
+                req.session.username = email;
+                res.redirect("/loginSuccessful");
             }
             else{
-            res.send({
-                "code":204,
-                "success":"Email and password does not match"
-                });
+                req.session.username = email;
+                res.redirect("/login");
             }
         }
         else{
-            res.send({
-            "code":204,
-            "success":"Email does not exits"
-                });
+            req.session.username = email;
+            res.redirect("/loginSuccessful");
         }
     }
     });

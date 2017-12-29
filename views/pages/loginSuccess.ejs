@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QuantumFy</title>
+  <link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
+  <meta name="keywords" content="papers,blog,login">
+  <meta name="author" content="Liandra Giacomine">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+
+<body>
+
+<!-- ******* HEADER ********* -->
+<header>
+<div id="header">
+
+<!-- Title -->
+<div id="above_menu">
+<h2 id="title">QuantumFy</h2>
+    <!-- Welcome/Register Section -->
+    
+    <div align="right" id="top">
+      <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+      <div align="right" id="register">
+          <a href="/register"><button align="right"><i>Sign up</i></button></a>
+      </div>
+  </div>
+  </div>
+
+  <!-- Show section according with if user if logged in -->
+  <script type="text/javascript">
+      var user_welcome = $("#welcome_user").html();
+      filter_user_welcome = user_welcome.replace(/\"/g, "");
+      //$("#welcome_user").html(filter_user_welcome);
+      if (filter_user_welcome  == "Welcome ") {
+          $("#welcome_user").remove();
+      } else {
+          $("#register").remove();
+          $("#welcome_user").html(filter_user_welcome);
+      }
+
+  </script>
+
+  <!-- End of top section -->
+
+<hr class="menu_spacing">
+
+<!-- Menu -->
+<nav class="menu">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/papers/index">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login" class="active">Login</a></button>
+              <div class="login_content">
+                <a href="/register">Register</a>
+        </div>
+        <li><a href="/about" >About</a></li>
+    </ul>
+</nav>     
+
+<!-- Search Bar -->
+
+<div align="middle" id="main_search">
+<form method="get">
+<input type="search" name="search" id="main_search_box" placeholder="Search..." />
+<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+</form>
+</div>
+</div>
+</header>
+
+<!-- SPACING so that content appears below menu -->
+
+<div id="login_space"></div>
+
+<!-- ****** END OF HEADER ***** -->   
+<img id="stars" src="../../../public/img/register.svg" alt="login" height="200" width="250" style="top:50%;left:50%;position:absolute;margin-top:-50px;margin-left:-150px"><div class="paper_stars">
+<h1 id="welcome_user" style="top:50%;left:40%;position:absolute;margin-top:-120px;margin-left:-200px">Welcome <%= JSON.stringify(user) %></h1>
+<script type="text/javascript">
+  var user_welcome = $("#welcome_user").html();
+  filter_user_welcome = user_welcome.replace(/\"/g, "");
+  $("#welcome_user").html(filter_user_welcome);
+</script>
+
+
+</body>
+</html>
+

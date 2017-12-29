@@ -23,39 +23,47 @@
 <!-- Title -->
 <div id="above_menu">
 <h2 id="title">QuantumFy</h2>
-<!-- Register button -->
+    <!-- Welcome/Register Section -->
     
-<div align="right" id="register">
-<a href="/register" class="#top"><button align="right"><i>Sign up</i></button></a>
-</div>
-</div>
-    
+    <div align="right" id="top">
+        <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <div align="right" id="register">
+            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+        </div>
+    </div>
+    </div>
 
+    <!-- Show section according with if user if logged in -->
+    <script type="text/javascript">
+        var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //$("#welcome_user").html(filter_user_welcome);
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+        } else {
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
+
+    </script>
+
+    <!-- End of top section -->
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
-    <ul>
-        <li><a href="/" class="active">Home</a></li>
-        <div class="dropdown_papers">
-            <button class="papers_button"><a href="papers/index">Papers</a></button>
-              <div class="papers_content">
-                <a href="papers/metrology">Metrology</a>
-                <a href="papers/thermodynamics">Thermodynamics</a>
-                <a href="papers/cryptography">Cryptography</a>
-                <a href="papers/shannon">Shannon Theory</a>
-                <a href="papers/computing">Computing</a>
-                <a href="papers/black_hole">Black Hole</a>
-                <a href="papers/correlations">Correlations</a>
-              </div>
+        <ul>
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/papers/index">Papers</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <div class="dropdown_menu_login">
+                <button class="login_button"><a href="/login">Login</a></button>
+                  <div class="login_content">
+                    <a href="/register">Register</a>
             </div>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/about">About</a></li>
-    </ul>
-</nav>     
-    
+            <li><a href="/about" >About</a></li>
+        </ul>
+    </nav>    
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
