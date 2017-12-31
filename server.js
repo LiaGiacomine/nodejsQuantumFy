@@ -12,9 +12,9 @@ var app = express();
 
 // ================================================================
 // Configure server to call script that adds papers to the
-// database every day at 12:15
+// database every day at 12:30
 // ================================================================
-var load_papers = require('./routes/upload_papers');
+var load_papers = require('./routes/run_daily/upload_papers_to_db');
 cron.schedule('30 12 * * *', function(){
   load_papers();
   console.log('addData is running');

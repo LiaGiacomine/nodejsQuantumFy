@@ -23,27 +23,32 @@
 <h2 id="title">QuantumFy</h2>
     <!-- Welcome/Register Section -->
     
+    
     <div align="right" id="top">
-      <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
-      <div align="right" id="register">
-          <a href="/register"><button align="right"><i>Sign up</i></button></a>
-      </div>
-  </div>
-  </div>
+        <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <br>
+        <a id="logout" href="/logout"><i>Log out</i></a>
+        <div align="right" id="register">
+            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+        </div>
+    </div>
+    </div>
 
-  <!-- Show section according with if user if logged in -->
-  <script type="text/javascript">
-      var user_welcome = $("#welcome_user").html();
-      filter_user_welcome = user_welcome.replace(/\"/g, "");
-      //$("#welcome_user").html(filter_user_welcome);
-      if (filter_user_welcome  == "Welcome ") {
-          $("#welcome_user").remove();
-      } else {
-          $("#register").remove();
-          $("#welcome_user").html(filter_user_welcome);
-      }
+    <!-- Show section according with if user if logged in -->
+    <script type="text/javascript">
+        var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+        } else {
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
 
-  </script>
+    </script>
 
   <!-- End of top section -->
 
@@ -81,11 +86,11 @@
 
 <!-- ****** END OF HEADER ***** -->   
 <img id="stars" src="../../../public/img/register.svg" alt="login" height="200" width="250" style="top:50%;left:50%;position:absolute;margin-top:-50px;margin-left:-150px"><div class="paper_stars">
-<h1 id="welcome_user" style="top:50%;left:40%;position:absolute;margin-top:-120px;margin-left:-200px">Welcome <%= JSON.stringify(user) %></h1>
+<h1 id="welcome" style="top:50%;left:40%;position:absolute;margin-top:-120px;margin-left:-200px">Welcome <%= JSON.stringify(user) %></h1>
 <script type="text/javascript">
-  var user_welcome = $("#welcome_user").html();
+  var user_welcome = $("#welcome").html();
   filter_user_welcome = user_welcome.replace(/\"/g, "");
-  $("#welcome_user").html(filter_user_welcome);
+  $("#welcome").html(filter_user_welcome);
 </script>
 
 

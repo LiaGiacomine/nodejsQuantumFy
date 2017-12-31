@@ -25,8 +25,11 @@
 <h2 id="title">QuantumFy</h2>
     <!-- Welcome/Register Section -->
     
+    
     <div align="right" id="top">
         <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <br>
+        <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
             <a href="/register"><button align="right"><i>Sign up</i></button></a>
         </div>
@@ -37,9 +40,11 @@
     <script type="text/javascript">
         var user_welcome = $("#welcome_user").html();
         filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //$("#welcome_user").html(filter_user_welcome);
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
         if (filter_user_welcome  == "Welcome ") {
             $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
         } else {
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);
@@ -81,7 +86,7 @@
     <div id="paper_space"></div>
         
     <!-- ****** END OF HEADER ***** -->  
-    <section class="topic_section"> 
+    <!-- <section class="topic_section"> 
         <h3><p>Topics</p></h3>
             <ul id="topics">
             <li ><a href="/papers/metrology">Quantum Sensing and Metrology</a></li>
@@ -93,7 +98,7 @@
             <li><a href="/papers/correlations">Quantum Correlations</a></li>
             </ul>
     </section>
-    <hr />
+    <hr /> -->
     
     <h2 class="section_title">Quantum Physics Papers</h2>
         

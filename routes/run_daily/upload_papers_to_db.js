@@ -24,6 +24,11 @@ var db = mysql.createConnection({
     database : "arxiv_papers"
 });
 
+// db.connect(function(err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+// });
+
 //Crops string between start and end position
 //First start should equal 0, offset is html to leave out
 function getStr(start, str, searchStr, offset, endStr) {
@@ -41,8 +46,15 @@ function totalOfPapers(response_text) {
     paper_amount_end = response_text.indexOf("</b>",paper_amount_start);
     //Slice the value between the two indexes to obtain number
     paper_amount = response_text.slice(paper_amount_start,paper_amount_end);
+    //console.log(paper_amount);
 
-    return paper_amount;
+    // //Papers which are replacements
+    replacements_section = getStr(0, response_text, "<h3>Replacements for", 0, "\">");;
+    replacements = replacements_section.slice(replacements_section.indexOf("item") + 4,replacements_section.length);
+    replacements = parseInt(paper_amount) - parseInt(replacements) + 1;
+    no_papers = paper_amount - replacements;
+    //console.log(no_papers);
+    return no_papers;
 }
 //THE MATRIX
 var values = [];
@@ -113,18 +125,18 @@ function addData(response_text) {
                 }
             }
         }
-        console.log("TITLE: " + paper_title + "TYPE: " +type);
+    
         //write a loop to select all authors then add to description section 
         //Make the description a button which when clickes reveals the description
         //Past the replacements section, the papers don't have a description
-        var paper_description = "";
-        if (response_text.indexOf(paper_title) < response_text.indexOf("<h3>Replacements for")){
+        //var paper_description = "";
+        //if (response_text.indexOf(paper_title) < response_text.indexOf("<h3>Replacements for")){
             //Paper description
             paper_description = getStr(response_text.indexOf(paper_title), response_text, "class=\"mathjax\">", 16, "</p>");
             paper_description = paper_description.replace(/["']/g, "");
             paper_description = paper_description.replace(",","");
             //console.log(paper_description);
-        };
+        //} 
 
         //Add all row values to matrix to be inserted in the 9 columns of the table
         values[total_paper][1] = title;
@@ -154,6 +166,8 @@ function addData(response_text) {
               console.log("Result: " + result.affectedRows);
             });
         });
+
+
 };
 
 var response_text;

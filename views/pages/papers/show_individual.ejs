@@ -25,27 +25,17 @@
 <h2 id="title">QuantumFy</h2>
     <!-- Welcome/Register Section -->
     
+    
     <div align="right" id="top">
         <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <br>
+        <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="../register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
 
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
-        filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //$("#welcome_user").html(filter_user_welcome);
-        if (filter_user_welcome  == "Welcome ") {
-            $("#welcome_user").remove();
-        } else {
-            $("#register").remove();
-            $("#welcome_user").html(filter_user_welcome);
-        }
-
-    </script>
 
     <!-- End of top section -->
 
@@ -91,6 +81,7 @@
     <h4 class="paper_description"></h4>
     <hr>
     <div class="container" style="height:50px;"><img id="likes" src="../../../public/img/beforeLike.jpg" alt="Register" height="50" width="50"><div class="paper_likes"></div></div>
+    
     <div class="container"><img id="stars" src="../../../public/img/beforeStar.svg" alt="Register" height="50" width="50"><div class="paper_stars"></div></div>
     <hr>
     <section class="topic_section">
@@ -105,14 +96,36 @@
         <textarea name="post_comment" cols="60" rows="10"></textarea><br>
         <input id="submit_button" type="submit" name="submit" value="Submit">
         </form>
+        <a id="login_to_com" href="/login"><h3>Log in to comment</h3></a>
+
     </div>
 
 
+    <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
+        OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
+
     <script type="text/javascript">
-        var url = window.location.href;
-        var end_of_str = url.length;
-        paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
-        document.getElementById("comments_form").action = "http://localhost:3000/papers/addcomment/" + paperid;
+        var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("legend").remove();
+            $("#logout").remove();
+            $("#comments_form").remove();
+        } else {
+            //REMOVE LOGIN TO COMMENT
+            $("#login_to_com").remove();
+            //ELSE SHOW "WELCOME USERNAME"
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+            //ALLOW USERS TO ADD COMMENTS
+            user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
+            var url = window.location.href;
+            var end_of_str = url.length;
+            paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
+            document.getElementById("comments_form").action = "http://localhost:3000/papers/addcomment/" + paperid + "/" + user;
+        }
     </script>
     
     <h2></h2>

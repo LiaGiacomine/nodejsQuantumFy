@@ -19,6 +19,18 @@ body {
     background-color: white;
 }
 
+/****LOG OUT *****/
+
+#logout i {
+    font-size: 1em;
+    color: paleturquoise;
+    margin: 5px;
+    height: 0px;
+    position: fixed;
+    top: 20px;
+    right: 0;
+}
+
 
 /* SPACE TO SHOW MENU */
 
@@ -136,15 +148,25 @@ hr {
 }
 
 
-
 .welcome {
     font-weight: bold;
-    font-size: 1.2em;
-    color: darkgreen;
+    font-size: 1em;
+    color: white;
     margin: 5px;
-    height: 30px;
+    height: 0px;
     position: fixed;
-    top: 1px;
+    top: 0px;
+    right: 0;
+}
+
+#welcome_user {
+    font-weight: bold;
+    font-size: 1em;
+    color: white;
+    margin: 5px;
+    height: 0px;
+    position: fixed;
+    top: 0px;
     right: 0;
 }
 

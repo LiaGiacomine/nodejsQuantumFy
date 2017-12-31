@@ -1,6 +1,8 @@
 var mysql = require("mysql");
 var express = require("express");
 var login = require('./login');
+var blog = require('./blog');
+var papers = require('./papers');
 var router = express.Router();
 
 //Set up connection with database
@@ -13,6 +15,11 @@ var db = mysql.createConnection({
 });
 
 module.exports = function(app) {
+
+    /*
+        RENDER ALL PAGES:
+        HTML, CSS, JS
+    */
 
     app.get("/", function(req,res, next){
         res.render("pages/index", {
@@ -70,28 +77,6 @@ module.exports = function(app) {
         next();
     });
 
-    //An  ajax call is made to this from the paper page using dynamic_table script
-    //to get the json response which is all the papers in order to be
-    //outputted in the dynamic table 
-    app.get("/paperdata", function(req,res) {
-        var data = {
-            "Data": ""
-        };
-        //Selects all papers in the table in the order of most stars
-        db.query("SELECT * FROM paper_data ORDER BY paper_stars DESC",function(err, rows, fields){
-        if(rows.length != 0){
-            data["Data"] = rows;
-            res.json(data);
-        }else{
-            data["Data"] = 'No data Found..';
-            res.json(data);
-        }
-        });
-    });
-
-
-    //An  ajax call is made to this from the paper page using the individial_paper script
-    //to get the json response contains all the information stored in the db about the paper 
     app.get("/papers/individual/:paperid", function(req, res, next){
         res.render("pages/papers/show_individual",{
             session: req.session,
@@ -100,137 +85,73 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/papers/get_individual_data/:paperid", function(req,res, next){
-        //get the name of the paper
-        var paperid = req.params.paperid;
-        //Store JSON result to be extracted in data
-        var data = {
-            "Data": ""
-        };
-        db.query("SELECT * FROM paper_data WHERE paper_id = ?",paperid,function(err, rows, fields){
-            if(rows.length != 0){
-                data["Data"] = rows;
-                res.json(data);
-            }else{
-                data["Data"] = 'No data Found..';
-                res.json(data);
-            }
-            });
-    });
+    /*
+        FUNCTIONS INVOLVING PAPER DATABASE
+    */
 
-    app.get("/papers/get_paper_comments/:paperid", function(req,res, next){
-        //get the name of the paper
-        var paperid = req.params.paperid;
-        //Store JSON result to be extracted in data
-        var data = {
-            "Data": ""
-        };
-        db.query("SELECT * FROM comments WHERE paper_id = ?",paperid,function(err, rows, fields){
-            if(rows.length != 0){
-                data["Data"] = rows;
-                res.json(data);
-            }else{
-                data["Data"] = 'No data Found..';
-                res.json(data);
-            }
-            });
-    });
+    //An  ajax call is made to this from the paper page using dynamic_table script
+    //to get the json response which is all the papers in order to be
+    //outputted in the dynamic table 
+    app.get("/paperdata",papers.paperdata);
 
-    //LOGOUT
-    app.get('/logout',function(req,res){
-        req.session.destroy(function(err) {
-          if(err) {
-            console.log(err);
-          } else {
-            res.redirect('/');
-          }
-        });
-    });
+    //An  ajax call is made to this from the paper page using the individial_paper script
+    //to get the json response contains all the information stored in the db about the paper 
+    app.get("/papers/get_individual_data/:paperid", papers.individualpaper);
+
+    //Returns the comments made about the paper speficied
+    app.get("/papers/get_paper_comments/:paperid", papers.getpapercomments);
+  
+    //ADD COMMENT
+    app.post("/papers/addcomment/:paperid/:username", papers.addcomment);
+
+    //CHECK LIKE EXISTS
+    app.get("/papers/does_like_exist/:paperid/:username", papers.checklike);
+
+    //ADD LIKE
+    app.post("/papers/addlike/:paperid/:username", papers.addlike);
+
+    /*
+        FUNCTIONS INVOLVING USER DATABASE
+    */
+
+    //REGISTER
+    app.post("/register", login.register);
+
+    //LOGIN
+    app.post("/login", login.login);
+
+    /*
+        FUNCTIONS INVOLVING BLOG DATABASE
+    */
+
+    //GET ALL BLOGS
+    app.get("/blogdata", blog.blogdata);
+
+    //GET SPEFIFIC BLOG
+    app.get("/blog/get_blog_post/:blogid", blog.individualblogpost);
+
+    //GET SPECIFIC BLOG COMMENTS
+    app.get("/blog/get_blog_comments/:blogid", blog.getblogcomments);
+
+    //ADD BLOG POST
+    app.post("/blog/addpost/:username/:date", blog.addpost);
 
     //ADD COMMENT
-    app.post("/papers/addcomment/:paperid", function(req,res){
-            
-        //Get the values entered in register form
-        var comment = req.body.post_comment;
-        var paperid = req.params.paperid;
+    app.post("/blog/add_comment/:blogid/:username", blog.addcomment);
 
-        var new_comment = {"paper_id": parseInt(paperid), "paper_comments": comment};
 
-        db.query('INSERT INTO comments SET ?', new_comment, function(error, results, fields){
-            if (error) {
-                console.log("error occured", error);
-                res.send({
-                    "code": 400,
-                    "failed": "error ocurred"
-                });
-            } else {
-                console.log("solution is: ", results);
-                //This reloads the page after the comment has been added
-                res.redirect("/papers/individual/" + paperid.toString());
-            }
-        });
-    
-        req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
-
-        
-        var errors = req.validationErrors();
-    });
-
-    /////////ADD LIKE///////////
-    app.post("/papers/addlike/:paperid/:username", function(req,res){
-
-        var paperid = req.params.paperid;
-        var username = req.params.username;
-
-        var data = {
-            "Data": ""
-        };
-
-        var add_like  = {"paper_id": parseInt(paperid), "username": username.toString()};
-    
-        //CHECK IF USER HAS ALREADY LIKED THIS PAPER
-        var like_already_set=[];
-        db.query('SELECT COUNT(*) AS c FROM likes WHERE paper_id = ? AND username = ?',[parseInt(paperid),username.toString()], function(error, results, fields){
-            if (error) {
-                console.log("error occured", error);
-                res.send({
-                    "code": 400,
-                    "failed": "error ocurred"
-                });
-            } else {
-                like_already_set.push(JSON.stringify(results[0]));
-                like_already_set = like_already_set[0][5];
-                console.log(like_already_set);
-                //This reloads the page after the comment has been added
-                // res.redirect("/papers/individual/" + paperid.toString());
-            }
-        });
-
-        //IF USER HAS LIKED PAPER DONT LET THEM LIKE AGAIN
-        //ELSE ADD A LIKE TO THE TABLE
-        if (like_already_set == 0){
-            db.query('INSERT INTO likes SET ?',[add_like], function(error, results, fields){
-                if (error) {
-                    console.log("error occured", error);
-                    res.send({
-                        "code": 400,
-                        "failed": "error ocurred"
-                    });
-                } else {
-                    //This reloads the page after the comment has been added
-                    res.redirect("/papers/individual/" + paperid.toString());
-                }
-            });
+    //LOGOUT
+    app.get('/logout',function(req,res,next){
+        req.session.destroy(function(err) {
+        if(err) {
+            console.log(err);
         } else {
-            res.send(500,'showAlert');
+            //Once session is destroyed redirect to Home page
+            res.redirect("/");
+            next();
         }
-
-
+        });
     });
-
-
-    app.post("/register", login.register);
-    app.post("/login", login.login);
 
 
 }

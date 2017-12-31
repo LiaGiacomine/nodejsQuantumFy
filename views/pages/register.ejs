@@ -25,6 +25,8 @@
     
     <div align="right" id="top">
         <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <br>
+        <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
             <a href="/register"><button align="right"><i>Sign up</i></button></a>
         </div>
@@ -35,16 +37,17 @@
     <script type="text/javascript">
         var user_welcome = $("#welcome_user").html();
         filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //$("#welcome_user").html(filter_user_welcome);
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
         if (filter_user_welcome  == "Welcome ") {
             $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
         } else {
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);
         }
 
     </script>
-
     <!-- End of top section -->
 <hr class="menu_spacing">
     

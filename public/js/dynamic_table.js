@@ -40,21 +40,10 @@ $(document).ready(function(){
 
     //TITLE
     var th1 = document.createElement("TH");
+    th1.style.backgroundColor = "lightblue";
     var th1data = document.createTextNode("Title");
     th1.appendChild(th1data);
     table.appendChild(th1);
-
-    //DESCRIPTION
-    var th2 = document.createElement("TH");
-    var th2data = document.createTextNode("Gold Stars/Likes");
-    th2.appendChild(th2data);
-    table.appendChild(th2);
-
-    //GOLD STARS and LIKES
-    var th3 = document.createElement("TH");
-    var th3data = document.createTextNode("Comments");
-    th3.appendChild(th3data);
-    table.appendChild(th3);
 
 
     //Add table body
@@ -72,6 +61,7 @@ $(document).ready(function(){
         
         //Add PAPER TITLE to ROW
         var td1 = document.createElement('TD');
+        td1.style.border = "1px solid #ddd";
         //Add paper title to column 1 in row
 
         //Link TITLE to PDF
@@ -91,23 +81,16 @@ $(document).ready(function(){
         var p2 = document.createElement("P"); 
         p2.appendChild(document.createTextNode(paper_description));
         td1.appendChild(p2);
-        row.appendChild(td1);
         
-        //Add gold stars to column two
-        var td2 = document.createElement('TD');
-        
-        //Add number of gold stars
-        paper_stars = data["Data"][row_count]["paper_stars"];
+        //Add PAPER TITLE to ROW
+        //Eventually make the like and star a page where you can see who
+        //Has liked the paper
+        var b = document.createElement("B");
         paper_likes = data["Data"][row_count]["paper_likes"];
-        td2.appendChild(document.createTextNode(paper_stars));
-        row.appendChild(td2);
-
-        //Add likes to column three
-        var td3 = document.createElement('TD');
-        //Add number of COMMENTS
-        paper_commments = data["Data"][row_count]["paper_commments"];
-        td3.appendChild(document.createTextNode(paper_commments));
-        row.appendChild(td3);
+        paper_stars = data["Data"][row_count]["paper_stars"];
+        b.appendChild(document.createTextNode("Likes: " + paper_likes + " Stars: " + paper_stars));
+        td1.appendChild(b);
+        row.appendChild(td1);
         
         //Next row
         row_count = row_count + 1;
