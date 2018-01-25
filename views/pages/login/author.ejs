@@ -29,7 +29,7 @@
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -60,14 +60,14 @@
         <li><a href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login" class="active">Login</a></button>
+            <button class="login_button"><a href="/login/user" class="active">Login</a></button>
               <div class="login_content">
-                <a href="/register">Register</a>
+                <a href="/register/user">Register</a>
         </div>
-        <li><a href="/about">About</a></li>
     </ul>
-</nav>      
+</nav>     
 
 <!-- Search Bar -->
 
@@ -81,24 +81,63 @@
 </header>
 
 <!-- SPACING so that content appears below menu -->
-
+<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
 <div id="login_space"></div>
 
-<!-- ****** END OF HEADER ***** -->   
+<!-- ****** END OF HEADER ***** -->  
+<div id="login_type_section">
+    <button class="login_type_button" ><a id="user_button" href="/login/user">User</a></button>
+    <button class="login_type_button" id="button_active"><a id="author_button" href="/login/author">Author</a></button>
+    <button class="login_type_button"><a id="admin_button" href="/login/admin">Admin</a></button>
+</div>
+
+<br><hr><br>
+
 <div id="loginField">
 <fieldset>
 <legend class="form_legend"><h2 >Login</h2></legend>
-<form class="loginForm" action="http://localhost:3000/login" method="post">
+<form class="loginForm" action="http://localhost:3000/authorlogin" method="post">
 <label for="username">Username/Email: </label>
 <input id="username" type="text" name="username" size="15" maxlength="30" /><br />
 <label for="password">Password:</label>
 <input id="password" type="password" name="password" size="15" maxlength="30" /><br><br>
 <input type="submit" name="loginButton" value="Login">
+
+
+<div id="popup" class="overlay">
+    <div class="popup">
+		<h2 id="popup_text">Incorrect Username or Password</h2>
+    	<a class="close" href="#popup">×</a>
+    	<div class="content">
+           Try again
+    	</div>
+    </div>
+</div>
+
+<p id="wrong_login"><%= JSON.stringify(err) %><p></p>
     
 <h5>Or <a href="/register">register</a> now if you are not yet a member</h5>
 </form>
 </fieldset>
 </div>
+
+<script>
+    //If form hasnt yet been filled and sent
+    res = $("#wrong_login").html();
+    res = res.replace(/\"/g, "");
+    if (res == "None"){
+        $("#popup").remove();
+        $("#wrong_login").remove();
+    } else if (res == "Wrong login"){
+        $("#wrong_login").remove();
+        $("#username").css({"border": "2px solid red"});
+        $("#password").css({"border": "2px solid red"});
+        var popup = document.getElementById("popup");
+        popup.classList.toggle("show");
+    }
+
+</script>
+
 
 
 </body>

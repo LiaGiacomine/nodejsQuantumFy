@@ -57,6 +57,26 @@ exports.individualblogpost = function(req,res, next){
         });
 }
 
+exports.addsummary = function(req,res, next){
+    //get the name of the paper
+    var paper = req.body.paper;
+    var summary = req.body.summary;
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+    db.query("INSERT INTO summary_table WHERE blog_id = ?",blogid,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            res.json(data);
+        }else{
+            data["Data"] = 'No data Found..';
+            res.json(data);
+        }
+        });
+}
+
+
 
 exports.getblogcomments = function(req,res, next){
     //get the name of the paper

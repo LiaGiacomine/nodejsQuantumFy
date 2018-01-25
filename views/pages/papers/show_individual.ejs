@@ -31,7 +31,7 @@
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -42,20 +42,19 @@
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
-        <ul>
-            <li><a href="/../">Home</a></li>
-            <li><a href="/papers/index" class="active">Papers</a></li>
-            <li><a href="/../blog">Blog</a></li>
-            <div class="dropdown_menu_login">
-                <button class="login_button"><a href="/../login">Login</a></button>
-                  <div class="login_content">
-                    <a href="/../register">Register</a>
-            </div>
-            <li><a href="/../about">About</a></li>
-        </ul>
-    </nav>    
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/papers/index" class="active">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" >Login</a></button>
+              <div class="login_content">
+                <a href="/register/user">Register</a>
+        </div>
+    </ul>
+</nav> 
 
 <!-- Search Bar -->
         
@@ -69,7 +68,7 @@
     </header>
         
     <!-- SPACING so that content appears below menu -->
-    
+    <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
     <div id="paper_space"></div>
         
     <!-- ****** END OF HEADER ***** --> 
@@ -100,6 +99,15 @@
 
     </div>
 
+    <!-- <div id="popup" class="overlay">
+            <div class="popup">
+                <h2>Incorrect Username or Password</h2>
+                <a class="close" href="#popup">×</a>
+                <div class="content">
+                   Try again
+                </div>
+            </div>
+        </div> -->
 
     <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
         OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -113,7 +121,22 @@
             $("legend").remove();
             $("#logout").remove();
             $("#comments_form").remove();
+            $(".container #likes").click(function(){
+                alert("Log in to like a paper");
+            });
+            $(".container #stars").click(function(){
+                alert("Log in to star");
+            });
+
         } else {
+            var user_type = $("#user_type").html();
+            user_type = user_type.slice(user_type.indexOf("Welcome ",user_type.length));
+            //IF THEY ARE NOT A COMMITTEE MEMBER CANT STAR
+            if (user_type != 3){
+                $(".container #stars").click(function(){
+                    alert("Only committee members can star");
+                });
+            }
             //REMOVE LOGIN TO COMMENT
             $("#login_to_com").remove();
             //ELSE SHOW "WELCOME USERNAME"

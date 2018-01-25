@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+   
+<head>
+    <title>QuantumFy</title>
+    <link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
+    <meta name="keywords" content="papers,blog,login">
+    <meta name="author" content="Liandra Giacomine">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+    
+<body>
+ 
+<!-- ******* HEADER ********* -->
+<header>
+<div id="header">
+    
+<!-- Title -->
+<div id="above_menu">
+<h2 id="title">QuantumFy</h2>
+    <!-- Welcome/Register Section -->
+    
+    <div align="right" id="top">
+        <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
+        <br>
+        <a id="logout" href="/logout"><i>Log out</i></a>
+        <!-- <div align="right" id="register">
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
+        </div> -->
+    </div>
+    </div>
+
+    <!-- Show section according with if user if logged in -->
+    <script type="text/javascript">
+        var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+        } else {
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
+
+    </script>
+    <!-- End of top section -->
+<hr class="menu_spacing">
+    
+<!-- Menu -->
+    
+<nav class="menu">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/papers/index">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" >Login</a></button>
+              <div class="login_content">
+                <a href="/register/user" class="active">Register</a>
+        </div>
+    </ul>
+</nav> 
+<!-- Search Bar -->
+    
+<div align="middle" id="main_search">
+<form method="get">
+<input type="search" name="search" id="main_search_box" placeholder="Search..." />
+<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+</form>
+</div>
+    
+</div>
+</header>
+    
+<!-- SPACING so that content appears below menu -->
+<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<div id="register_space"></div>
+
+<!-- ****** END OF HEADER ***** -->   
+<div id="login_type_section">
+    <button class="login_type_button" id="button_active" ><a id="user_button" href="/register/user">User</a></button>
+    <button class="login_type_button"><a id="author_button" href="/register/author">Author</a></button>
+</div>
+
+<br><hr><br>
+
+<div id="loginField">
+<fieldset>
+<legend class="form_legend"><h2>Register</h2></legend>
+<form class="loginForm" action="http://localhost:3000/register_user" method="post">
+<label for="username">Username:</label>
+<input id="username" name="username" type="text" size="15" maxlength="30" required/><br />
+<label for="email">Email:</label>
+<input id="email" name="email" type="text"size="15" maxlength="30" required /><br />
+<label for="password">Password:</label>
+<input id="password" class="password" name="password" type="password" size="15" maxlength="30" required/><br />
+<label for="confirm">Confirm Password:</label>
+<input id="confirm_password" class="password" name="confirm_password" type="password" size="15" maxlength="30" required/><br />
+<p id="callback"><%= JSON.stringify(err) %><p>
+<i d="must_be_inst">** Register with <b>institutional</b> email address to have extra privilages</i>
+<input type="submit" name="registerButton" value="Submit">
+</form>
+</fieldset>
+</div>
+
+<div id="popup" class="overlay">
+    <div class="popup">
+		<h2 id="popup_text">Passwords must match</h2>
+    	<a class="close" href="#popup">×</a>
+    	<div class="content">
+           Try again
+    	</div>
+    </div>
+</div>
+    
+
+<script>
+    //If form hasnt yet been filled and sent
+    res = $("#callback").html();
+    res = res.replace(/\"/g, "");
+    if (res == "none"){
+        $("#callback").remove();
+        $("#popup").remove();
+    } else if (res == "Password does not match confirm password"){
+        $("#password").css({"border": "2px solid red"});
+        $("#confirm_password").css({"border": "2px solid red"});
+        $("#callback").remove();
+        var popup = document.getElementById("popup");
+        popup.classList.toggle("show");
+    } else if (res == "Email does not exist"){
+        $("#email").css({"border": "2px solid red"});
+        $("#callback").remove();
+        var popup_text = document.getElementById("popup_text");
+        popup_text.innerHTML = "Given email does not exist";
+        var popup = document.getElementById("popup");
+        popup.classList.toggle("show");
+    }
+
+</script>
+
+<div class="page_bottom">
+<a href="#top">Back to top</a>
+</div>
+
+</body>
+</html>

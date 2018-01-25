@@ -29,7 +29,7 @@
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -60,14 +60,14 @@
         <li><a href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login" class="active">Login</a></button>
+            <button class="login_button"><a href="/login/user" class="active">Login</a></button>
               <div class="login_content">
-                <a href="/register">Register</a>
+                <a href="/register/user">Register</a>
         </div>
-        <li><a href="/about" >About</a></li>
     </ul>
-</nav>     
+</nav> 
 
 <!-- Search Bar -->
 
@@ -81,7 +81,7 @@
 </header>
 
 <!-- SPACING so that content appears below menu -->
-
+<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
 <div id="login_space"></div>
 
 <!-- ****** END OF HEADER ***** -->   

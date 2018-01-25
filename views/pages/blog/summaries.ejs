@@ -20,7 +20,6 @@
 <div id="header">
 
 <!-- Title -->
-
 <div id="above_menu">
 <h2 id="title">QuantumFy</h2>
 
@@ -50,12 +49,12 @@
         <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav>
+</nav> 
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -74,37 +73,15 @@
 <!-- ****** END OF HEADER ***** -->  
         
 <div id="blog_margin">
-<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Write a post</a></button>
+<b>Summaries</b>
+<button id="post_question_button"><a href="/blog/write_summary">Write a summary</a></button>
 </div>
-<div id="blog_sections">
-<a href="/blog/summaries"><section id="summaries">
-    <b>Summaries</b>
-</section></a>
-<a href="/blog/rankings"><section id="rankings">
-    <b>Rankings</b>
-</section></a>
-<a href="/blog/news"><section id="news">
-    <b>News</b>
-</section></a>
-</div>
-
 
 <section class="topic_section">
-    <div id="blog_post_table">
+    <div id="summaries_table">
     </div>
 </section>
 
-
-<hr>
-<div id="post_question">
-    <legend><h3 id="ask_question">Write your blog post</h3></legend>
-    <form id="blog_form" action="" method="post">
-    <textarea name="blog_post" cols="60" rows="10"></textarea><br>
-    <input type="submit" name="submit" value="Submit">
-    </form>
-
-    <a id="login_to_blog" href="/login"><h3>Log in to post</h3></a>
-</div>
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -119,6 +96,8 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         $("legend").remove();
         $("#blog_form").remove();
         $("#logout").remove();
+        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
+        $("#post_question_button").remove();
     } else {
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
@@ -127,10 +106,14 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         $("#register").remove();
         $("#welcome_user").html(filter_user_welcome);
         //ALLOW USERS TO ADD COMMENTS
-        user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
+        user = filter_user_welcome.slice(filter_user_welcome.indexOf(" "),filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
+        if (user.split(" ").length==2) {
+            $("#post_question_button").remove();
+        }
+
     }
 
 </script>

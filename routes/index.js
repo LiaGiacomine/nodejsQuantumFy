@@ -2,6 +2,7 @@ var mysql = require("mysql");
 var express = require("express");
 var login = require('./login');
 var blog = require('./blog');
+var committee = require('./committee');
 var papers = require('./papers');
 var router = express.Router();
 
@@ -14,6 +15,7 @@ var db = mysql.createConnection({
     database : "arxiv_papers"
 });
 
+
 module.exports = function(app) {
 
     /*
@@ -24,15 +26,26 @@ module.exports = function(app) {
     app.get("/", function(req,res, next){
         res.render("pages/index", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
 
-    app.get("/about", function(req,res, next){
-        res.render("pages/about", {
+    app.get("/committee", function(req,res, next){
+        res.render("pages/committee", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/committee/individual/:committee", function(req, res, next){
+        res.render("pages/individual_committee",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
@@ -40,39 +53,126 @@ module.exports = function(app) {
     app.get("/blog", function(req,res, next){
         res.render("pages/blog", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
 
-    app.get("/login", function(req,res, next){
-        res.render("pages/login", {
+    app.get("/blog/news", function(req,res, next){
+        res.render("pages/blog/news", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
 
-    app.get("/register", function(req,res, next){
-        res.render("pages/register", {
+    app.get("/blog/summaries", function(req,res, next){
+        res.render("pages/blog/summaries", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
 
-    app.get("/loginSuccessful", function(req,res, next){
-        res.render("pages/loginSuccess", {
+    app.get("/blog/write_summary", function(req,res, next){
+        res.render("pages/blog/write_summary", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
+
+
+    app.get("/blog/rankings", function(req,res, next){
+        res.render("pages/blog/rankings", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    /*
+        LOGIN PAGES
+    */
+
+    app.get("/login/user", function(req,res, next){
+        res.render("pages/login/user", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None"
+        });
+        next();
+    });
+
+    app.get("/login/author", function(req,res, next){
+        res.render("pages/login/author", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None"
+        });
+        next();
+    });
+
+    app.get("/login/admin", function(req,res, next){
+        res.render("pages/login/admin", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None"
+        });
+        next();
+    });
+
+    app.get("/login/loginSuccessful", function(req,res, next){
+        res.render("pages/login/loginSuccess", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None"
+        });
+        next();
+    });
+
+    /*
+        REGISTER PAGES
+    */
+
+    app.get("/register/user", function(req,res, next){
+        res.render("pages/register/user", {
+            err: "none",
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/register/author", function(req,res, next){
+        res.render("pages/register/author", {
+            err: "none",
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    /*
+        PAPER PAGES
+    */
 
     app.get("/papers/index", function(req,res, next){
         res.render("pages/papers/index", {
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
@@ -80,7 +180,8 @@ module.exports = function(app) {
     app.get("/papers/individual/:paperid", function(req, res, next){
         res.render("pages/papers/show_individual",{
             session: req.session,
-            user: req.session.username
+            user: req.session.username,
+            user_type: req.session.user_type
         });
         next();
     });
@@ -107,18 +208,48 @@ module.exports = function(app) {
     //CHECK LIKE EXISTS
     app.get("/papers/does_like_exist/:paperid/:username", papers.checklike);
 
+    //CHECK STAR EXISTS
+    app.get("/papers/does_star_exist/:paperid/:username", papers.checkstar);
+
     //ADD LIKE
     app.post("/papers/addlike/:paperid/:username", papers.addlike);
 
+    //ADD STAR
+    app.post("/papers/addstar/:paperid/:username", papers.addstar);
+
     /*
-        FUNCTIONS INVOLVING USER DATABASE
+        FUNCTIONS INVOLVING COMMITTEE DATABASE
     */
 
-    //REGISTER
-    app.post("/register", login.register);
+    //GET ALL TYPES OF COMMITTES
+    app.get("/committee_data", committee.committee_data);
 
-    //LOGIN
-    app.post("/login", login.login);
+    // An  ajax call is made to this from the individual committee page using the individual_committee script
+    // add a member to the committee
+    app.post("/committee/addmember/:committee_name/:username", committee.committee_addmember);
+
+    /*
+      REGISTER
+    */
+
+    //REGISTER USER
+    app.post("/register_user", login.register_user);
+    
+    //REGISTER AUTHOR
+    app.post("/register_author", login.register_author);
+
+    /*
+      LOGIN
+    */
+
+    //USER LOGIN
+    app.post("/userlogin", login.userlogin);
+
+    //AUTHOR LOGIN
+    app.post("/authorlogin", login.authorlogin);
+
+    //ADMIN LOGIN
+    app.post("/adminlogin", login.adminlogin);
 
     /*
         FUNCTIONS INVOLVING BLOG DATABASE
@@ -139,6 +270,9 @@ module.exports = function(app) {
     //ADD COMMENT
     app.post("/blog/add_comment/:blogid/:username", blog.addcomment);
 
+    /*
+        FUNCTIONS INVOLVING THE COMMITTEE 
+    */
 
     //LOGOUT
     app.get('/logout',function(req,res,next){

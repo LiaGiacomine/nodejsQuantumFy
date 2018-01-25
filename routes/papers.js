@@ -15,6 +15,7 @@ var db = mysql.createConnection({
     database : "arxiv_papers"
 });
 
+
 db.connect(function(err){
 if(!err) {
     console.log("Database is connected");
@@ -147,5 +148,50 @@ exports.addlike = function(req,res){
             }
     });
 }
+
+exports.addstar = function(req,res){
+    
+    var paperid = req.params.paperid;
+    var username = req.params.username;
+
+    var add_star  = {"paper_id": parseInt(paperid), "username": username.toString()};
+
+    //IF USER HAS LIKED PAPER DONT LET THEM LIKE AGAIN
+    //ELSE ADD A LIKE TO THE TABLE
+    db.query('INSERT INTO stars SET ?',[add_star], function(error, results, fields){
+            if (error) {
+                console.log("error occured", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                //This reloads the page after the comment has been added
+                res.redirect("/papers/individual/" + paperid.toString());
+            }
+    });
+}
+
+
+exports.checkstar = function(req,res, next){
+    //get paper id and username
+    var paperid = req.params.paperid;
+    var username = req.params.username;
+    //Store JSON result to be extracted in data
+    var data = {
+        "Star": ""
+    };
+    db.query("SELECT * FROM stars WHERE paper_id = ? AND username=?",[paperid,username],function(err, rows, fields){
+        if(rows.length != 0){
+            data["Star"] = rows;
+            console.log(data["Star"]);
+            res.json(data);
+        }else{
+            data["Star"] = 'Star does not exist';
+            res.json(data);
+        }
+        });
+}
+
 
 

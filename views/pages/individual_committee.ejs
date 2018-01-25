@@ -10,19 +10,18 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../public/js/blog.js" ></script>
+    <script src="../../public/js/individual_committee.js"></script>
 </head>
     
 <body>
-
+ 
 <!-- ******* HEADER ********* -->
 <header>
-<div id="header">
-
-<!-- Title -->
-
-<div id="above_menu">
-<h2 id="title">QuantumFy</h2>
+    <div id="header">
+            
+    <!-- Title -->
+    <div id="above_menu">
+    <h2 id="title">QuantumFy</h2>
 
     <!-- Welcome/Register Section -->
     
@@ -37,108 +36,106 @@
     </div>
     </div>
 
+   
+
     <!-- End of top section -->
-    
+
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog" class="active">Blog</a></li>
-        <li><a href="/committee">Committee</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee" class="active">Committee</a></li>
         <div class="dropdown_menu_login">
             <button class="login_button"><a href="/login/user" >Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav>
+</nav>  
+    
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
-<form action="search.php" method="get">
+<form action="" method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
 </div>
+    
 </div>
 </header>
     
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
-<div id="blog_space"></div>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
+<div id="about_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
-        
-<div id="blog_margin">
-<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Write a post</a></button>
+
+<h2 id="committee_title"></h2>
+
+<button id="join_committee_button">Join committee</button>
+
+<h4 id="committee_members"></h4>
+<h4 class="committee_papers"></h4>
+
+
+<div class="page_bottom">
+<hr><a href="#top">Back to top</a>
 </div>
-<div id="blog_sections">
-<a href="/blog/summaries"><section id="summaries">
-    <b>Summaries</b>
-</section></a>
-<a href="/blog/rankings"><section id="rankings">
-    <b>Rankings</b>
-</section></a>
-<a href="/blog/news"><section id="news">
-    <b>News</b>
-</section></a>
-</div>
-
-
-<section class="topic_section">
-    <div id="blog_post_table">
-    </div>
-</section>
-
-
-<hr>
-<div id="post_question">
-    <legend><h3 id="ask_question">Write your blog post</h3></legend>
-    <form id="blog_form" action="" method="post">
-    <textarea name="blog_post" cols="60" rows="10"></textarea><br>
-    <input type="submit" name="submit" value="Submit">
-    </form>
-
-    <a id="login_to_blog" href="/login"><h3>Log in to post</h3></a>
-</div>
-
-<!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
-OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
-
-<script type="text/javascript">
+ <!-- Show section according with if user if logged in -->
+ <script type="text/javascript">
 
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
-    //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
+    var url = window.location.href;
+    var end_of_str = url.length;
+    alert(url):
+    committee = url.slice(url.indexOf("/individual/") + 12, end_of_str);
+    committee = committee.replace(/%20/g, " ");
+    //IF USER IS NOT LOGGED IN SHOW BUTTON
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
-        $("legend").remove();
-        $("#blog_form").remove();
         $("#logout").remove();
+        $("#join_committee_button").click(function(){
+            alert("Only users can a committee");
+        });
+     //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
     } else {
-        //IF USER IS LOGGED IN
-        //REMOVE LOGIN TO COMMENT
-        $("#login_to_blog").remove();
-        //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
         $("#welcome_user").html(filter_user_welcome);
-        //ALLOW USERS TO ADD COMMENTS
-        user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
-        var d = new Date();
-        date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
-    }
+        $("#join_committee_button").click(function(){
+            //User can only join committee if they have an institutional email address
+            //or if they are a
+            var user_type = $("#user_type").html();
+            user_type = parseInt(user_type);
+            alert(user_type);
+            if (user_type != 1 || user_type != 2){
+                alert("You must be registered with an institutional email address to join");
+            } else{
+                $.ajax({
+                type: "GET",
+                url: "http://localhost:3000/committee/addmember/" + committee + username,
+                dataType: "JSON", // data type expected from server
+                success: function (committee_data) {
+                    //Call function to add paxper returned to page
+                    data = committee;
+                    //addToPage(data);
+                },
+                error: function() {
+                    console.log('Error:');
+                }
+                });
+            }
+            });
+        }
+
 
 </script>
-
-<div class="page_bottom">
-<a href="#top">Back to top</a>
-</div>
-</div>
-    
 </body>
+
+	
 </html>

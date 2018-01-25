@@ -31,7 +31,7 @@
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -57,18 +57,18 @@
 <!-- Menu -->
 
 <nav class="menu">
-        <ul>
-            <li><a href="/../">Home</a></li>
-            <li><a href="/papers/index" class="active">Papers</a></li>
-            <li><a href="/../blog">Blog</a></li>
-            <div class="dropdown_menu_login">
-                <button class="login_button"><a href="/../login">Login</a></button>
-                  <div class="login_content">
-                    <a href="/../register">Register</a>
-            </div>
-            <li><a href="/../about">About</a></li>
-        </ul>
-    </nav>    
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/papers/index" class="active">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" >Login</a></button>
+              <div class="login_content">
+                <a href="/register/user">Register</a>
+        </div>
+    </ul>
+</nav> 
 
 <!-- Search Bar -->
         
@@ -82,7 +82,7 @@
     </header>
         
     <!-- SPACING so that content appears below menu -->
-    
+    <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
     <div id="paper_space"></div>
         
     <!-- ****** END OF HEADER ***** -->  

@@ -5,29 +5,13 @@ return the specified paper along with all of its information
 Author: Liandra Giacomine
 */
 
-function allowHover(){
-    //ON HOVER CHANGE COLOUR OF HEART TO INDICATE POSSIBILITY OF CLICK
-    $(".container #likes").mouseover(function(){
-        $("#likes").attr("src","../../../public/img/afterLike.png");
-    }).mouseleave(function(){
-        $("#likes").attr("src","../../../public/img/beforeLike.jpg");
-    });
-    $(".container .paper_likes").mouseover(function(){
-        $("#likes").attr("src","../../../public/img/afterLike.png");
-    }).mouseleave(function(){
-        $("#likes").attr("src","../../../public/img/beforeLike.jpg");
-    });
-}
-
-
 $(document).ready(function(){
-    //Get the name of the paper that was clicked
+    //GET PAPER ID
     var url = window.location.href;
     var end_of_str = url.length;
     paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
 
-    //Get comments for table from ajax call which will return
-    //all the data about the paper to be outputted 
+    //GET DATA ABOUT PAPER BY USING PAPER ID FOR QUERY
     $.ajax({
         type: "GET",
         url: "http://localhost:3000/papers/get_individual_data/" + paperid,
@@ -42,9 +26,7 @@ $(document).ready(function(){
         }
     });
 
-    //Get comments for table from ajax call which will return
-    //all the comments where paper_id equals this paper_id
-    //AND EVENTUALLY USER WHO COMMENTED
+    //GET COMMENTS MADE ABOUT PAPER
     $.ajax({
         type: "GET",
         url: "http://localhost:3000/papers/get_paper_comments/" + paperid,
@@ -61,24 +43,43 @@ $(document).ready(function(){
             addCommentsToTable(data, comment_count);
         }
     });
-
+    
+     //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
+    function allowHover(attr){
+        var before_extension;
+        var after_extension;
+        if (attr == "like"){
+            before_extension = "jpg";
+            after_extension = "png";
+        } else{
+            before_extension = "svg";
+            after_extension = "svg";
+        }
+        $(".container #" + attr + "s").mouseover(function(){
+            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + after_extension);
+        }).mouseleave(function(){
+            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + before_extension);
+        });
+        $(".container .paper_" + attr).mouseover(function(){
+            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + after_extension);
+        }).mouseleave(function(){
+            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + before_extension);
+        });
+    }
+    
     //CHECK IF USER HAS ALREADY LIKED THE PAPER
     var user = $("#top #welcome_user").html();
-    //user = user.slice(user.indexOf("Welcome ")+ 8 ,user.length);
     var reg = $("#top #register i").html();
-    //If user has logged in, get username
+    //IF THEY HAVEN'T LOGGED IN ALLOW TO HOVER OVER LIKE AND STAR
+    //ALERT THAT THEY MUST LOG IN IN ORDER TO STAR OR LIKE
     if (reg == "Sign up"){
-        //IF NOT YET SIGNED IN CAN HOVER
-        allowHover();
-        //ON CLICK WILL ALERT THAT THEY NEED TO SIGN IN TO LIKE
-        $(".container .paper_likes").click(function(){
-            alert("Sign in to like this paper");
-        });
-        $(".container #likes").click(function(){
-            alert("Sign in to like this paper");
-        });
+        allowHover("like");
+        allowHover("star");
+    //IF THEY HAVE LOGGED IN THEN CHECK IF THEY HAVE ALREADY GIVEN A LIKE/STAR TO THE PAPER 
+    //IF NOT THEN ALLOW THEM TO LIKE/STAR IT IF THEY WISH TO
     } else {
         user = user.slice(user.indexOf("Welcome ")+ 8 ,user.length);
+        //CHECK LIKE
         $.ajax({
             type: "GET",
             url: "http://localhost:3000/papers/does_like_exist/" + paperid + "/" + user,
@@ -91,18 +92,34 @@ $(document).ready(function(){
             styleLike(like)
         });
 
+        //CHECK STAR EXISTS
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:3000/papers/does_star_exist/" + paperid + "/" + user,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+            },
+            error: function() {
+            }
+        }).done(function(star){
+            styleStar(star)
+        });
+
     }
 
+    //IF LIKE DOES NOT EXIST, ALLOW HOVER OVER LIKE TO SHOW THIS
+    //ALLOW USER TO LIKE THE PAPER TOO
+    //HOWEVER IF LIKE DOES EXIST LET THEM KNOW THEY HAVE ALREADY LIKED IT
     function styleLike(like){
         if (like["Like"] == "Like does not exist"){
-            allowHover();
+            allowHover("like");
             $(".container .paper_likes").click(function(){
-                $("#likes").attr("src","../../../public/img/afterLike.png");
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:3000/papers/addlike/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
                         location.reload();
                     },
                     error: function(err) {
@@ -113,21 +130,20 @@ $(document).ready(function(){
             });
 
             $(".container #likes").click(function(){
-                $("#likes").attr("src","../../../public/img/afterLike.png");
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:3000/papers/addlike/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
                         location.reload();
                     },
                     error: function(err) {
                     }
                 });
             });
-
         } else {
-            $(".container #likes").attr("src","../../../public/img/afterLike.png");
+            $(".container #likes").attr("src","../../../public/img/afterlike.png");
             $(".container .paper_likes").click(function(){
                 alert("You have already liked this");
             });
@@ -136,6 +152,51 @@ $(document).ready(function(){
             });
         }
     }
+
+
+    function styleStar(star){
+        if (star["Star"] == "Star does not exist"){
+            allowHover("star");
+            $(".container .paper_stars").click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/papers/addstar/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#stars").attr("src","../../../public/img/afterstar.svg");
+                        location.reload();
+                    },
+                    error: function(err) {
+                    }
+                    
+                });
+            });
+
+            $(".container #stars").click(function(){
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/papers/addstar/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#stars").attr("src","../../../public/img/afterstar.svg");
+                        location.reload();
+                    },
+                    error: function(err) {
+                    }
+                });
+            });
+
+        } else {
+            $(".container #stars").attr("src","../../../public/img/afterstar.svg");
+            $(".container .paper_stars").click(function(){
+                alert("You have already given a star");
+            });
+            $(".container #stars").click(function(){
+                alert("You have already given a star");
+            });
+        }
+    }
+
 
     function addToPage(data){
         //Get all components from db
@@ -162,21 +223,6 @@ $(document).ready(function(){
         $(".paper_likes").css({"position":"absolute","top":"50%","left":"50%", "transform":"translate(-50%,-50%)"});
         $(".container").css({"position":"relative", "text-align":"center","color":"black"});    
 
-
-        //ON HOVER CHANGE THE IMAGE TO ENCOURAGE STAR
-        $(".paper_stars").html(paper_stars);
-        $(".container #stars").mouseover(function(){
-            $("#stars").attr("src","../../../public/img/afterStar.svg");
-        }).mouseleave(function(){
-            $("#stars").attr("src","../../../public/img/beforeStar.svg");
-        });
-        $(".container .paper_stars").mouseover(function(){
-            $("#stars").attr("src","../../../public/img/afterStar.svg");
-        }).mouseleave(function(){
-            $("#stars").attr("src","../../../public/img/beforeStar.svg");
-        });
-        $(".paper_stars").css({"position":"absolute","top":"50%","left":"50%", "transform":"translate(-50%,-50%)"});
-
     }
 
     function addCommentsToTable(comments, comment_count){
@@ -194,7 +240,7 @@ $(document).ready(function(){
 
         //COMMENT
         var th= document.createElement("TH");
-        th.style.backgroundColor = "lightgreen";
+        th.style.backgroundColor = "lightgrey";
         var thdata = document.createTextNode("Comments");
         th.appendChild(thdata);
         table.appendChild(th);

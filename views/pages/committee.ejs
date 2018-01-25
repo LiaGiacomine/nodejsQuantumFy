@@ -10,25 +10,28 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../public/js/committee.js" ></script>
 </head>
     
 <body>
  
 <!-- ******* HEADER ********* -->
 <header>
-<div id="header">
-    
-<!-- Title -->
-<div id="above_menu">
-<h2 id="title">QuantumFy</h2>
+    <div id="header">
+            
+    <!-- Title -->
+    <div id="above_menu">
+    <h2 id="title">QuantumFy</h2>
+
     <!-- Welcome/Register Section -->
+    
     
     <div align="right" id="top">
         <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -48,28 +51,30 @@
         }
 
     </script>
+
     <!-- End of top section -->
+
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/papers/index">Papers</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <div class="dropdown_menu_login">
-                <button class="login_button"><a href="/login" >Login</a></button>
-                  <div class="login_content">
-                    <a href="/register">Register</a>
-            </div>
-            <li><a href="/about">About</a></li>
-        </ul>
-    </nav>    
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/papers/index">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee" class="active">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" >Login</a></button>
+              <div class="login_content">
+                <a href="/register/user">Register</a>
+        </div>
+    </ul>
+</nav>  
+    
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
-<form method="get">
+<form action="search.php" method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
@@ -79,33 +84,20 @@
 </header>
     
 <!-- SPACING so that content appears below menu -->
-
-<div id="register_space"></div>
-
-<!-- ****** END OF HEADER ***** -->   
-
-<div id="loginField">
-<fieldset>
-<legend class="form_legend"><h2>Register</h2></legend>
-<form class="loginForm" action="http://localhost:3000/register" method="post">
-<label for="username">Username:</label>
-<input name="username" type="text" size="15" maxlength="30" required/><br />
-<label for="email">Email**:</label>
-<input name="email" type="text"size="15" maxlength="30" required /><br />
-<label for="password">Password:</label>
-<input name="password" type="password" size="15" maxlength="30" required/><br />
-<label for="confirm">Confirm Password:</label>
-<input name="confirm_password" type="password" size="15" maxlength="30" required/><br />
-<i>** Your email address must be <b>institutional.</b></i>
+<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<div id="about_space"></div>
     
-<input type="submit" name="registerButton" value="Submit">
-</form>
-</fieldset>
-</div>
+<!-- ****** END OF HEADER ***** -->  
+<div>
+    <h3>Committes:</h3>
+    <ul id="committee_list"></ul>
+</div>  
+
 
 <div class="page_bottom">
-<a href="#top">Back to top</a>
+<hr><a href="#top">Back to top</a>
 </div>
-
 </body>
+
+	
 </html>

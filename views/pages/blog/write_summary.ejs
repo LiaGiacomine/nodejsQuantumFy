@@ -20,7 +20,6 @@
 <div id="header">
 
 <!-- Title -->
-
 <div id="above_menu">
 <h2 id="title">QuantumFy</h2>
 
@@ -38,7 +37,6 @@
     </div>
 
     <!-- End of top section -->
-    
 <hr class="menu_spacing">
     
 <!-- Menu -->
@@ -50,12 +48,12 @@
         <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav>
+</nav> 
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -72,39 +70,23 @@
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
-        
-<div id="blog_margin">
-<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Write a post</a></button>
-</div>
-<div id="blog_sections">
-<a href="/blog/summaries"><section id="summaries">
-    <b>Summaries</b>
-</section></a>
-<a href="/blog/rankings"><section id="rankings">
-    <b>Rankings</b>
-</section></a>
-<a href="/blog/news"><section id="news">
-    <b>News</b>
-</section></a>
-</div>
 
 
-<section class="topic_section">
-    <div id="blog_post_table">
-    </div>
-</section>
+<div id="loginField">
+    </label>
+    <fieldset id="summary_body">
+    <legend class="form_legend"><h2>Write a summary</h2></legend>
+    <form class="loginForm" action="http://localhost:3000/userlogin" method="post">
+    <label for="username">Paper Title</label>
+    <input id="username" type="text" name="username" size="15" maxlength="30" /><br />
+    <label for="summary">Summary</label>
+    <textarea id="summary" name="summary" placeholder="" style="height:200px"></textarea>
+    <label class="author_checkbox">I really am who I claim to be
+    <input type="checkbox">
+    <span class="checkmark"></span>    
+    <input type="submit" name="postButton" value="Post">
+</form></fieldset></div>
 
-
-<hr>
-<div id="post_question">
-    <legend><h3 id="ask_question">Write your blog post</h3></legend>
-    <form id="blog_form" action="" method="post">
-    <textarea name="blog_post" cols="60" rows="10"></textarea><br>
-    <input type="submit" name="submit" value="Submit">
-    </form>
-
-    <a id="login_to_blog" href="/login"><h3>Log in to post</h3></a>
-</div>
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -114,11 +96,14 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
     //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
+    alert(filter_user_welcome);
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
         $("legend").remove();
         $("#blog_form").remove();
         $("#logout").remove();
+        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
+        $("#post_question_button").remove();
     } else {
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
@@ -130,8 +115,14 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        //document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
+        alert(user);
+        if (user.indexOf(" ")!=0) {
+            $("#post_question_button").remove();
+        }
     }
+
 
 </script>
 

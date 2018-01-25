@@ -31,7 +31,7 @@
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
         <div align="right" id="register">
-            <a href="/register"><button align="right"><i>Sign up</i></button></a>
+            <a href="/register/user"><button align="right"><i>Sign up</i></button></a>
         </div>
     </div>
     </div>
@@ -57,18 +57,18 @@
     
 <!-- Menu -->
 <nav class="menu">
-        <ul>
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/papers/index">Papers</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <div class="dropdown_menu_login">
-                <button class="login_button"><a href="/login">Login</a></button>
-                  <div class="login_content">
-                    <a href="/register">Register</a>
-            </div>
-            <li><a href="/about" >About</a></li>
-        </ul>
-    </nav>    
+    <ul>
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/papers/index">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" >Login</a></button>
+              <div class="login_content">
+                <a href="/register/user">Register</a>
+        </div>
+    </ul>
+</nav> 
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -81,98 +81,33 @@
 </header>
     
 <!-- SPACING so that content appears below menu -->
-
+<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
 <div id="home_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
-    
-    
-<!-- TABLE of best papers --> 
-<div class="section_border">
-    <h3 class="section_title"><b >Most Popular Papers</b></h3>
-    <hr>
-    <div class="table">
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Gold Star</th>
-                <th>Likes</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            <tr>
-                <td ><a href="" class="table_link"></a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">title</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">title</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">title</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
+<div id="desc_div_1">
+    <img src="../../public/img/board.jpg" alt="Board" style="width:80%;">
+    <div id="desc_1"><b>QuantumFy</b><br><br><i>A platform providing interaction between academics through the evaluation of scientific papers.<i></div>    
 </div>
-<!-- ***** END of table ***** -->
-    
-<!-- TABLE of best blog posts -->
-<div class="section_border">
-    <h3 class="section_title">What everyone has been talking about...</h3>
-    <hr>
-    <div class="table">
-    <table>
-        <thead>
-            <tr>
-                <th>Post</th>
-                <th>Answers</th>
-                <th>Likes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-</div>
-<!-- end of table -->
-    
 
-<div class="section_border">
-<h3 class="section_title">A video on how to make the most of this website<hr>
-<video width="400" height="300" preload="auto">This video couldn't be loaded on your browser</video></h3>
+<div id="home_papers">
+    <p>A table of daily updated scientific papers<p>
+    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" height="1%" width="80%">
+    <br>
+    <p>Find out more by clicking on the title<p>
+    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table" height="1%" width="80%">
+    <br>
+    <p>Read popular summaries written by the Author<p>
+    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table" height="1%" width="80%">
+    <p>Join a committe in the area you expertise in<p>
+    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" height="1%" width="80%">
+    <p>Read or write in our blog<p>
+    <img class="homepage_img" src="../../public/img/blog.png" alt="table" height="1%" width="80%">
 </div>
+
+
+
     
 <hr>
     
