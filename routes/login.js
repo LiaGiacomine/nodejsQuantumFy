@@ -48,7 +48,14 @@ exports.register_user = function(req,res) {
 
     var new_user = {"username": username, "email": email, "password":password, "user_type":user_type};
     
-    if (password != confirm_password){
+    if (username == null || email == null || password == null || confirm_password == nulll) {
+        res.render("pages/register/user", {
+            session: req.session,
+            user: req.session.username,
+            err: "Must not be empty"
+        });
+    }
+    else if (password != confirm_password){
         res.render("pages/register/user", {
             session: req.session,
             user: req.session.username,
@@ -84,9 +91,9 @@ exports.register_user = function(req,res) {
         }
 
     req.checkBody('forename', 'Please enter a username').notEmpty();
-    req.checkBody('surname', 'Please enter a username').notEmpty();
-    req.checkBody('password', 'Please enter a username').notEmpty();
-    req.checkBody('confirm_password', 'Please enter a username').notEmpty();
+    req.checkBody('surname', 'Please enter your surname').notEmpty();
+    req.checkBody('password', 'Please enter a password').notEmpty();
+    req.checkBody('confirm_password', 'Please confirm your password').notEmpty();
 
 }
 

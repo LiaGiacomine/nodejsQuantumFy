@@ -10,7 +10,6 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../public/js/blog.js" ></script>
 </head>
     
 <body>
@@ -67,6 +66,7 @@
     
 <!-- SPACING so that content appears below menu -->
 <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="err"><%= JSON.stringify(err) %></b>
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
@@ -76,15 +76,16 @@
     </label>
     <fieldset id="summary_body">
     <legend class="form_legend"><h2>Write a summary</h2></legend>
-    <form class="loginForm" action="http://localhost:3000/userlogin" method="post">
-    <label for="username">Paper Title</label>
-    <input id="username" type="text" name="username" size="15" maxlength="30" /><br />
+    <form class="loginForm" method="post" action="/submit_summary" >
+    <label for="paper_title">Paper Title</label>
+    <input name="paper_title" id="paper_title" type="text" size="15" /><br />
+    <label for="author_name">Author's Name</label>
+    <input name="author_name" id="author_name" type="text" size="15"/><br />
+    <label for="author_email">Email Address</label>
+    <input name="author_email" id="email" type="text" size="15" /><br />
     <label for="summary">Summary</label>
-    <textarea id="summary" name="summary" placeholder="" style="height:200px"></textarea>
-    <label class="author_checkbox">I really am who I claim to be
-    <input type="checkbox">
-    <span class="checkmark"></span>    
-    <input type="submit" name="postButton" value="Post">
+    <textarea name="summary" id="summary" placeholder="" style="height:200px"></textarea>
+    <input name="postButton" type="submit" value="Submit">
 </form></fieldset></div>
 
 
@@ -96,17 +97,26 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
     //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
-    alert(filter_user_welcome);
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
-        $("legend").remove();
+        //$("legend").remove();
         $("#blog_form").remove();
         $("#logout").remove();
         //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
         $("#post_question_button").remove();
+         //window.location.replace("http://localhost:3000/");
+        window.location.replace("/");
     } else {
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
+        res = $("#err").html();
+        res = res.replace(/\"/g, "");
+        if (res == "Contains empty fields"){
+            $("#paper_title").css({"border": "2px solid red"});
+            $("#author_name").css({"border": "2px solid red"});
+            $("#author_email").css({"border": "2px solid red"});
+            $("#summary").css({"border": "2px solid red"});
+        }
         $("#login_to_blog").remove();
         //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
@@ -117,12 +127,10 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
         //document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
         //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
-        alert(user);
         if (user.indexOf(" ")!=0) {
             $("#post_question_button").remove();
         }
     }
-
 
 </script>
 

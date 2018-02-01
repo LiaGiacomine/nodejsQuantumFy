@@ -10,6 +10,7 @@
         <meta name="author" content="Liandra Giacomine">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../../public/js/dynamic_admin_summaries.js"></script>
     </head>
 
 <body>
@@ -26,7 +27,7 @@
     <!-- Welcome/Register Section -->
     
     
-    <div align="right" id="top">
+    <div align="right" name="top">
         <b id="welcome_user">Welcome <%= JSON.stringify(user) %></b>
         <br>
         <a id="logout" href="/logout"><i>Log out</i></a>
@@ -58,7 +59,7 @@
 <!-- Menu -->
 <nav class="menu">
     <ul>
-        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/admin/index" class="active">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
@@ -79,45 +80,25 @@
 </div>
 
 </header>
-    
 <!-- SPACING so that content appears below menu -->
 <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
-<div id="home_space"></div>
-    
-<!-- ****** END OF HEADER ***** -->  
+<div id="admin_space"></div>
 
-<div id="desc_div_1">
-    <img src="../../public/img/board.jpg" alt="Board" style="width:550px;">
-    <div id="desc_1"><b>QuantumFy</b><br><br><i>A platform providing interaction between academics through the evaluation of scientific papers.<i></div>    
+<div class="admin-menu">
+        <a href="/admin/index">Home</a>
+        <a class="admin_menu"  href="/admin/committee">Committee</a>
+        <a class="admin_menu" href="/admin/summaries" id="active">Summaries</a>
+        <a class="admin_menu" href="/admin/news">News</a>
+        <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
-<div id="home_papers">
-    <p>A table of daily updated scientific papers<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <br>
-    <p>Find out more by clicking on the title<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table" width="450px">
-    <br>
-    <p>Comment or like a paper<p>
-    <img class="homepage_img" src="../../public/img/like_comment.png" alt="table" width="450px">
-        
-    <p>Read popular summaries written by authors themselves<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table"  width="450px">
-    <p>Ranking provided by specilised committee members<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <p>Read news posts<p>
-    <img class="homepage_img" src="../../public/img/blog.png" alt="table" width="450px">
+<div id="summaries_table">
 </div>
 
-
-
-    
-<hr>
-    
-
-<div class="page_bottom">
+<div class="page_bottom" align="center">
 <a href="#top">Back to top</a>
 </div>
+
     
     
 </body>

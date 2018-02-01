@@ -74,7 +74,7 @@
 <!-- ****** END OF HEADER ***** -->  
         
 <div id="blog_margin">
-<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Write a post</a></button>
+<b>BLOG</b>
 </div>
 <div id="blog_sections">
 <a href="/blog/summaries"><section id="summaries">
@@ -88,7 +88,7 @@
 </section></a>
 </div>
 
-
+<!-- 
 <section class="topic_section">
     <div id="blog_post_table">
     </div>
@@ -104,7 +104,7 @@
     </form>
 
     <a id="login_to_blog" href="/login"><h3>Log in to post</h3></a>
-</div>
+</div> -->
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -117,12 +117,12 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
         $("legend").remove();
-        $("#blog_form").remove();
+        // $("#blog_form").remove();
         $("#logout").remove();
     } else {
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
-        $("#login_to_blog").remove();
+        // $("#login_to_blog").remove();
         //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
         $("#welcome_user").html(filter_user_welcome);
@@ -130,7 +130,7 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
     }
 
 </script>

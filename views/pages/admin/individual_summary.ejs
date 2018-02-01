@@ -10,6 +10,7 @@
         <meta name="author" content="Liandra Giacomine">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="../../../public/js/individual_summary.js"></script>
     </head>
 
 <body>
@@ -58,7 +59,7 @@
 <!-- Menu -->
 <nav class="menu">
     <ul>
-        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/admin/index" class="active">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
@@ -79,46 +80,38 @@
 </div>
 
 </header>
-    
 <!-- SPACING so that content appears below menu -->
 <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
-<div id="home_space"></div>
-    
-<!-- ****** END OF HEADER ***** -->  
+<div id="admin_space"></div>
 
-<div id="desc_div_1">
-    <img src="../../public/img/board.jpg" alt="Board" style="width:550px;">
-    <div id="desc_1"><b>QuantumFy</b><br><br><i>A platform providing interaction between academics through the evaluation of scientific papers.<i></div>    
+<div class="admin-menu">
+        <a href="/admin/index">Home</a>
+        <a class="admin_menu"  href="/admin/committee">Committee</a>
+        <a class="admin_menu" href="/admin/summaries" id="active">Summaries</a>
+        <a class="admin_menu" href="/admin/news">News</a>
+        <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
-<div id="home_papers">
-    <p>A table of daily updated scientific papers<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <br>
-    <p>Find out more by clicking on the title<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table" width="450px">
-    <br>
-    <p>Comment or like a paper<p>
-    <img class="homepage_img" src="../../public/img/like_comment.png" alt="table" width="450px">
-        
-    <p>Read popular summaries written by authors themselves<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table"  width="450px">
-    <p>Ranking provided by specilised committee members<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <p>Read news posts<p>
-    <img class="homepage_img" src="../../public/img/blog.png" alt="table" width="450px">
+<!-- INFORMATION ABOUT THE SUMMARY -->
+<div id="individual_summary">
+        <h2 class="paper_title"></h2>
+        <h4 class="author_name"></h4>
+        <h4 class="author_email"></h4>
+        <h4 class="summary_description"></h4>
+        <h5 class="date"></h5>
+        <br>
+        <button id="accept_summary">Accept</button>
+        <button id="delete_summary">Reject</button>
 </div>
 
-
+<!-- ADMIN CAN ACCEPT OR REJECT SUMMARY -->
 
     
-<hr>
-    
-
-<div class="page_bottom">
-<a href="#top">Back to top</a>
-</div>
-    
+<script>
+    $("#individual_summary").css({"margin-top":"50px","margin-right":"50px","margin-left":"200px"});
+    $("#accept_summary").css({"background-color":"lightgreen","font-size":"1.2em","margin":"20px","margin-left":"10%","padding":"20px","font-weight":"bold"});
+    $("#delete_summary").css({"background-color":"red","font-size":"1.2em","margin":"20px","margin-left":"10%","font-weight":"bold","padding":"20px"});
+</script>
     
 </body>
 </html>

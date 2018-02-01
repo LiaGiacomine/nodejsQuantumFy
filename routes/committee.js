@@ -66,7 +66,10 @@ exports.committee_addmember = function(req,res){
     var committee_name = req.params.committee_name;
     var username = req.params.username;
 
-    var date = "1/1/18";
+    var d = new Date();
+    
+    date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+    
     var new_member = {"committee": committee_name, "username": username,"date_added":date};
 
     db.query('INSERT INTO committee_members SET ?', new_member, function(error, results, fields){

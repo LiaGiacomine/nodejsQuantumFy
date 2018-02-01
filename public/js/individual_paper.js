@@ -46,24 +46,24 @@ $(document).ready(function(){
     
      //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
     function allowHover(attr){
-        var before_extension;
-        var after_extension;
-        if (attr == "like"){
-            before_extension = "jpg";
-            after_extension = "png";
-        } else{
-            before_extension = "svg";
-            after_extension = "svg";
-        }
+        var extension = "png";
+        // var after_extension;
+        // if (attr == "like"){
+        //     before_extension = "png";
+        //     after_extension = "png";
+        // } else{
+        //     before_extension = "svg";
+        //     after_extension = "svg";
+        // }
         $(".container #" + attr + "s").mouseover(function(){
-            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + after_extension);
+            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + extension);
         }).mouseleave(function(){
-            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + before_extension);
+            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + extension);
         });
         $(".container .paper_" + attr).mouseover(function(){
-            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + after_extension);
+            $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + extension);
         }).mouseleave(function(){
-            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + before_extension);
+            $("#" + attr + "s").attr("src","../../../public/img/before" + attr + "." + extension);
         });
     }
     
@@ -178,7 +178,7 @@ $(document).ready(function(){
                     url: "http://localhost:3000/papers/addstar/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
-                        $("#stars").attr("src","../../../public/img/afterstar.svg");
+                        $("#stars").attr("src","../../../public/img/afterstar.png");
                         location.reload();
                     },
                     error: function(err) {
@@ -187,7 +187,7 @@ $(document).ready(function(){
             });
 
         } else {
-            $(".container #stars").attr("src","../../../public/img/afterstar.svg");
+            $(".container #stars").attr("src","../../../public/img/afterstar.png");
             $(".container .paper_stars").click(function(){
                 alert("You have already given a star");
             });

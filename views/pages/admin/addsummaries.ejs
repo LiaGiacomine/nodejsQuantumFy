@@ -79,44 +79,33 @@
 </div>
 
 </header>
-    
 <!-- SPACING so that content appears below menu -->
 <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
-<div id="home_space"></div>
-    
-<!-- ****** END OF HEADER ***** -->  
+<div id="admin_space"></div>
 
-<div id="desc_div_1">
-    <img src="../../public/img/board.jpg" alt="Board" style="width:550px;">
-    <div id="desc_1"><b>QuantumFy</b><br><br><i>A platform providing interaction between academics through the evaluation of scientific papers.<i></div>    
+<div class="admin-menu">
+        <a href="/admin/index">Home</a>
+        <a class="admin_menu"  href="/admin/committee">Committee</a>
+        <a class="admin_menu" href="/admin/summaries" id="active">Summaries</a>
+        <a class="admin_menu" href="/admin/news">News</a>
+        <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
-<div id="home_papers">
-    <p>A table of daily updated scientific papers<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <br>
-    <p>Find out more by clicking on the title<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table" width="450px">
-    <br>
-    <p>Comment or like a paper<p>
-    <img class="homepage_img" src="../../public/img/like_comment.png" alt="table" width="450px">
+<div id="admin_sections">
         
-    <p>Read popular summaries written by authors themselves<p>
-    <img class="homepage_img" src="../../public/img/paper_description.png" alt="table"  width="450px">
-    <p>Ranking provided by specilised committee members<p>
-    <img class="homepage_img" src="../../public/img/paper_table.png" alt="table" width="450px">
-    <p>Read news posts<p>
-    <img class="homepage_img" src="../../public/img/blog.png" alt="table" width="450px">
-</div>
+<div id="loginField">
+    <fieldset id="summary_body">
+    <legend class="form_legend"><h2>Write a summary</h2></legend>
+    <form class="loginForm" method="post" action="http://localhost:3000/submit_summary" >
+    <label for="title">Paper Title</label>
+    <input name="paper_title" id="paper_title" type="text" size="15" maxlength="30" /><br />
+    <label for="summary">Summary</label>
+    <textarea  name="summary" id="summary" placeholder="" style="height:200px"></textarea>
+    <label for="email">Email Address</label>
+    <input name="author_email" id="email" type="text" size="15" maxlength="30" /><br />
+    <input name="postButton" type="submit" value="Submit">
+</form></fieldset></div>
 
-
-
-    
-<hr>
-    
-
-<div class="page_bottom">
-<a href="#top">Back to top</a>
 </div>
     
     

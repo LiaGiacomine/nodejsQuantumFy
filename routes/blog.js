@@ -23,138 +23,105 @@ if(!err) {
 }
 });
 
-exports.blogdata = function(req,res) {
-    var data = {
-        "Data": ""
-    };
-    //Selects all papers in the table in the order of most stars
-    db.query("SELECT * FROM user_blog_post",function(err, rows, fields){
-        if(rows.length != 0){
-            data["Data"] = rows;
-            res.json(data);
-        }else {
-            data["Data"] = 'No data Found..';
-            res.json(data);
-        }
-    });
-}
 
-exports.individualblogpost = function(req,res, next){
-    //get the name of the paper
-    var blogid = req.params.blogid;
-    //Store JSON result to be extracted in data
-    var data = {
-        "Data": ""
-    };
-    db.query("SELECT * FROM user_blog_post WHERE blog_id = ?",blogid,function(err, rows, fields){
-        if(rows.length != 0){
-            data["Data"] = rows;
-            res.json(data);
-        }else{
-            data["Data"] = 'No data Found..';
-            res.json(data);
-        }
-        });
-}
 
-exports.addsummary = function(req,res, next){
-    //get the name of the paper
-    var paper = req.body.paper;
-    var summary = req.body.summary;
-    //Store JSON result to be extracted in data
-    var data = {
-        "Data": ""
-    };
-    db.query("INSERT INTO summary_table WHERE blog_id = ?",blogid,function(err, rows, fields){
-        if(rows.length != 0){
-            data["Data"] = rows;
-            res.json(data);
-        }else{
-            data["Data"] = 'No data Found..';
-            res.json(data);
-        }
-        });
-}
+// exports.individualblogpost = function(req,res, next){
+//     //get the name of the paper
+//     var blogid = req.params.blogid;
+//     //Store JSON result to be extracted in data
+//     var data = {
+//         "Data": ""
+//     };
+//     db.query("SELECT * FROM user_blog_post WHERE blog_id = ?",blogid,function(err, rows, fields){
+//         if(rows.length != 0){
+//             data["Data"] = rows;
+//             res.json(data);
+//         }else{
+//             data["Data"] = 'No data Found..';
+//             res.json(data);
+//         }
+//         });
+// }
 
 
 
-exports.getblogcomments = function(req,res, next){
-    //get the name of the paper
-    var blogid = req.params.blogid;
-    //Store JSON result to be extracted in data
-    var data = {
-        "Data": ""
-    };
-    db.query("SELECT * FROM blog_comments WHERE blog_id = ?",blogid,function(err, rows, fields){
-        if(rows.length != 0){
-            data["Data"] = rows;
-            res.json(data);
-        }else{
-            data["Data"] = 'No data Found..';
-            res.json(data);
-        }
-        });
-}
+// exports.getblogcomments = function(req,res, next){
+//     //get the name of the paper
+//     var blogid = req.params.blogid;
+//     //Store JSON result to be extracted in data
+//     var data = {
+//         "Data": ""
+//     };
+//     db.query("SELECT * FROM blog_comments WHERE blog_id = ?",blogid,function(err, rows, fields){
+//         if(rows.length != 0){
+//             data["Data"] = rows;
+//             res.json(data);
+//         }else{
+//             data["Data"] = 'No data Found..';
+//             res.json(data);
+//         }
+//         });
+// }
 
 
-exports.addpost = function(req,res){
+// exports.addpost = function(req,res){
     
-//Get the values entered in register form
-var blog_post = req.body.blog_post;
-var username = req.params.username;
-var date = req.params.date;
+// //Get the values entered in register form
+// var blog_post = req.body.blog_post;
+// var username = req.params.username;
+// var date = req.params.date;
 
 
-var new_blog_post = {"username":username, "blog_post": blog_post,"date_added":date};
+// var new_blog_post = {"username":username, "blog_post": blog_post,"date_added":date};
 
-db.query('INSERT INTO user_blog_post SET ?', new_blog_post, function(error, results, fields){
-    if (error) {
-        console.log("error occured", error);
-        res.send({
-            "code": 400,
-            "failed": "error ocurred"
-        });
-    } else {
-        console.log("solution is: ", results);
-        //This reloads the page after the comment has been added
-        res.redirect("/blog");
-    }
-});
+// db.query('INSERT INTO user_blog_post SET ?', new_blog_post, function(error, results, fields){
+//     if (error) {
+//         console.log("error occured", error);
+//         res.send({
+//             "code": 400,
+//             "failed": "error ocurred"
+//         });
+//     } else {
+//         console.log("solution is: ", results);
+//         //This reloads the page after the comment has been added
+//         res.redirect("/blog");
+//     }
+// });
 
-req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
+// req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
 
 
-var errors = req.validationErrors();
-}
+// var errors = req.validationErrors();
+// }
 
-exports.addcomment = function(req,res){
+// exports.addcomment = function(req,res){
     
-//Get the values entered in register form
-var comment = req.body.post_comment;
-var blogid = req.params.blogid;
-var username = req.params.username;
+// //Get the values entered in register form
+// var comment = req.body.post_comment;
+// var blogid = req.params.blogid;
+// var username = req.params.username;
 
-var new_comment = {"blog_id": parseInt(blogid), "blog_comments": comment,"username":username};
+// var new_comment = {"blog_id": parseInt(blogid), "blog_comments": comment,"username":username};
 
-db.query('INSERT INTO blog_comments SET ?', new_comment, function(error, results, fields){
-    if (error) {
-        console.log("error occured", error);
-        res.send({
-            "code": 400,
-            "failed": "error ocurred"
-        });
-    } else {
-        console.log("solution is: ", results);
-        //This reloads the page after the comment has been added
-        res.redirect("/papers/individual/" + paperid.toString());
-    }
-});
+// db.query('INSERT INTO blog_comments SET ?', new_comment, function(error, results, fields){
+//     if (error) {
+//         console.log("error occured", error);
+//         res.send({
+//             "code": 400,
+//             "failed": "error ocurred"
+//         });
+//     } else {
+//         console.log("solution is: ", results);
+//         //This reloads the page after the comment has been added
+//         res.redirect("/papers/individual/" + paperid.toString());
+//     }
+// });
 
-req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
+// req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
 
 
-var errors = req.validationErrors();
-}
+// var errors = req.validationErrors();
+// }
 
 
 

@@ -155,7 +155,7 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
     }
 
 </script>

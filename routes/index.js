@@ -1,10 +1,12 @@
 var mysql = require("mysql");
 var express = require("express");
+var router = express.Router();
+
+var admin = require('./admin');
 var login = require('./login');
-var blog = require('./blog');
 var committee = require('./committee');
 var papers = require('./papers');
-var router = express.Router();
+var blog = require('./blog');
 
 //Set up connection with database
 var db = mysql.createConnection({
@@ -31,6 +33,86 @@ module.exports = function(app) {
         });
         next();
     });
+
+    /*
+        ADMIN PAGES
+    */
+
+    app.get("/admin/index", function(req,res, next){
+        res.render("pages/admin/index", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/committee", function(req,res, next){
+        res.render("pages/admin/committee", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/summaries", function(req,res, next){
+        res.render("pages/admin/summaries", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/news", function(req,res, next){
+        res.render("pages/admin/news", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/addcommittee", function(req,res, next){
+        res.render("pages/admin/addcommittee", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/addsummary", function(req,res, next){
+        res.render("pages/admin/addsummary", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/addnews", function(req,res, next){
+        res.render("pages/admin/addnews", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    app.get("/admin/individual/:title", function(req, res, next){
+        res.render("pages/admin/individual_summary",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type
+        });
+        next();
+    });
+
+    /*
+        COMMITTEE PAGES
+    */
 
     app.get("/committee", function(req,res, next){
         res.render("pages/committee", {
@@ -79,6 +161,16 @@ module.exports = function(app) {
 
     app.get("/blog/write_summary", function(req,res, next){
         res.render("pages/blog/write_summary", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None"
+        });
+        next();
+    });
+
+    app.get("/blog/summary_sent", function(req,res, next){
+        res.render("pages/blog/summary_sent", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type
@@ -187,6 +279,25 @@ module.exports = function(app) {
     });
 
     /*
+        FUNCTIONS INVOLVING ADMIN 
+    */
+
+    //Gets SUMMARIES FROM ADMIN DATABASE
+    app.get("/admin/show_summaries", admin.getsummaries);   
+
+    //Gets individual summary
+    app.get("/admin/individual_summary/:summary_id", admin.individualsummary);
+
+    //ADDS SUMMARY TO ADMIN DATABASE
+    app.post("/submit_summary", admin.submitsummary);
+    
+    //ADDS SUMMARY TO ADMIN DATABASE
+    app.post("/delete_summary/:summary_id", admin.deletesummary);
+       
+    //ADDS SUMMARY TO ADMIN DATABASE
+    app.post("/accept_summary/:summary_id/:author_name/:author_email/:paper_title/:summary/:date", admin.acceptsummary);   
+       
+    /*
         FUNCTIONS INVOLVING PAPER DATABASE
     */
 
@@ -256,19 +367,22 @@ module.exports = function(app) {
     */
 
     //GET ALL BLOGS
-    app.get("/blogdata", blog.blogdata);
+    app.get("/blog/get_summaries", admin.summarydata);
 
-    //GET SPEFIFIC BLOG
-    app.get("/blog/get_blog_post/:blogid", blog.individualblogpost);
 
-    //GET SPECIFIC BLOG COMMENTS
-    app.get("/blog/get_blog_comments/:blogid", blog.getblogcomments);
 
-    //ADD BLOG POST
-    app.post("/blog/addpost/:username/:date", blog.addpost);
+    // //GET SPEFIFIC BLOG
+    // app.get("/blog/get_blog_post/:blogid", blog.individualblogpost);
 
-    //ADD COMMENT
-    app.post("/blog/add_comment/:blogid/:username", blog.addcomment);
+    // //GET SPECIFIC BLOG COMMENTS
+    // app.get("/blog/get_blog_comments/:blogid", blog.getblogcomments);
+
+    // //ADD BLOG POST
+    // app.post("/blog/addpost/:username/:date", blog.addpost);
+
+    // //ADD COMMENT
+    // app.post("/blog/add_comment/:blogid/:username", blog.addcomment);
+
 
     /*
         FUNCTIONS INVOLVING THE COMMITTEE 
