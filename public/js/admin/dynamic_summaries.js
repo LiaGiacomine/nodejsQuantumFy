@@ -10,13 +10,13 @@ $(document).ready(function(){
     //alert("in");
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/blog/get_summaries",
+        url: "http://localhost:3000/admin/show_summaries",
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)
             summary_count = Object.keys(data["Data"]).length;
             //Call function to create table with papers in data object
-            addSummaries(summary_count, data);
+            JSON_to_table(summary_count, data);
             //Syntax to get JSON objects:
         },
         error: function() {
@@ -24,12 +24,11 @@ $(document).ready(function(){
         }
     });
 
-    function addSummaries(paper_count, data){
+    function JSON_to_table(paper_count, data){
     //  Create table in specified division
     var myTableDiv = document.getElementById("summaries_table");
     var table = document.createElement("TABLE");
-    table.style.width = "100%";
-    myTableDiv.style.marginLeft = "0%";
+    table.style.width = "90%";
     //table.style.border ="ridge";
 
     var tableHead = document.createElement("THEAD");
@@ -37,6 +36,15 @@ $(document).ready(function(){
     tableHead.appendChild(tr);
 
     //Create table headers
+
+    //TITLE
+    // var th1 = document.createElement("TH");
+    // th1.style.backgroundColor = "lightblue";
+    // var th1data = document.createTextNode("Title");
+    // th1.appendChild(th1data);
+    // table.appendChild(th1);
+
+
     //Add table body
     var tableBody = document.createElement("TBODY");
     table.appendChild(tableBody);
@@ -54,16 +62,16 @@ $(document).ready(function(){
         td1.style.borderBottom = "1px solid #ddd";
 
          //ADD TITLE
-        // var a = document.createElement("A");
-        // td1.appendChild(a);
+        var a = document.createElement("A");
+        td1.appendChild(a);
         var p1 = document.createElement("P");
         paper_title = data["Data"][row_count]["paper_title"];
         p1.appendChild(document.createTextNode(paper_title));
         p1.style.fontWeight = "bold";
-        // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
-        // a.style.color = "black";
-        //a.appendChild(p1);
-        td1.appendChild(p1);
+        a.href = "/admin/individual/" + data["Data"][row_count]["summary_id"];
+        a.style.color = "black";
+        a.appendChild(p1);
+
         //DESCRIPTION from query
         summary = data["Data"][row_count]["summary"];
         var p2 = document.createElement("P"); 

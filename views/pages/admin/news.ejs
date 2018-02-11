@@ -36,21 +36,6 @@
     </div>
     </div>
 
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
-        filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //IF USER IS NOT LOGGED IN SHOW BUTTON
-        if (filter_user_welcome  == "Welcome ") {
-            $("#welcome_user").remove();
-            $("#logout").remove();
-         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
-            $("#register").remove();
-            $("#welcome_user").html(filter_user_welcome);
-        }
-
-    </script>
 
     <!-- End of top section -->
 <hr class="menu_spacing">
@@ -58,17 +43,17 @@
 <!-- Menu -->
 <nav class="menu">
     <ul>
-        <li><a href="/admin/index" class="active">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav> 
+</nav>   
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -80,7 +65,7 @@
 
 </header>
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="admin_space"></div>
 
 <div class="admin-menu">
@@ -88,6 +73,7 @@
         <a class="admin_menu" href="/admin/committee">Committee</a>
         <a class="admin_menu" href="/admin/summaries">Summaries</a>
         <a class="admin_menu" href="/admin/news" id="active">News</a>
+        <a class="admin_menu" href="/admin/manage_admin">Admin</a>
         <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
@@ -100,7 +86,37 @@
             <b>Add News</b><img id="admin_add_committee" src="../../public/img/add_sign.png" alt="Register" height="50" width="50">
         </section></a>
     </div>
-    
+
+        <!-- SEARCH SCRIPT -->
+        <script>
+            var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+        } else {
+            $(".login_href").attr("href","/login/logout_first");
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
+            $("#main_search_button").click(function(){
+                var keyword = $("#main_search_box").val();
+                window.open("/papers/search/" + keyword);
+            });
+            
+            user_type = $("#user_type").html();
+
+            if (user_type < 3) {
+                window.location = "/logout";
+        }
+            //If its an admin user then link home to admin home
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+
+        </script>
     
 </body>
 </html>

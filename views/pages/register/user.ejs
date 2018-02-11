@@ -33,39 +33,23 @@
     </div>
     </div>
 
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
-        filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //IF USER IS NOT LOGGED IN SHOW BUTTON
-        if (filter_user_welcome  == "Welcome ") {
-            $("#welcome_user").remove();
-            $("#logout").remove();
-         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
-            $("#register").remove();
-            $("#welcome_user").html(filter_user_welcome);
-        }
-
-    </script>
     <!-- End of top section -->
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
-                <a href="/register/user" class="active">Register</a>
+                <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav> 
+</nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -79,7 +63,7 @@
 </header>
     
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="register_space"></div>
 
 <!-- ****** END OF HEADER ***** -->   
@@ -93,7 +77,7 @@
 <div id="loginField">
 <fieldset>
 <legend class="form_legend"><h2>Register</h2></legend>
-<form class="loginForm" action="http://localhost:3000/register_user" method="post">
+<form class="loginForm" action="/register_user" method="post">
 <label for="username">Username:</label>
 <input id="username" name="username" type="text" size="15" maxlength="30" required/><br />
 <label for="email">Email:</label>
@@ -120,7 +104,21 @@
 </div>
     
 
-<script>
+    <!-- Show section according with if user if logged in -->
+    <script type="text/javascript">
+        var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+        } else {
+            $(".login_href").attr("href","/login/logout_first");
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
+
     //If form hasnt yet been filled and sent
     res = $("#callback").html();
     res = res.replace(/\"/g, "");
@@ -141,6 +139,18 @@
         var popup = document.getElementById("popup");
         popup.classList.toggle("show");
     }
+    //SEARCH SCRIPT -->
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+            //If its an admin user then link home to admin home
+    user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+
+
 
 </script>
 

@@ -30,6 +30,8 @@ function validateEmail(email) {
     return re.test(email.toLowerCase());
 }
 
+
+//REGISTER WITH USER TYPE 0 OR 1 DEPENDING ON WHETHER EMAIL IS INSTITUTIONAL
 exports.register_user = function(req,res) {
 
     //Get the values entered in register form
@@ -48,7 +50,7 @@ exports.register_user = function(req,res) {
 
     var new_user = {"username": username, "email": email, "password":password, "user_type":user_type};
     
-    if (username == null || email == null || password == null || confirm_password == nulll) {
+    if (username == null || email == null || password == null || confirm_password == null) {
         res.render("pages/register/user", {
             session: req.session,
             user: req.session.username,
@@ -63,9 +65,9 @@ exports.register_user = function(req,res) {
         });
     }else {
         if(validateEmail(email)) {
-            db.query('INSERT INTO user_login SET ?', new_user, function(error, results, fields){
-                if (error) {
-                    console.log("error occured", error);
+            db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
+                if (err) {
+                    console.log("error occured", err);
                     res.send({
                         "code": 400,
                         "failed": "error ocurred"
@@ -98,6 +100,7 @@ exports.register_user = function(req,res) {
 }
 
 
+//REGISTER WITH USER TYPE 2
 exports.register_author = function(req,res) {
     
         //Get the values entered in register form
@@ -106,7 +109,7 @@ exports.register_author = function(req,res) {
         var email = req.body.email;
         var password = req.body.password;
         var confirm_password = req.body.confirm_password;
-        var user_type = 1;
+        var user_type = 2;
 
         var new_user = {"username": forename + " " + surname, "email": email, "password":password, "user_type":user_type};
         
@@ -118,16 +121,16 @@ exports.register_author = function(req,res) {
             });
         }else{
             if (isInstitutionalEmail(email)) {
-                db.query('INSERT INTO user_login SET ?', new_user, function(error, results, fields){
-                    if (error) {
-                        console.log("error occured", error);
+                db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
+                    if (err) {
+                        console.log("error occured", err);
                         res.send({
                             "code": 400,
                             "failed": "error ocurred"
                         })
                     } else {
                         console.log("solution is: ", results);
-                        res.render("/login/author", {
+                        res.render("pages/login/author", {
                             session: req.session,
                             user: req.session.username,
                             user_type: req.session.user_type,
@@ -153,6 +156,7 @@ exports.register_author = function(req,res) {
     
 }
 
+//USER TYPE IS 1 FOR USERS WITH INSTITUTIONAL EMAIL AND 0 OTHERWISE
 exports.userlogin = function(req,res){
     var username= req.body.username;
     var email= req.body.username;
@@ -168,113 +172,240 @@ exports.userlogin = function(req,res){
     };
 
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"";
-    console.log(user_type);
+    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type= " + user_type;
     db.query(sql, function(err, rows, fields) {
         if(rows.length != 0){
             data["Data"] = rows;
             req.session.username = email;
             req.session.user_type = data["Data"][0]["user_type"];
+            req.session.committee = data["Data"][0]["committee"];
             res.render("pages/login/loginSuccess",{                
                 session: req.session,
                 user: req.session.username,
                 user_type: req.session.user_type,
-                err: "Wrong login"
+                err: "None",
+                committee:  req.session.committee
             });
         }else{
             res.render("pages/login/user",{                
                 session: req.session,
                 user: req.session.username,
                 user_type: req.session.user_type,
-                err: "Wrong login"
+                err: "Wrong login",
+                committee: req.session.committee
             });
         }
-                // console.log(results);
-        // if (error) {
-        //     res.send({
-        //         "code":400,
-        //         "failed":"error ocurred"
-        //     });
-        // }else{
-
-        //     if(results.length != 0){
-        //         req.session.username = email;
-        //         req.session.user_type = user_type;
-        //         res.redirect("login/loginSuccessful");
-        //     } else {
-        //         res.render("pages/login/user",{                
-        //         session: req.session,
-        //         user: req.session.username,
-        //         user_type: req.session.user_type,
-        //         err: "Wrong login"
-        //         });
-        //     }
-        // }
     });
 }
 
+//USER TYPE IS 2 FOR AUTHORS
 exports.authorlogin = function(req,res){
     var username= req.body.username;
     var email= req.body.username;
     var password = req.body.password;
-    var user_type = 3;
+    var user_type = 2;
+    var data = {
+        "Data": ""
+    };
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type=" + user_type;
+    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type= " + user_type;
     console.log(sql);
-    db.query(sql, function (error, results, fields) {
-        console.log(results);
-        if (error) {
+    db.query(sql, function(err, rows, fields) {
+        if (err) {
             res.send({
                 "code":400,
                 "failed":"error ocurred"
             });
         }else{
-
-            if(results.length != 0){
+            if(rows.length != 0){
+                data["Data"] = rows;
                 req.session.username = email;
                 req.session.user_type = user_type;
-                res.redirect("login/loginSuccessful");
+                req.session.committee = data["Data"][0]["committee"];
+                res.render("pages/login/loginSuccess",{                
+                    session: req.session,
+                    user: req.session.username,
+                    user_type: req.session.user_type,
+                    err: "None",
+                    committee: req.session.committee
+                });
             } else {
                 res.render("pages/login/user",{                
                 session: req.session,
                 user: req.session.username,
                 user_type: req.session.user_type,
-                err: "Wrong login"
+                err: "Wrong login",
+                committee: req.session.committee
                 });
             }
         }
     });
 }
 
+//USER TYPE IS 4 FOR SUPER ADMIN AND 3 FOR NORMAL ADMIN
 exports.adminlogin = function(req,res){
     var username= req.body.username;
     var email= req.body.username;
     var password = req.body.password;
-    var user_type = 4;
+    var data = {
+        "Data": ""
+    };
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type=" + user_type;
+    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type > 2";
     console.log(sql);
-    db.query(sql, function (error, results, fields) {
-        console.log(results);
-        if (error) {
+    db.query(sql, function(err, rows, fields) {
+        if (err) {
             res.send({
                 "code":400,
                 "failed":"error ocurred"
             });
         }else{
 
-            if(results.length != 0){
+            if(rows.length != 0){
+                data["Data"] = rows;
                 req.session.username = email;
-                req.session.user_type = user_type;
-                res.redirect("login/loginSuccessful");
+                req.session.user_type = data["Data"][0]["user_type"];
+                req.session.committee = data["Data"][0]["committee"];
+                res.render("pages/admin/index",{                
+                    session: req.session,
+                    user: req.session.username,
+                    user_type: req.session.user_type,
+                    err: "None",
+                    committee: req.session.committee
+                    });
             } else {
                 res.render("pages/login/user",{                
                 session: req.session,
                 user: req.session.username,
                 user_type: req.session.user_type,
-                err: "Wrong login"
+                err: "Wrong login",
+                committee: req.session.committee
                 });
             }
         }
     });
 }
+
+exports.userlist = function(req,res){
+    var data = {
+        "Data": ""
+    };
+    //var user = {"email": email, "password":password};
+    var sql = "SELECT * FROM user_login WHERE user_type < 4";
+    db.query(sql, function (err, rows, fields) {
+        if(rows.length != 0){
+            data["Data"] = rows;
+            res.json(data);
+        }else{
+            data["Data"] = 'No data Found..';
+            res.json(data);
+        }
+    });
+}
+
+exports.add_committee = function(req,res){
+
+    var username = req.params.username;
+    var committee_id = req.params.committee_id;
+
+    //var user = {"email": email, "password":password};
+    var sql = "UPDATE user_login SET committee = " + committee_id + " WHERE username = \'" + username + "\'";
+    db.query(sql, function (err, rows, fields) {
+        if (err) {
+            console.log("error occured", err);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            res.render("/login/author", {
+                session: req.session,
+                user: req.session.username,
+                user_type: req.session.user_type,
+                err: "None",
+                committee: req.params.committee
+            }
+        )};
+    });
+}
+
+exports.add_admin = function(req,res){
+    
+        var email = req.params.email;
+    
+        //var user = {"email": email, "password":password};
+        var sql = "UPDATE user_login SET user_type = " + 3 + " WHERE email = \'" + email + "\'";
+        db.query(sql, function (err, rows, fields) {
+            if (err) {
+                console.log("error occured", err);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                res.render("/admin/index", {
+                    session: req.session,
+                    user: req.session.username,
+                    user_type: req.session.user_type,
+                    err: "None",
+                    committee: req.params.committee
+                }
+            )};
+        });
+}
+
+exports.delete_admin = function(req,res){
+    var email = req.params.email;
+
+    if (isInstitutionalEmail(email)){
+        user_type = 1;
+    } else {
+        user_type = 0;
+    }
+    
+    //var user = {"email": email, "password":password};
+    var sql = "UPDATE user_login SET user_type = " + user_type + " WHERE email = \'" + email + "\'";
+    db.query(sql, function (err, rows, fields) {
+        if (err) {
+            console.log("error occured", err);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            res.render("/admin/index", {
+                session: req.session,
+                user: req.session.username,
+                user_type: req.session.user_type,
+                err: "None",
+                committee: req.params.committee
+            }
+        )};
+    });
+    
+}
+
+exports.delete_committee = function(req,res){
+    
+        var username = req.params.username;
+    
+        //var user = {"email": email, "password":password};
+        var sql = "UPDATE user_login SET committee = null WHERE username = \'" + username + "\'";
+        db.query(sql, function (err, rows, fields) {
+            if (err) {
+                console.log("error occured", err);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                res.render("/login/author", {
+                    session: req.session,
+                    user: req.session.username,
+                    user_type: req.session.user_type,
+                    err: "None",
+                    committee: req.params.committee
+                }
+            )};
+        });
+    }

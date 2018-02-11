@@ -33,39 +33,24 @@
     </div>
     </div>
 
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
-        filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //IF USER IS NOT LOGGED IN SHOW BUTTON
-        if (filter_user_welcome  == "Welcome ") {
-            $("#welcome_user").remove();
-            $("#logout").remove();
-         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
-            $("#register").remove();
-            $("#welcome_user").html(filter_user_welcome);
-        }
-
-    </script>
     <!-- End of top section -->
 <hr class="menu_spacing">
     
 <!-- Menu -->
     
 <nav class="menu">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/papers/index">Papers</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/committee">Committee</a></li>
-            <div class="dropdown_menu_login">
-                <button class="login_button"><a href="/login/user" class="active">Login</a></button>
-                  <div class="login_content">
-                    <a href="/register/user">Register</a>
-            </div>
-        </ul>
-    </nav>    
+    <ul>
+        <li><a class="home_href" href="/">Home</a></li>
+        <li><a href="/papers/index">Papers</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/committee">Committee</a></li>
+        <div class="dropdown_menu_login">
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
+              <div class="login_content">
+                <a href="/register/user">Register</a>
+        </div>
+    </ul>
+</nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -121,8 +106,22 @@
 </div>
 
 <p id="callback"><%= JSON.stringify(err) %><p>
-    
-<script>
+
+        <!-- Show section according with if user if logged in -->
+        <script type="text/javascript">
+            var user_welcome = $("#welcome_user").html();
+            filter_user_welcome = user_welcome.replace(/\"/g, "");
+            //IF USER IS NOT LOGGED IN SHOW BUTTON
+            if (filter_user_welcome  == "Welcome ") {
+                $("#welcome_user").remove();
+                $("#logout").remove();
+             //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+            } else {
+                $(".login_href").attr("href","/login/logout_first");
+                $("#register").remove();
+                $("#welcome_user").html(filter_user_welcome);
+            }
+            
     //If form hasnt yet been filled and sent
     res = $("#callback").html();
     res = res.replace(/\"/g, "");
@@ -144,7 +143,19 @@
         var popup = document.getElementById("popup");
         popup.classList.toggle("show");
     }
+   //SEARCH SCRIPT
+            
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
 
+    //If its an admin user then link home to admin home
+    user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+    
 </script>
 
 <div class="page_bottom">

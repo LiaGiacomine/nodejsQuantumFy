@@ -9,7 +9,7 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../../public/js/dynamic_table.js" ></script>
+    <script src="../../../public/js/search_table.js" ></script>
 </head>
 
 <body>
@@ -58,19 +58,21 @@
 <!-- Search Bar -->
         
     <div align="middle" id="main_search">
-    <form action="search.php" method="get">
+    <form method="get">
     <input type="search" name="search" id="main_search_box" placeholder="Search..." />
     <button type="submit" value="Search" id="main_search_button"><img src="../../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
     </form>
     </div>
     </div>
     </header>
-        
+
     <!-- SPACING so that content appears below menu -->
     <b id="user_type"><%= JSON.stringify(user_type) %></b>
     <div id="paper_space"></div>
+  
+    
+    <h2 class="section_title">Quantum Physics Papers</h2>
         
-
     <section class="topic_section">
     <div id="paper_main_table">
     </div>
@@ -80,7 +82,7 @@
     <a href="#top">Back to top</a>
     </div>
 
-        <!-- Show section according with if user if logged in -->
+    <!-- Show section according with if user if logged in -->
         <script type="text/javascript">
             var user_welcome = $("#welcome_user").html();
             filter_user_welcome = user_welcome.replace(/\"/g, "");
@@ -94,19 +96,21 @@
                 $("#register").remove();
                 $("#welcome_user").html(filter_user_welcome);
             }
-    
+
+        //SEARCH SCRIPT
+            $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+
         //If its an admin user then link home to admin home
         user_type = $("#user_type").html();
         if (user_type > 2) {
             $(".home_href").attr("href", "/admin/index");
         }
     
-        //SEARCH SCRIPT
-        $("#main_search_button").click(function(){
-                    var keyword = $("#main_search_box").val();
-                    window.open("/papers/search/" + keyword);
-                });
-        </script>
+</script>
+
 
 </body>
 </html>

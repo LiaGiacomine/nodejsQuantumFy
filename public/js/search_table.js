@@ -7,25 +7,28 @@ Author: Liandra Giacomine
 
 //GET THE NUMBER OF PAPERS TO ADD TO THE TABLE THUS THE NUMBER OF ROWS
 $(document).ready(function(){
-    //alert("in");
+    //GET PAPER ID
+
+    var url = window.location.href;
+    var end_of_str = url.length;
+    keyword = url.slice(url.indexOf("/search/") + 8, end_of_str);  
     $.ajax({
         type: "GET",
-        url: "/paperdata",
+        url: "/papers/paperdata/search/" + keyword,
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)
             paper_count = Object.keys(data["Data"]).length;
             //Call function to create table with papers in data object
-            JSON_to_table(paper_count, data);
+            paperSearch(paper_count, data);
             //Syntax to get JSON objects:
-            //alert(data["Data"][1]["paper_title"]);
         },
         error: function() {
             console.log('Error: ' + data);
         }
     });
 
-    function JSON_to_table(paper_count, data){
+    function paperSearch(paper_count, data){
 
     //  Create table in specified division
     var myTableDiv = document.getElementById("paper_main_table");
@@ -39,17 +42,16 @@ $(document).ready(function(){
     //Create table headers
 
     //TITLE
-    // var th1 = document.createElement("TH");
-    // var th1data = document.createTextNode("Title");
-    // th1.appendChild(th1data);
-    // table.appendChild(th1);
+    var th1 = document.createElement("TH");
+    th1.style.backgroundColor = "lightblue";
+    var th1data = document.createTextNode("Title");
+    th1.appendChild(th1data);
+    table.appendChild(th1);
 
 
     //Add table body
     var tableBody = document.createElement("TBODY");
     table.appendChild(tableBody);
-    table.style.marginLeft = "10%";
-    table.style.width = "80%";
 
     row_count = 0;
 
@@ -74,7 +76,6 @@ $(document).ready(function(){
         p1.appendChild(document.createTextNode(paper_title));
         p1.style.fontWeight = "bold";
         a.href = "http://localhost:3000/papers/individual/" + data["Data"][row_count]["paper_id"];
-    
         a.appendChild(p1);
         
         //DESCRIPTION from query

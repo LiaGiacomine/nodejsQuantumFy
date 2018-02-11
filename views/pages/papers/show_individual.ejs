@@ -44,17 +44,17 @@
 <!-- Menu -->
 <nav class="menu">
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index" class="active">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav> 
+</nav>  
 
 <!-- Search Bar -->
         
@@ -68,7 +68,8 @@
     </header>
         
     <!-- SPACING so that content appears below menu -->
-    <b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+    <b id="user_type"><%= JSON.stringify(user_type) %></b>
+    <b id="committee"><%= JSON.stringify(committee) %></b>
     <div id="paper_space"></div>
         
     <!-- ****** END OF HEADER ***** --> 
@@ -83,19 +84,23 @@
     
     <div class="container"><img id="stars" src="../../../public/img/beforestar.png" alt="Register" height="50" width="50"><div class="paper_stars"></div></div>
     <hr>
+    <h3 class="comment_amount"></h3>
     <section class="topic_section">
-        <div id="paper_comments_table">
-        </div>
+        <h3 id="committee_table_title">Committee Comments<h3>
+        <div id="paper_comments_table_committee"></div>
+        <br>
+        <h3 id="user_table_title">User Comments<h3>
+        <div id="paper_comments_table_user"></div>
     </section>
 
         
     <div id="post_question">
-        <legend><h3>Enter your comment below:</h3></legend>
+        <legend><h3 id="comment_title">Enter your comment below</h3></legend>
         <form action="" id ="comments_form" method="post">
         <textarea name="post_comment" cols="60" rows="10"></textarea><br>
         <input id="submit_button" type="submit" name="submit" value="Submit">
         </form>
-        <a id="login_to_com" href="/login"><h3>Log in to comment</h3></a>
+        <a id="login_to_com" href="/login/user"><h3>Log in to comment</h3></a>
 
     </div>
 
@@ -113,6 +118,9 @@
         OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
 
     <script type="text/javascript">
+
+        $("#user_table_title").css("margin-left","20%");
+        $("#committee_table_title").css("margin-left","20%");
         var user_welcome = $("#welcome_user").html();
         filter_user_welcome = user_welcome.replace(/\"/g, "");
         //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
@@ -129,14 +137,17 @@
             });
 
         } else {
+            $(".login_href").attr("href","/login/logout_first");
             var user_type = $("#user_type").html();
             user_type = user_type.slice(user_type.indexOf("Welcome ",user_type.length));
             //IF THEY ARE NOT A COMMITTEE MEMBER CANT STAR
-            if (user_type != 3){
+            committee = $("#committee").html();
+            if (committee == "null"){
                 $(".container #stars").click(function(){
                     alert("Only committee members can star");
                 });
             }
+
             //REMOVE LOGIN TO COMMENT
             $("#login_to_com").remove();
             //ELSE SHOW "WELCOME USERNAME"
@@ -147,8 +158,33 @@
             var url = window.location.href;
             var end_of_str = url.length;
             paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
-            document.getElementById("comments_form").action = "http://localhost:3000/papers/addcomment/" + paperid + "/" + user;
+            
+            if (committee != "null") {
+                $("#comment_title").html("Comment on impact, novelty, rigor and clarity:");
+                document.getElementById("comments_form").action = "/papers/addcommitteecomment/" +  paperid + "/" + committee + "/" + user;
+            } else {
+                document.getElementById("comments_form").action = "/papers/addusercomment/" + paperid + "/" + user;
+            }
+
+            //If its an admin user then link home to admin home
+            user_type = $("#user_type").html();
+            if (user_type > 2) {
+                $(".home_href").attr("href", "/admin/index");
+            
+            }
+
+            $("#post_question").css("margin-top","50px");
+
         }
+        //SEARCH SCRIPT 
+            
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+        
+
+    
     </script>
     
     <h2></h2>

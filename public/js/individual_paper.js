@@ -10,11 +10,11 @@ $(document).ready(function(){
     var url = window.location.href;
     var end_of_str = url.length;
     paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
-
+    committee = $("#committee").html(); 
     //GET DATA ABOUT PAPER BY USING PAPER ID FOR QUERY
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/papers/get_individual_data/" + paperid,
+        url: "/papers/get_individual_data/" + paperid,
         dataType: "JSON", // data type expected from server
         success: function (paper_data) {
             //Call function to add paper returned to page
@@ -26,10 +26,10 @@ $(document).ready(function(){
         }
     });
 
-    //GET COMMENTS MADE ABOUT PAPER
+    //GET USER COMMENTS MADE ABOUT PAPER
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/papers/get_paper_comments/" + paperid,
+        url: "/papers/get_paper_comments/user/" + paperid,
         dataType: "JSON", // data type expected from server
         success: function () {
             //Call function to add paper returned to page
@@ -40,21 +40,37 @@ $(document).ready(function(){
     }).done(function(data){
         if (data["Data"] != "No data Found.."){
             comment_count = Object.keys(data["Data"]).length;
-            addCommentsToTable(data, comment_count);
+            $("#user_table_title").html("User comments: " + comment_count);
+            addCommentsTable(data, comment_count,"user");
+        } else {
+            $("#user_table_title").html("User comments: 0");
         }
     });
+
+        //GET COMMITTEE COMMENTS MADE ABOUT PAPER
+        $.ajax({
+            type: "GET",
+            url: "/papers/get_paper_comments/committee/" + paperid,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+            },
+            error: function() {
+                console.log('Error: ' + paper_comments);
+            }
+        }).done(function(data){
+            if (data["Data"] != "No data Found.."){
+                comment_count = Object.keys(data["Data"]).length;
+                $("#committee_table_title").html("Committee comments: " + comment_count);
+                addCommentsTable(data, comment_count,"committee");
+            } else {
+                $("#committee_table_title").html("Committee comments: 0");
+            }
+        });
     
      //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
     function allowHover(attr){
         var extension = "png";
-        // var after_extension;
-        // if (attr == "like"){
-        //     before_extension = "png";
-        //     after_extension = "png";
-        // } else{
-        //     before_extension = "svg";
-        //     after_extension = "svg";
-        // }
         $(".container #" + attr + "s").mouseover(function(){
             $("#" + attr + "s").attr("src","../../../public/img/after" + attr + "." + extension);
         }).mouseleave(function(){
@@ -82,7 +98,7 @@ $(document).ready(function(){
         //CHECK LIKE
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/papers/does_like_exist/" + paperid + "/" + user,
+            url: "/papers/does_like_exist/" + paperid + "/" + user,
             dataType: "JSON", // data type expected from server
             success: function () {
             },
@@ -95,7 +111,7 @@ $(document).ready(function(){
         //CHECK STAR EXISTS
         $.ajax({
             type: "GET",
-            url: "http://localhost:3000/papers/does_star_exist/" + paperid + "/" + user,
+            url: "/papers/does_star_exist/" + paperid + "/" + user,
             dataType: "JSON", // data type expected from server
             success: function () {
             },
@@ -116,39 +132,58 @@ $(document).ready(function(){
             $(".container .paper_likes").click(function(){
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/papers/addlike/" + paperid + "/" + user,
+                    url: "/papers/addlike/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
                         $("#likes").attr("src","../../../public/img/afterlike.png");
-                        location.reload();
                     },
                     error: function(err) {
-                    }
-                    
+                    } 
                 });
-
+                location.reload();
             });
 
             $(".container #likes").click(function(){
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/papers/addlike/" + paperid + "/" + user,
+                    url: "/papers/addlike/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
                         $("#likes").attr("src","../../../public/img/afterlike.png");
-                        location.reload();
                     },
                     error: function(err) {
                     }
                 });
+                location.reload();
             });
         } else {
             $(".container #likes").attr("src","../../../public/img/afterlike.png");
             $(".container .paper_likes").click(function(){
-                alert("You have already liked this");
+                $.ajax({
+                    type: "POST",
+                    url: "/papers/deletelike/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                    },
+                    error: function(err) {
+                    }
+                });
+                location.reload();
             });
+
             $(".container #likes").click(function(){
-                alert("You have already liked this");
+                $.ajax({
+                    type: "POST",
+                    url: "/papers/deletelike/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                    },
+                    error: function(err) {
+                    }
+                });
+                location.reload();
             });
         }
     }
@@ -160,39 +195,58 @@ $(document).ready(function(){
             $(".container .paper_stars").click(function(){
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/papers/addstar/" + paperid + "/" + user,
+                    url: "/papers/addstar/" + committee + "/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
                         $("#stars").attr("src","../../../public/img/afterstar.svg");
-                        location.reload();
                     },
                     error: function(err) {
                     }
-                    
                 });
+                location.reload();
             });
 
             $(".container #stars").click(function(){
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/papers/addstar/" + paperid + "/" + user,
+                    url: "/papers/addstar/" + committee + "/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
                         $("#stars").attr("src","../../../public/img/afterstar.png");
-                        location.reload();
                     },
                     error: function(err) {
                     }
                 });
+                location.reload();
             });
 
         } else {
             $(".container #stars").attr("src","../../../public/img/afterstar.png");
             $(".container .paper_stars").click(function(){
-                alert("You have already given a star");
+                $.ajax({
+                    type: "POST",
+                    url: "/papers/deletestar/" + committee + "/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                    },
+                    error: function(err) {
+                    }
+                });
+                location.reload();
             });
             $(".container #stars").click(function(){
-                alert("You have already given a star");
+                $.ajax({
+                    type: "POST",
+                    url: "/papers/deletestar/" + committee + "/" + paperid + "/" + user,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                    },
+                    error: function(err) {
+                    }
+                });
+                location.reload();
             });
         }
     }
@@ -225,11 +279,12 @@ $(document).ready(function(){
 
     }
 
-    function addCommentsToTable(comments, comment_count){
+    function addCommentsTable(comments, comment_count,type){
         //  Create table in specified division
-        var myTableDiv = document.getElementById("paper_comments_table");
+        var myTableDiv = document.getElementById("paper_comments_table_" + type);
         var table = document.createElement("TABLE");
-        table.style.width = "100%";
+        table.style.width = "50%";
+        table.style.marginLeft = "20%";
         table.style.border ="ridge";
 
         var tableHead = document.createElement("THEAD");
@@ -270,13 +325,136 @@ $(document).ready(function(){
             p.style.fontWeight = "bold";
             td1.appendChild(p);
 
-            //Link TITLE to PDF
-            var i = document.createElement("I");
+            committe_id = comments["Data"][row_count]["committee_id"];
             username = comments["Data"][row_count]["username"];
-            i.appendChild(document.createTextNode(username));
-            i.style.fontWeight = "bold";
-            td1.appendChild(i);
+            //Attach name of user who wrote the comment
+            if (type == "committee") {
+                var i = document.createElement("I");
+                i.appendChild(document.createTextNode(committe_id));
+                i.style.fontWeight = "bold";
+                td1.appendChild(i);
 
+                $.ajax({
+                    type: "GET",
+                    url: "/papers/get_author_reply/" + paperid + "/" + username + "/" + paper_comment,
+                    dataType: "JSON", // data type expected from server
+                    success: function (data) {
+                        //Create ROW
+                        var row2 = document.createElement("TR");
+                        tableBody.appendChild(row2);
+                        
+                        //Add PAPER TITLE to ROW
+                        var td2 = document.createElement('TD');
+                        td2.style.border = "1px solid #ddd";
+                        var p = document.createElement("P");
+                        p.appendChild(document.createTextNode("Author Reply:"));
+                        td2.appendChild(p);
+                        var i2 = document.createElement("I");
+                        i2.appendChild(document.createTextNode(data["Data"][0]["reply"]));
+                        i2.style.fontWeight = "bold";
+                        td2.appendChild(i2);
+                        var p2 = document.createElement("P");
+                        p2.appendChild(document.createTextNode(data["Data"][0]["username"]));
+                        td2.appendChild(p2);
+                        tableBody.appendChild(td2);
+                    },
+                    error: function(err) {
+                    }
+                });
+            } else {
+                var i = document.createElement("I");
+                i.appendChild(document.createTextNode(username));
+                i.style.fontWeight = "bold";
+                td1.appendChild(i);
+            }
+
+            //If user is admin allow to delete user comments
+            user_type = $("#user_type").html();
+            if (user_type==3 && type=="user"){
+                //Link TITLE to PDF
+                var del_button = document.createElement("input");
+                del_button.type = "button";
+                del_button.value = "DELETE";
+                del_button.id = "delete_comment";
+                del_button.style.marginLeft = "20px";
+                del_button.style.marginTop = "10px";
+                del_button.style.height = "40px";
+                del_button.style.backgroundColor = "red";
+                del_button.style.color = "white";
+                del_button.onclick = function(){
+                    if (confirm("Press OK to confirm delete")) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/papers/deleteusercomment/" + paperid + "/" + username,
+                            dataType: "JSON", // data type expected from server
+                            success: function () {
+                            },
+                            error: function(err) {
+                            }
+                        });
+                        location.reload();
+                    }
+                };
+
+                td1.appendChild(del_button);
+            } else if (user_type==4 && type=="committee") {
+                //Link TITLE to PDF
+                var del_button = document.createElement("input");
+                del_button.type = "button";
+                del_button.value = "DELETE";
+                del_button.id = "delete_comment";
+                del_button.style.marginLeft = "20px";
+                del_button.style.marginTop = "10px";
+                del_button.style.height = "40px";
+                del_button.style.backgroundColor = "red";
+                del_button.style.color = "white";
+                del_button.onclick = function(){
+                    if (confirm("Press OK to confirm delete")) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/papers/deletecommitteecomment/" + paperid + "/" + committe_id + "/" + username,
+                            dataType: "JSON", // data type expected from server
+                            success: function () {
+                            },
+                            error: function(err) {
+                            }
+                        });
+                        location.reload();
+                    }
+                }
+                td1.appendChild(del_button);
+            } else if (user_type==2 && type=="committee"){
+                //Link TITLE to PDF
+                var reply_button = document.createElement("input");
+                reply_button.type = "button";
+                reply_button.value = "REPLY";
+                reply_button.id = "reply_comment";
+                reply_button.style.marginLeft = "20px";
+                reply_button.style.marginTop = "10px";
+                reply_button.style.height = "40px";
+                reply_button.style.backgroundColor = "lightgrey";
+                reply_button.style.color = "black";
+
+                reply_button.onclick = function(){
+                    var reply = prompt("Please enter your reply:");
+                    if (reply != null || reply != "") {
+                        if (confirm("Please confirm you would like to send this reply")) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/papers/author_reply/" + paperid + "/" + committe_id + "/" + username + "/" + paper_comment + "/" + reply,
+                                dataType: "JSON", // data type expected from server
+                                success: function () {
+                                },
+                                error: function(err) {
+                                }
+                            });
+                            location.reload();
+                        }
+                    }
+                }
+                td1.appendChild(reply_button);
+            }
+            
             tableBody.appendChild(td1);
 
             //Next row

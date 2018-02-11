@@ -173,3 +173,46 @@ exports.summarydata = function(req,res) {
         }
     });
 }
+
+exports.postnews = function(req,res, next){
+    //get the name of the paper
+    var news_title = req.body.news_title;
+    var news_description = req.body.news_description;
+    var d = new Date();
+    
+    date = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
+    var add_news = {"title":news_title,"description":news_description,"date":date};
+    
+    db.query("INSERT INTO admin_news SET ?",add_news,function(err, rows, fields){
+        if (err) {
+            console.log("error occured", err);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            console.log("solution is: ", rows);
+            //This reloads the page after the comment has been added
+            res.redirect("/admin/news");
+        }
+    });
+}
+
+exports.getnews = function(req,res) {
+    var data = {
+        "Data": ""
+    };
+    //Selects all papers in the table in the order of most stars
+    db.query("SELECT * FROM admin_news",function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            res.json(data);
+        }else {
+            data["Data"] = 'No data Found..';
+            res.json(data);
+        }
+    });
+}
+
+

@@ -10,7 +10,7 @@
         <meta name="author" content="Liandra Giacomine">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="../../../public/js/individual_summary.js"></script>
+        <script src="../../../public/js/admin/individual_summary.js"></script>
     </head>
 
 <body>
@@ -37,21 +37,6 @@
     </div>
     </div>
 
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
-        filter_user_welcome = user_welcome.replace(/\"/g, "");
-        //IF USER IS NOT LOGGED IN SHOW BUTTON
-        if (filter_user_welcome  == "Welcome ") {
-            $("#welcome_user").remove();
-            $("#logout").remove();
-         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
-            $("#register").remove();
-            $("#welcome_user").html(filter_user_welcome);
-        }
-
-    </script>
 
     <!-- End of top section -->
 <hr class="menu_spacing">
@@ -59,17 +44,17 @@
 <!-- Menu -->
 <nav class="menu">
     <ul>
-        <li><a href="/admin/index" class="active">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav> 
+</nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -81,14 +66,15 @@
 
 </header>
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="admin_space"></div>
 
 <div class="admin-menu">
         <a href="/admin/index">Home</a>
-        <a class="admin_menu"  href="/admin/committee">Committee</a>
+        <a class="admin_menu" href="/admin/committee">Committee</a>
         <a class="admin_menu" href="/admin/summaries" id="active">Summaries</a>
         <a class="admin_menu" href="/admin/news">News</a>
+        <a class="admin_menu" href="/admin/manage_admin">Admin</a>
         <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
@@ -108,9 +94,41 @@
 
     
 <script>
+
+var user_welcome = $("#welcome_user").html();
+        filter_user_welcome = user_welcome.replace(/\"/g, "");
+        //IF USER IS NOT LOGGED IN SHOW BUTTON
+        if (filter_user_welcome  == "Welcome ") {
+            $("#welcome_user").remove();
+            $("#logout").remove();
+         //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+        } else {
+            $(".login_href").attr("href","/login/logout_first");
+            $("#register").remove();
+            $("#welcome_user").html(filter_user_welcome);
+        }
+
     $("#individual_summary").css({"margin-top":"50px","margin-right":"50px","margin-left":"200px"});
     $("#accept_summary").css({"background-color":"lightgreen","font-size":"1.2em","margin":"20px","margin-left":"10%","padding":"20px","font-weight":"bold"});
     $("#delete_summary").css({"background-color":"red","font-size":"1.2em","margin":"20px","margin-left":"10%","font-weight":"bold","padding":"20px"});
+    //SEARCH SCRIPT 
+            
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+        
+        user_type = $("#user_type").html();
+
+        if (user_type < 3) {
+            window.location = "/logout";
+        }
+            //If its an admin user then link home to admin home
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+
+    
 </script>
     
 </body>

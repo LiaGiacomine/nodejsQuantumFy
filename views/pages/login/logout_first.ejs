@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>QuantumFy</title>
-<link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
-<meta charset="UTF-8">
-<meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
-<meta name="keywords" content="papers,blog,login">
-<meta name="author" content="Liandra Giacomine">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <title>QuantumFy</title>
+  <link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
+  <meta name="keywords" content="papers,blog,login">
+  <meta name="author" content="Liandra Giacomine">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 
@@ -50,7 +50,7 @@
 
     </script>
 
-    <!-- End of top section -->
+  <!-- End of top section -->
 
 <hr class="menu_spacing">
 
@@ -84,73 +84,27 @@
 <b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="login_space"></div>
 
-<!-- ****** END OF HEADER ***** -->  
-<div id="login_type_section">
-    <button class="login_type_button"><a id="user_button" href="/login/user">User</a></button>
-    <button class="login_type_button"><a id="author_button" href="/login/author">Author</a></button>
-    <button class="login_type_button" id="button_active"><a id="admin_button" href="/login/admin">Admin</a></button>
-</div>
 
-<br><hr><br>
-
-<div id="loginField">
-<fieldset>
-<legend class="form_legend"><h2 >Login</h2></legend>
-<form class="loginForm" action="/adminlogin" method="post">
-<label for="username">Username/Email: </label>
-<input id="username" type="text" name="username" size="15" maxlength="30" /><br />
-<label for="password">Password:</label>
-<input id="password" type="password" name="password" size="15" maxlength="30" /><br><br>
-<input type="submit" name="loginButton" value="Login">
-
-
-<div id="popup" class="overlay">
-    <div class="popup">
-		<h2>Incorrect Username or Password</h2>
-    	<a class="close" href="#popup">×</a>
-    	<div class="content">
-           Try again
-    	</div>
-    </div>
-</div>
-
-<p id="wrong_login"><%= JSON.stringify(err) %><p></p>
-    
-<h5>Or <a href="/register">register</a> now if you are not yet a member</h5>
-</form>
-</fieldset>
-</div>
-
-<script>
-    //If form hasnt yet been filled and sent
-    res = $("#wrong_login").html();
-    res = res.replace(/\"/g, "");
-    if (res == "None"){
-        $("#popup").remove();
-        $("#wrong_login").remove();
-    } else if (res == "Wrong login"){
-        $("#wrong_login").remove();
-        $("#username").css({"border": "2px solid red"});
-        $("#password").css({"border": "2px solid red"});
-        var popup = document.getElementById("popup");
-        popup.classList.toggle("show");
-    }
-    //SEARCH SCRIPT 
+<h1 id="welcome" style="top:50%;left:40%;position:absolute;margin-top:-120px;margin-left:-200px">You have already logged in!<p><a href="/logout">Log out</a> first in order to login again</p>
+</h1>
+<script type="text/javascript">
+  var user_welcome = $("#welcome").html();
+  filter_user_welcome = user_welcome.replace(/\"/g, "");
+  $("#welcome").html(filter_user_welcome);
+  //SEARCH SCRIPT 
             
         $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
 
-    //If its an admin user then link home to admin home
+            //If its an admin user then link home to admin home
     user_type = $("#user_type").html();
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
-    
 
 </script>
-
 
 
 </body>

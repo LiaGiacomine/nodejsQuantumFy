@@ -1,6 +1,6 @@
 /*
     Makes Ajax call to script which connects with db to
-    return all the summaries submitted by authors
+    return all the news submitted by admin
 
     Author: Liandra Giacomine
 */
@@ -10,13 +10,13 @@ $(document).ready(function(){
     //alert("in");
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/admin/show_summaries",
+        url: "/blog/get_news",
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)
-            summary_count = Object.keys(data["Data"]).length;
+            news_count = Object.keys(data["Data"]).length;
             //Call function to create table with papers in data object
-            JSON_to_table(summary_count, data);
+            addNews(news_count, data);
             //Syntax to get JSON objects:
         },
         error: function() {
@@ -24,9 +24,9 @@ $(document).ready(function(){
         }
     });
 
-    function JSON_to_table(paper_count, data){
+    function addNews(news_count, data){
     //  Create table in specified division
-    var myTableDiv = document.getElementById("summaries_table");
+    var myTableDiv = document.getElementById("blog_table");
     var table = document.createElement("TABLE");
     table.style.width = "90%";
     //table.style.border ="ridge";
@@ -36,22 +36,13 @@ $(document).ready(function(){
     tableHead.appendChild(tr);
 
     //Create table headers
-
-    //TITLE
-    // var th1 = document.createElement("TH");
-    // th1.style.backgroundColor = "lightblue";
-    // var th1data = document.createTextNode("Title");
-    // th1.appendChild(th1data);
-    // table.appendChild(th1);
-
-
     //Add table body
     var tableBody = document.createElement("TBODY");
     table.appendChild(tableBody);
 
     var row_count = 0;
 
-    while (row_count != paper_count) {
+    while (row_count != news_count) {
         
         //Create ROW
         var row = document.createElement("TR");
@@ -62,30 +53,27 @@ $(document).ready(function(){
         td1.style.borderBottom = "1px solid #ddd";
 
          //ADD TITLE
-        var a = document.createElement("A");
-        td1.appendChild(a);
+        // var a = document.createElement("A");
+        // td1.appendChild(a);
         var p1 = document.createElement("P");
-        paper_title = data["Data"][row_count]["paper_title"];
-        p1.appendChild(document.createTextNode(paper_title));
+        title = data["Data"][row_count]["title"];
+        p1.appendChild(document.createTextNode(title));
         p1.style.fontWeight = "bold";
-        a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
-        a.style.color = "black";
-        a.appendChild(p1);
+        td1.appendChild(p1);
+        // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
+        // a.style.color = "black";
+        //a.appendChild(p1);
 
         //DESCRIPTION from query
-        summary = data["Data"][row_count]["summary"];
+        description = data["Data"][row_count]["description"];
         var p2 = document.createElement("P"); 
-        p2.appendChild(document.createTextNode(summary));
+        p2.appendChild(document.createTextNode(description));
         td1.appendChild(p2);
         
         
         //Add EMAIL AND DATE
         var i = document.createElement("i");
-        var br = document.createElement("BR");
-        author_email = data["Data"][row_count]["author_email"];
         date = data["Data"][row_count]["date"];
-        i.appendChild(document.createTextNode("Email: " + author_email));
-        i.appendChild(br);
         i.appendChild(document.createTextNode("Date-Added: " + date));
         td1.appendChild(i);
         row.appendChild(td1);

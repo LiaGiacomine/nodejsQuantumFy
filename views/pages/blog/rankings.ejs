@@ -10,7 +10,7 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../public/js/blog.js" ></script>
+    <script src="../../public/js/rankings.js" ></script>
 </head>
     
 <body>
@@ -43,13 +43,13 @@
     
 <nav class="menu">
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" >Login</a></button>
-                <div class="login_content">
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
+              <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
@@ -57,7 +57,7 @@
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
-<form action="search.php" method="get">
+<form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
@@ -66,70 +66,18 @@
 </header>
     
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
         
 <div id="blog_margin">
-<b>BLOG</b><button id="post_question_button"><a href="#ask_question">Write a post</a></button>
+<b>Rankings</b>
 
-<div class="section_border">
-<div id="blog_table">
-    <h2 class="section_title">Announcements</h2>
-    <hr>
-    <div class="table">
-    <table>
-        <thead>
-            <tr>
-                <th>Post</th>
-                <th>Answers</th>
-                <th>Likes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td><a href="" class="table_link">question</a></td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-</div>
+<ul id="committee_list"></ul>
 </div>
 
-<section class="topic_section">
-    <div id="blog_post_table">
-    </div>
-</section>
 
-
-<hr>
-<div id="post_question">
-    <legend><h3 id="ask_question">Write your blog post</h3></legend>
-    <form id="blog_form" action="" method="post">
-    <textarea name="blog_post" cols="60" rows="10"></textarea><br>
-    <input type="submit" name="submit" value="Submit">
-    </form>
-
-    <a id="login_to_blog" href="/login"><h3>Log in to post</h3></a>
-</div>
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -145,6 +93,7 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         $("#blog_form").remove();
         $("#logout").remove();
     } else {
+        $(".login_href").attr("href","/login/logout_first");
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
         $("#login_to_blog").remove();
@@ -157,6 +106,19 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
         document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
     }
+    
+    //SEARCH SCRIPT 
+            
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+        //If its an admin user then link home to admin home
+        user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+
 
 </script>
 

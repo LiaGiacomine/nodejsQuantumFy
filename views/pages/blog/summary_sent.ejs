@@ -42,21 +42,21 @@
     
 <nav class="menu">
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/committee">Committee</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user">Login</a></button>
+            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
                 <a href="/register/user">Register</a>
         </div>
     </ul>
-</nav> 
+</nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
-<form action="search.php" method="get">
+<form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
@@ -65,7 +65,7 @@
 </header>
     
 <!-- SPACING so that content appears below menu -->
-<b id="user_type">Welcome <%= JSON.stringify(user_type) %></b>
+<b id="user_type"><%= JSON.stringify(user_type) %></b>
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
@@ -89,6 +89,7 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
         $("#post_question_button").remove();
     } else {
+        $(".login_href").attr("href","/login/logout_first");
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
         $("#login_to_blog").remove();
@@ -100,7 +101,19 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         var d = new Date();
 
     }
+    //SEARCH SCRIPT
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
 
+            //If its an admin user then link home to admin home
+    user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+
+        
 
 </script>
 

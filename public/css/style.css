@@ -667,12 +667,15 @@ td.table_link {
     border-radius: 10px;
     box-shadow: 0 9px grey;
 }
+#login_type_section {
+    margin-left: 10%;
+}
 
 @media screen and (min-width:800px){
     #login_type_section {
         width: 900px;
-        margin-right: 30%;
-        margin-left: 28%;
+        margin-right: 20%;
+        margin-left: 34%;
         top: 50%;
         left: 50%;
         padding: 10px;
@@ -735,7 +738,7 @@ legend.form_legend h2{
 
 #loginField fieldset {
     width: 1000px;
-    margin-right: 25%;
+    margin-right: 20%;
     margin-left: 30%;
     top: 50%;
     left: 50%;
@@ -755,9 +758,7 @@ legend.form_legend h2{
 
 @media screen and (max-width: 800px) {
    #loginField fieldset {
-    margin: 0;
-    top: 50%;
-    left: 10%;
+    margin-left: 5%;
     padding: 10px;
     border: 1px solid white;
 }}
@@ -928,5 +929,3 @@ section.topic_section {
     margin: 20px;
     padding: 5px;
 }
-
-

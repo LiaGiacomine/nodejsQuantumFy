@@ -3,14 +3,14 @@
    
 <head>
     <title>QuantumFy</title>
-    <link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="../../../public/css/style.css" type="text/css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
     <meta name="keywords" content="papers,blog,login">
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../public/js/blog_news.js" ></script>
+    <script src="../../../public/js/individual_ranking.js"></script>
 </head>
     
 <body>
@@ -40,6 +40,7 @@
 <hr class="menu_spacing">
     
 <!-- Menu -->
+    
 <nav class="menu">
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
@@ -58,7 +59,7 @@
 <div align="middle" id="main_search">
 <form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
-<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+<button type="submit" value="Search" id="main_search_button"><img src="../../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
 </div>
 </div>
@@ -71,13 +72,10 @@
 <!-- ****** END OF HEADER ***** -->  
         
 <div id="blog_margin">
-<b>News</b>
+<b id="committee_name"></b>
+<ul id="committee_list">
+</ul>
 </div>
-
-<section class="topic_section">
-    <div id="blog_table">
-    </div>
-</section>
 
 
 
@@ -85,6 +83,12 @@
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
 
 <script type="text/javascript">
+    var url = window.location.href;
+    var end_of_str = url.length;
+    committee_name_id = url.slice(url.indexOf("/individual_ranking/") + 20, end_of_str);
+    committee_name = committee_name_id.slice(0, committee_name_id.indexOf("/"));
+    committee_name = committee_name.replace("_"," ");
+    $("#committee_name").html(committee_name); 
 
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
@@ -107,26 +111,27 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
         document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
-        
     }
-
-    //If its an admin user then link home to admin home
+    
+    //SEARCH SCRIPT 
+            
+        $("#main_search_button").click(function(){
+            var keyword = $("#main_search_box").val();
+            window.open("/papers/search/" + keyword);
+        });
+        
+        //If its an admin user then link home to admin home
     user_type = $("#user_type").html();
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
 
-    $("#main_search_button").click(function(){
-            var keyword = $("#main_search_box").val();
-            window.open("/papers/search/" + keyword);
-        });
 </script>
 
 <div class="page_bottom">
 <a href="#top">Back to top</a>
 </div>
 </div>
-
     
 </body>
 </html>

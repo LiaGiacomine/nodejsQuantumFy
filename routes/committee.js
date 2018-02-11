@@ -39,16 +39,14 @@ exports.committee_data = function(req,res) {
     });
 }
 
-
-exports.committee_individual = function(req,res) {
-    var committee_name = req.params.committee_name;
-
+exports.members = function(req,res) {
+    var committee_id = req.params.committee_id;
     var data = {
         "Data": ""
     };
-
-    //Selects all papers in the table in the order of most stars
-    query = "SELECT * FROM committee_members WHERE committee = " + topic;
+    
+    query = "SELECT * FROM committee_members WHERE committee_id = " + committee_id;
+   // Selects all members that belong to the committee specified
     db.query(query,function(err, rows, fields){
         if(rows.length != 0){
             data["Data"] = rows;
@@ -60,17 +58,38 @@ exports.committee_individual = function(req,res) {
     });
 }
 
+
+// exports.committee_individual = function(req,res) {
+//     var committee_id = req.params.committee_id;
+
+//     var data = {
+//         "Data": ""
+//     };
+
+//     //Selects all papers in the table in the order of most stars
+//     query = "SELECT * FROM committee_members WHERE committee_id = " + committee_id;
+//     db.query(query,function(err, rows, fields){
+//         if(rows.length != 0){
+//             data["Data"] = rows;
+//             res.json(data);
+//         }else {
+//             data["Data"] = 'No data Found..';
+//             res.json(data);
+//         }
+//     });
+// }
+
 exports.committee_addmember = function(req,res){
     
     //Get the values entered in register form
-    var committee_name = req.params.committee_name;
+    var committee_id = req.params.committee_id;
     var username = req.params.username;
 
     var d = new Date();
     
     date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
     
-    var new_member = {"committee": committee_name, "username": username,"date_added":date};
+    var new_member = {"committee_id": committee_id, "username": username,"date_added":date};
 
     db.query('INSERT INTO committee_members SET ?', new_member, function(error, results, fields){
         if (error) {
@@ -82,7 +101,79 @@ exports.committee_addmember = function(req,res){
         } else {
             console.log("solution is: ", results);
             //This reloads the page after the comment has been added
-            res.redirect("/committee/individual/" + committee_name);
+            req.session.committee = committee_id;
+            res.render("/admin/manage_committee/" + committee_id,{                
+                session: req.session,
+                user: req.session.username,
+                user_type: req.session.user_type,
+                err: "Wrong login",
+                committee: req.session.committee,
+            });
+        }
+    });
+}
+
+exports.committee_deletemember = function(req,res){
+    
+    //Get the values entered in register form
+    var username = req.params.username;
+    var committee_id = req.params.committee_id;
+    query = "DELETE FROM committee_members WHERE committee_id = " + committee_id + " AND username = \'" + username + "\'";
+    
+    db.query(query, function(error, results, fields){
+        if (error) {
+            console.log("error occured", error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            console.log("solution is: ", results);
+            //This reloads the page after the comment has been added
+            res.redirect("/admin/committee");
+        }
+    });
+}
+
+exports.addcommittee = function(req,res){
+    
+    //Get the values entered in register form
+    var committee_title = req.body.committee_title;
+
+    var new_committee = {"committee": committee_title};
+
+    db.query('INSERT INTO committee SET ?', new_committee, function(error, results, fields){
+        if (error) {
+            console.log("error occured", error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            console.log("solution is: ", results);
+            //This reloads the page after the comment has been added
+            res.redirect("/admin/committee");
+        }
+    });
+}
+
+exports.deletecommittee = function(req,res){
+    
+    //Get the values entered in register form
+    var committee_id = req.body.committee_id;
+    query = "DELETE FROM committee WHERE committee_id = " + committee_id;
+    
+    db.query(query, function(error, results, fields){
+        if (error) {
+            console.log("error occured", error);
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            });
+        } else {
+            console.log("solution is: ", results);
+            //This reloads the page after the comment has been added
+            res.redirect("/admin/committee");
         }
     });
 }
