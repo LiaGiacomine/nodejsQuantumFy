@@ -39,10 +39,17 @@ $(document).ready(function(){
     //Create table headers
 
     //TITLE
-    // var th1 = document.createElement("TH");
-    // var th1data = document.createTextNode("Title");
-    // th1.appendChild(th1data);
-    // table.appendChild(th1);
+    var th1 = document.createElement("TH");
+    var th1data = document.createTextNode("Title");
+    th1.appendChild(th1data);
+    th1.style.paddingBottom = "12px";
+    th1.style.paddingTop = "8px";
+    th1.style.textAlign = "center";
+    th1.style.backgroundColor = "#4CAF50";
+    th1.style.color = "white";
+    th1.style.fontSize = "1.5em";
+    th1.style.fontFamily = "Arial";
+    table.appendChild(th1);
 
 
     //Add table body
@@ -63,8 +70,7 @@ $(document).ready(function(){
         //Add PAPER TITLE to ROW
         var td1 = document.createElement('TD');
         td1.style.border = "1px solid #ddd";
-        //Add paper title to column 1 in row
-
+        td1.style.padding = "8px";
         //Link TITLE to PDF
         var a = document.createElement("A");
         td1.appendChild(a);
@@ -73,8 +79,10 @@ $(document).ready(function(){
         paper_title = data["Data"][row_count]["paper_title"];
         p1.appendChild(document.createTextNode(paper_title));
         p1.style.fontWeight = "bold";
-        a.href = "http://localhost:3000/papers/individual/" + data["Data"][row_count]["paper_id"];
-    
+        a.href = "/papers/individual/" + data["Data"][row_count]["paper_id"];
+        a.style.color = "black";
+        a.style.textDecoration = "none";
+        a.style.fontSize = "1.2em";
         a.appendChild(p1);
         
         //DESCRIPTION from query
@@ -86,11 +94,11 @@ $(document).ready(function(){
         //Add PAPER TITLE to ROW
         //Eventually make the like and star a page where you can see who
         //Has liked the paper
-        var b = document.createElement("B");
+        var p3 = document.createElement("P");
         paper_likes = data["Data"][row_count]["paper_likes"];
         paper_stars = data["Data"][row_count]["paper_stars"];
-        b.appendChild(document.createTextNode("Likes: " + paper_likes + " Stars: " + paper_stars));
-        td1.appendChild(b);
+        p3.appendChild(document.createTextNode("LIKES: " + paper_likes + " STARS: " + paper_stars));
+        td1.appendChild(p3);
         row.appendChild(td1);
         
         //Next row

@@ -45,8 +45,7 @@
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog" class="active">Blog</a></li>
-        <li><a href="/committee">Committee</a></li>
+        <li><a href="/blog/index" class="active">Blog</a></li>
         <div class="dropdown_menu_login">
             <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
@@ -88,8 +87,8 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     committee_name_id = url.slice(url.indexOf("/individual_ranking/") + 20, end_of_str);
     committee_name = committee_name_id.slice(0, committee_name_id.indexOf("/"));
     committee_name = committee_name.replace("_"," ");
-    $("#committee_name").html(committee_name); 
-
+    $("#committee_name").html(committee_name);
+    $("#committee_name").css({"font-family":"arial", "font-size":"1.5em", "margin":"20px"});
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
     //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON

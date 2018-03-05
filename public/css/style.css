@@ -29,8 +29,9 @@ body {
 /****LOG OUT *****/
 
 #logout i {
-    font-size: .9em;
-    font-weight: b;
+    font-size: 1em;
+    font-weight: bold;
+    order: 1px solid gray;
     color: red;
     font-family: "Arial";
     margin: 5px;
@@ -128,6 +129,10 @@ body {
     margin-left: 200px;
 }
 
+#datalist1 {
+    display: block;
+}
+
 /*  POP UP  */
 
 .overlay {
@@ -183,7 +188,13 @@ body {
 /* SPACE TO SHOW MENU */
 
 #home_space {
-    height: 160px;
+    height: 350px;
+}
+
+@media screen and (min-width: 900px) {
+    #home_space {
+        height: 300px;
+    }
 }
 
 #admin_space {
@@ -227,7 +238,7 @@ body {
     top: 0;
     left: 0;
     right:0;
-    height: 42px;
+    height: 49px;
     width: 100%;
     /* background-color: rgba(160,82,45, 1); */
     background-color: white;
@@ -240,10 +251,11 @@ body {
     top: 0;
     right: 0;
     margin: 0;
+    height: 4px;
     margin-left: 4px;
     padding: 0;
     border:0;
-    font-size: 2em;
+    font-size: 2.5em;
     text-align: left;
     font-family: 'Avenir-Black', sans-serif;
     color: rgba(29, 25, 24, 0.555);
@@ -265,7 +277,7 @@ hr {
     padding: 0;
     margin: 0;
     height: 4px;
-    background-color: rgb(68, 68, 68);
+    background-color: rgb(62, 163, 63);
 }
 
 
@@ -280,10 +292,10 @@ hr {
     margin: 6px;
     height: 30px;
     text-align: center;
-    border-right-color: rgba(119,136,153,1);
-    border-bottom-color: rgba(119,136,153,1);
-    border-left-color: rgba(119,136,153,.2);
-    border-top-color: rgba(119,136,153,.2);
+    border-right-color: rgba(0, 89, 255, 0.808);
+    border-bottom-color: rgba(0, 89, 255, 0.808);
+    border-left-color: rgba(0, 89, 255, 0.123);
+    border-top-color: rgba(0, 89, 255, 0.212);
     position: fixed;
     top: 1px;
     right: 0; 
@@ -292,8 +304,8 @@ hr {
 
 #register i {
     font-weight: bold;
-    font-size: 1.2em;
-    color: rgb(40, 109, 38);
+    font-size: 1.5em;
+    color:rgb(0, 89, 255);
 }
 
 
@@ -338,12 +350,12 @@ hr {
 
 .menu li {
     font-family: 'Avenir-Black', sans-serif;
-    font-size: 1.1em;
+    font-size: 1.5em;
     line-height: 40px;
     height: 40px;
-    width: 50px;
+    width: 70px;
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 50px;
 }
 
 
@@ -362,13 +374,13 @@ hr {
     background-color: white;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 900px) {
   .menu li {
-    width: 100px;
+    width: 200px;
     border-bottom: none;
     height: 40px;
     line-height: 40px;
-    font-size: 1.3em;
+    font-size: 2em;
 }
 
 }
@@ -393,14 +405,15 @@ hr {
     width: 100px;
     border: 0;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 2em;
     line-height: 40px;
     height: 40px;
 }
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 900px) {
   .login_button {
-    font-size: 1.3em;
+    font-size: 1.5em;
   }
+
   }
 
 .dropdown_menu_login {
@@ -421,7 +434,7 @@ hr {
 /* How dropdown content looks*/
 .login_content a {
     color: black;
-    font-size: 1em;
+    font-size: 1.2em;
     padding: 12px 16px;
     text-decoration: inherit;
     display: block;
@@ -603,48 +616,92 @@ td.table_link {
 
 #desc_1 {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: 5%;
+    margin-left: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'Chalkboard', sans-serif;
+    font-family: 'Avenir-Black', sans-serif;
     font-size: 1.4em;
-    color: whitesmoke;
+    color: black;
     opacity:1;
 }
 
 #desc_1 b{
     font-size: 2em;
     opacity:.8;
-    color: whitesmoke;
+    color: black;
 }
 
 /* Quantumfy logo */
 
 #home_papers {
     align-content: center;
+    margin-top: 170px;
+    font-size: 1.3em;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
-@media screen and (min-width: 600px) {
+
+@media screen and (min-width: 900px) {
     #home_papers {
         position: relative;
         align-content: center;
         margin-left: 20%;
         margin-right: 20%;
+        font-size: 1.5em;
   }
   #desc_div_1 {
     position: relative;
     align-content: center;
   }
+
+
+}
+#home_papers .home_name {
+    font-family: 'Avenir-Black';
+    font-size: 1em;
+}
+
+#home_papers .home_name {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#home_papers .home_name a {
+    color: #4CAF50;
+    font-weight: bold;
 }
 
 #home_papers p{
     position: relative;
     text-align: center;
     font-family: 'Avenir-Black', sans-serif;
-    font-size: 1.4em;
+    font-size: .9em;
 }
 
+#home_papers .header_description {
+    margin-left: 17%;
+    margin-right: 15%;
+    margin-bottom: 5%;
+    font-size: 1em;
+}
+
+#home_papers .homepage_img {
+    display: block;
+    margin: 50px auto;
+    width: 400px;
+}
+
+@media screen and (min-width: 900px) {
+
+    #home_papers .homepage_img {
+        width: 600px;
+    }
+}
+
+#home_papers .home_header {
+    font-weight: bold;
+    font-size: 1.2em;
+}
 
 
 /* LOGIN Page */
@@ -668,14 +725,13 @@ td.table_link {
     box-shadow: 0 9px grey;
 }
 #login_type_section {
-    margin-left: 10%;
+    margin-left: 1%;
 }
 
 @media screen and (min-width:800px){
     #login_type_section {
         width: 900px;
-        margin-right: 20%;
-        margin-left: 34%;
+        margin-left: 28%;
         top: 50%;
         left: 50%;
         padding: 10px;
@@ -820,19 +876,19 @@ legend.form_legend h2{
 
 /* BLOG */
 
-#blog_margin b {
+#blog_margin i {
     margin-left: 20px;
-    font-size: 2em;
-    font-family: "Arial-Black";
+    font-size: 1.2em;
+    font-family: "Arial";
 }
 
 
 #post_question_button {
     float: right;
     margin-right: 20px;
-    border-right-color: white;
-    border-bottom-color: white;
-    background-color: rgb(255, 72, 16);
+    border-right-color: black;
+    border-bottom-color: black;
+    background-color:green;
 }
 
 #post_question_button a {

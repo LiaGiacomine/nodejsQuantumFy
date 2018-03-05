@@ -10,18 +10,18 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../../public/js/individual_committee.js"></script>
 </head>
     
 <body>
- 
+
 <!-- ******* HEADER ********* -->
 <header>
-    <div id="header">
-            
-    <!-- Title -->
-    <div id="above_menu">
-    <h2 id="title">QuantumFy</h2>
+<div id="header">
+
+<!-- Title -->
+
+<div id="above_menu">
+<h2 id="title">QuantumFy</h2>
 
     <!-- Welcome/Register Section -->
     
@@ -36,10 +36,8 @@
     </div>
     </div>
 
-   
-
     <!-- End of top section -->
-
+    
 <hr class="menu_spacing">
     
 <!-- Menu -->
@@ -47,8 +45,7 @@
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/committee" class="active">Committee</a></li>
+        <li><a href="/blog/index" class="active">Blog</a></li>
         <div class="dropdown_menu_login">
             <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
               <div class="login_content">
@@ -56,7 +53,6 @@
         </div>
     </ul>
 </nav>  
-    
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -65,87 +61,62 @@
 <button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
 </div>
-    
 </div>
 </header>
     
 <!-- SPACING so that content appears below menu -->
 <b id="user_type"><%= JSON.stringify(user_type) %></b>
-<div id="about_space"></div>
+<div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
 
-<h2 id="committee_title"></h2>
-
-<button id="join_committee_button">Join committee</button>
-
-<h4 id="committee_members"></h4>
-<h4 class="committee_papers"></h4>
-
-
-<div class="page_bottom">
-<hr><a href="#top">Back to top</a>
+<div id="blog_sections">
+<a href="/blog/summaries"><section id="summaries">
+    <b>Summaries</b>
+</section></a>
+<a href="/blog/rankings"><section id="rankings">
+    <b>Rankings</b>
+</section></a>
+<a href="/blog/news"><section id="news">
+    <b>News</b>
+</section></a>
 </div>
- <!-- Show section according with if user if logged in -->
- <script type="text/javascript">
+
+
+<!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
+OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
+
+<script type="text/javascript">
 
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
-    var url = window.location.href;
-    var end_of_str = url.length;
-    committee = url.slice(url.indexOf("/individual/") + 12, end_of_str);
-    committee = committee.replace(/%20/g, " ");
-    //IF USER IS NOT LOGGED IN SHOW BUTTON
+    //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
+        $("legend").remove();
         $("#logout").remove();
-        $("#join_committee_button").click(function(){
-            alert("Only users can a committee");
-        });
-     //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
+    //IF USER HAS LOGGED IN
     } else {
-        $(".login_href").attr("href","/login/logout_first");
+        $(".login_href").attr("href", "/login/logout_first");
         $("#register").remove();
         $("#welcome_user").html(filter_user_welcome);
-        $("#join_committee_button").click(function(){
-            //User can only join committee if they have an institutional email address
-            //or if they are a
-            var user_type = $("#user_type").html();
-            user_type = parseInt(user_type);
-            alert(user_type);
-            if (user_type != 1 || user_type != 2){
-                alert("You must be registered with an institutional email address to join");
-            } else{
-                $.ajax({
-                type: "GET",
-                url: "/committee/addmember/" + committee + username,
-                dataType: "JSON", // data type expected from server
-                success: function (committee_data) {
-                    //Call function to add paxper returned to page
-                    data = committee;
-                    //addToPage(data);
-                },
-                error: function() {
-                    console.log('Error:');
-                }
-                });
-            }
-            });
-        }
-        //SEARCH SCRIPT
+      }
+
+    //If its an admin user then link home to admin home
+    user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
+    
+    //SEARCH SCRIPT
         $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
 
-                //If its an admin user then link home to admin home
-                user_type = $("#user_type").html();
-        if (user_type > 2) {
-            $(".home_href").attr("href", "/admin/index");
-        }
-
 </script>
-</body>
 
-	
+</div>
+
+</body>
 </html>

@@ -16,7 +16,10 @@ $(document).ready(function(){
             //Get size of JSON object (number of papers)
             summary_count = Object.keys(data["Data"]).length;
             //Call function to create table with papers in data object
-            addSummaries(summary_count, data);
+            summaries_exist = data["Data"];
+            if (summaries_exist != "No data Found.."){
+                addSummaries(summary_count, data);
+            }
             //Syntax to get JSON objects:
         },
         error: function() {

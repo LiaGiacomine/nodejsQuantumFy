@@ -163,8 +163,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/blog", function(req,res, next){
-        res.render("pages/blog", {
+    app.get("/blog/index", function(req,res, next){
+        res.render("pages/blog/index", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,

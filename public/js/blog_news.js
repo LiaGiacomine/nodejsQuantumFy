@@ -59,6 +59,7 @@ $(document).ready(function(){
         title = data["Data"][row_count]["title"];
         p1.appendChild(document.createTextNode(title));
         p1.style.fontWeight = "bold";
+        p1.style.fontFamily = "arial";
         td1.appendChild(p1);
         // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
         // a.style.color = "black";
@@ -68,12 +69,15 @@ $(document).ready(function(){
         description = data["Data"][row_count]["description"];
         var p2 = document.createElement("P"); 
         p2.appendChild(document.createTextNode(description));
+        p2.style.fontFamily = "arial";
         td1.appendChild(p2);
         
         
         //Add EMAIL AND DATE
         var i = document.createElement("i");
         date = data["Data"][row_count]["date"];
+        i.style.fontFamily = "arial";
+        i.style.fontSize = ".7em";
         i.appendChild(document.createTextNode("Date-Added: " + date));
         td1.appendChild(i);
         row.appendChild(td1);

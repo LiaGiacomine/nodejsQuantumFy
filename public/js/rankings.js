@@ -30,10 +30,18 @@ $(document).ready(function(){
         for (i=0;i<committee_count;i++){
             var li = document.createElement("LI");
             var a = document.createElement("A");
+            li.style.fontSize = "1.3em";
+            li.style.margin = "30px";
+            li.style.textAlign = "center";
+            li.style.marginLeft = "20%";
+            li.style.marginRight = "30%";
+            li.style.padding = "10px";
+            li.style.listStyleType = "none";
+            li.style.border = "5px solid grey";
+            a.style.textDecoration = "none";
             committee = data["Data"][i]["committee"];
-            committee = committee.replace(" ","_");
             id = data["Data"][i]["committee_id"];
-            a.href = "/blog/individual_ranking/"+ committee + "/" + id;
+            a.href = "/blog/individual_ranking/"+ committee.replace(" ","_") + "/" + id;
             topic_text = document.createTextNode(committee);
             li.appendChild(topic_text);
             a.appendChild(li);

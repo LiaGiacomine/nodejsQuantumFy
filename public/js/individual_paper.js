@@ -45,6 +45,7 @@ $(document).ready(function(){
         } else {
             $("#user_table_title").html("User comments: 0");
         }
+        $("#user_table_title").css({"font-family":"Arial","font-size":"1.2em","margin-left":"15%","font-weight":"bold"});
     });
 
         //GET COMMITTEE COMMENTS MADE ABOUT PAPER
@@ -66,6 +67,7 @@ $(document).ready(function(){
             } else {
                 $("#committee_table_title").html("Committee comments: 0");
             }
+            $("#committee_table_title").css({"font-family":"Arial","font-size":"1.2em","margin-left":"15%","font-weight":"bold"});
         });
     
      //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
@@ -267,14 +269,20 @@ $(document).ready(function(){
 
         //ADD VALUES TO INNER HTML OF THE SELECTED ELEMENTS
         $(".paper_title").html(paper_title);
+        $(".paper_title").css({"font-family":"Arial","font-size":"2em","margin-left":"5%","color":"rgb(62, 163, 63)"});
         $(".paper_description").html(paper_description);
+        $(".paper_description").css({"font-family":"Arial","font-size":"1.3em","margin-left":"5%","margin-right":"10%","font-weight":"lighter"});
         $(".paper_type").html("Type: " + paper_type);
+        $(".paper_type").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"lighter"});
         $(".paper_authors").html("Authors: "+ paper_authors);
+        $(".paper_authors").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter"});
         $(".paper_pdf").html(paper_pdf);
         $(".paper_pdf").attr("href",paper_pdf);
+        $(".paper_pdf").css({"font-family":"Arial","margin-left":"5%"});
         $(".paper_likes").html(paper_likes);
         //ADD CSS to position the elements
         $(".paper_likes").css({"position":"absolute","top":"50%","left":"50%", "transform":"translate(-50%,-50%)"});
+        $(".paper_likes").css("font-family","Arial");
         $(".container").css({"position":"relative", "text-align":"center","color":"black"});    
 
     }
@@ -283,22 +291,21 @@ $(document).ready(function(){
         //  Create table in specified division
         var myTableDiv = document.getElementById("paper_comments_table_" + type);
         var table = document.createElement("TABLE");
-        table.style.width = "50%";
-        table.style.marginLeft = "20%";
-        table.style.border ="ridge";
-
+        table.style.width = "70%";
+        //table.style.border ="ridge";
+        table.style.marginLeft = "15%";
         var tableHead = document.createElement("THEAD");
         var tr = document.createElement("TR");
         tableHead.appendChild(tr);
 
         //Create table headers
 
-        //COMMENT
-        var th= document.createElement("TH");
-        th.style.backgroundColor = "lightgrey";
-        var thdata = document.createTextNode("Comments");
-        th.appendChild(thdata);
-        table.appendChild(th);
+        //Table header
+        // var th= document.createElement("TH");
+        // th.style.backgroundColor = "lightgrey";
+        // // var thdata = document.createTextNode("Comments");
+        // th.appendChild(thdata);
+        // table.appendChild(th);
 
         //Add table body
         var tableBody = document.createElement("TBODY");
@@ -314,7 +321,7 @@ $(document).ready(function(){
             
             //Add PAPER TITLE to ROW
             var td1 = document.createElement('TD');
-            td1.style.border = "1px solid #ddd";
+            //td1.style.border = "1px solid #ddd";
             //Add paper title to column 1 in row
 
             //Link TITLE to PDF
@@ -322,17 +329,19 @@ $(document).ready(function(){
             //TITLE from query -> JSON obj
             paper_comment = comments["Data"][row_count]["paper_comments"];
             p.appendChild(document.createTextNode(paper_comment));
-            p.style.fontWeight = "bold";
+            p.style.fontWeight = "lighter";
+            p.style.fontFamily = "Arial";
             td1.appendChild(p);
 
             committe_id = comments["Data"][row_count]["committee_id"];
             username = comments["Data"][row_count]["username"];
             //Attach name of user who wrote the comment
             if (type == "committee") {
-                var i = document.createElement("I");
-                i.appendChild(document.createTextNode(committe_id));
-                i.style.fontWeight = "bold";
-                td1.appendChild(i);
+                // var i = document.createElement("I");
+                // //i.appendChild(document.createTextNode(committe_id));
+                // i.style.fontWeight = "lighter";
+                // i.style.fontFamily = "Arial";
+                // td1.appendChild(i);
 
                 $.ajax({
                     type: "GET",
@@ -342,20 +351,28 @@ $(document).ready(function(){
                         //Create ROW
                         var row2 = document.createElement("TR");
                         tableBody.appendChild(row2);
-                        
-                        //Add PAPER TITLE to ROW
+            
+                        //Add AUTHORS REPLY TO COMMITTEE COMMENT
                         var td2 = document.createElement('TD');
-                        td2.style.border = "1px solid #ddd";
+                        //td2.style.border = "1px solid #ddd";
                         var p = document.createElement("P");
-                        p.appendChild(document.createTextNode("Author Reply:"));
+                        p.style.fontFamily = "Arial";
+                        p.style.fontWeight = "lighter";
+                        p.style.fontSize = ".8em";
+                        p.style.marginLeft = "30px";
+                        p.appendChild(document.createTextNode(data["Data"][0]["username"] + "'s reply to committee"));
                         td2.appendChild(p);
                         var i2 = document.createElement("I");
                         i2.appendChild(document.createTextNode(data["Data"][0]["reply"]));
-                        i2.style.fontWeight = "bold";
+                        i2.style.fontWeight = "lighter";
+                        i2.style.fontFamily = "Arial";
+                        i2.style.marginLeft = "30px";
                         td2.appendChild(i2);
-                        var p2 = document.createElement("P");
-                        p2.appendChild(document.createTextNode(data["Data"][0]["username"]));
-                        td2.appendChild(p2);
+                        // var p2 = document.createElement("P");
+                        // p2.appendChild(document.createTextNode(data["Data"][0]["username"]));
+                        // p2.style.fontFamily = "Arial";
+                        // p2.style.marginLeft = "30px";
+                        // td2.appendChild(p2);
                         tableBody.appendChild(td2);
                     },
                     error: function(err) {
@@ -379,6 +396,7 @@ $(document).ready(function(){
                 del_button.style.marginLeft = "20px";
                 del_button.style.marginTop = "10px";
                 del_button.style.height = "40px";
+                del_button.style.fontFamily = "Arial";
                 del_button.style.backgroundColor = "red";
                 del_button.style.color = "white";
                 del_button.onclick = function(){
@@ -403,6 +421,7 @@ $(document).ready(function(){
                 del_button.type = "button";
                 del_button.value = "DELETE";
                 del_button.id = "delete_comment";
+                del_button.style.fontFamily = "Arial";
                 del_button.style.marginLeft = "20px";
                 del_button.style.marginTop = "10px";
                 del_button.style.height = "40px";
@@ -428,6 +447,7 @@ $(document).ready(function(){
                 var reply_button = document.createElement("input");
                 reply_button.type = "button";
                 reply_button.value = "REPLY";
+                reply.style.fontFamily = "Arial";
                 reply_button.id = "reply_comment";
                 reply_button.style.marginLeft = "20px";
                 reply_button.style.marginTop = "10px";

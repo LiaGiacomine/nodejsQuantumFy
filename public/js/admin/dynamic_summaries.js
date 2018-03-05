@@ -15,9 +15,14 @@ $(document).ready(function(){
         success: function (data) {
             //Get size of JSON object (number of papers)
             summary_count = Object.keys(data["Data"]).length;
+            summaries_exist = data["Data"];
+            if (summaries_exist == "No data Found.."){
+                alert("No summaries available");
+            } else {
             //Call function to create table with papers in data object
             JSON_to_table(summary_count, data);
             //Syntax to get JSON objects:
+            }
         },
         error: function() {
             console.log('Error: ' + data);
