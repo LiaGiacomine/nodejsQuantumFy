@@ -35,116 +35,13 @@ module.exports = function(app) {
         next();
     });
 
-    /*
-        ADMIN PAGES
-    */
-
-    app.get("/admin/index", function(req,res, next){
-        res.render("pages/admin/index", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/committee", function(req,res, next){
-        res.render("pages/admin/committee", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/summaries", function(req,res, next){
-        res.render("pages/admin/summaries", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/news", function(req,res, next){
-        res.render("pages/admin/news", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/addcommittee", function(req,res, next){
-        res.render("pages/admin/addcommittee", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/addsummary", function(req,res, next){
-        res.render("pages/admin/addsummary", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/addnews", function(req,res, next){
-        res.render("pages/admin/addnews", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/individual/:title", function(req, res, next){
-        res.render("pages/admin/individual_summary",{
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/manage_committee/:title/:id", function(req, res, next){
-        res.render("pages/admin/individual_committee",{
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/admin/manage_admin", function(req, res, next){
-        res.render("pages/admin/manage_admin",{
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
 
     /*
         COMMITTEE PAGES
     */
 
-    app.get("/committee", function(req,res, next){
-        res.render("pages/committee", {
+    app.get("/committee/index", function(req,res, next){
+        res.render("pages/committee/index", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -153,8 +50,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/committee/individual/:committee", function(req, res, next){
-        res.render("pages/individual_committee",{
+    app.get("/committee/individual_ranking/:committee_name/:committee_id", function(req,res, next){
+        res.render("pages/committee/individual_ranking", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -162,6 +59,10 @@ module.exports = function(app) {
         });
         next();
     });
+
+    /*
+        BLOG PAGES
+    */
 
     app.get("/blog/index", function(req,res, next){
         res.render("pages/blog/index", {
@@ -173,28 +74,12 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/blog/news", function(req,res, next){
-        res.render("pages/blog/news", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
+    /*
+        SUMMARY PAGES
+    */
 
-    app.get("/blog/summaries", function(req,res, next){
-        res.render("pages/blog/summaries", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/blog/write_summary", function(req,res, next){
-        res.render("pages/blog/write_summary", {
+    app.get("/summaries/index", function(req,res, next){
+        res.render("pages/summaries/index", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -204,8 +89,19 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/blog/summary_sent", function(req,res, next){
-        res.render("pages/blog/summary_sent", {
+    app.get("/summaries/write_summary", function(req,res, next){
+        res.render("pages/summaries/write_summary", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            err: "None",
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/summaries/summary_sent", function(req,res, next){
+        res.render("pages/summaries/summary_sent", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -214,26 +110,6 @@ module.exports = function(app) {
         next();
     });
 
-
-    app.get("/blog/rankings", function(req,res, next){
-        res.render("pages/blog/rankings", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
-
-    app.get("/blog/individual_ranking/:committee_name/:committee_id", function(req,res, next){
-        res.render("pages/blog/individual_ranking", {
-            session: req.session,
-            user: req.session.username,
-            user_type: req.session.user_type,
-            committee: req.session.committee
-        });
-        next();
-    });
 
     /*
         LOGIN PAGES
@@ -346,6 +222,111 @@ module.exports = function(app) {
 
     app.get("/papers/search/:keyword", function(req, res, next){
         res.render("pages/papers/search",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+
+    /*
+        ADMIN PAGES
+    */
+
+    app.get("/admin/index", function(req,res, next){
+        res.render("pages/admin/index", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/committee", function(req,res, next){
+        res.render("pages/admin/committee", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/summaries", function(req,res, next){
+        res.render("pages/admin/summaries", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/news", function(req,res, next){
+        res.render("pages/admin/news", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/addcommittee", function(req,res, next){
+        res.render("pages/admin/addcommittee", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/addsummary", function(req,res, next){
+        res.render("pages/admin/addsummary", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/addnews", function(req,res, next){
+        res.render("pages/admin/addnews", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/individual/:title", function(req, res, next){
+        res.render("pages/admin/individual_summary",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/manage_committee/:title/:id", function(req, res, next){
+        res.render("pages/admin/individual_committee",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
+    app.get("/admin/manage_admin", function(req, res, next){
+        res.render("pages/admin/manage_admin",{
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,

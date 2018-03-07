@@ -15,7 +15,7 @@ var app = express();
 // database every day at 12:30
 // ================================================================
 var load_papers = require('./routes/run_daily/upload_papers_to_db');
-cron.schedule('30 12 * * *', function(){
+cron.schedule('42 18 * * *', function(){
   load_papers();
   console.log('addData is running');
 });
@@ -48,7 +48,6 @@ app.use(ExpressValidator({
     var namespace = param.split(".")
     , root = namespace.shift()
     , formParam = root;
-
     while(namespace.length){
       formParam += '[' + namespace.shift() + ']';
     } return {

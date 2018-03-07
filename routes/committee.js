@@ -160,7 +160,7 @@ exports.addcommittee = function(req,res){
 exports.deletecommittee = function(req,res){
     
     //Get the values entered in register form
-    var committee_id = req.body.committee_id;
+    var committee_id = req.params.committee_id;
     query = "DELETE FROM committee WHERE committee_id = " + committee_id;
     
     db.query(query, function(error, results, fields){

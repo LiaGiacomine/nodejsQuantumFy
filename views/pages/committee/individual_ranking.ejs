@@ -3,13 +3,14 @@
    
 <head>
     <title>QuantumFy</title>
-    <link href="../../public/css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="../../../public/css/style.css" type="text/css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <meta name="description" content="Discussion and ranking of contemporary papers on Quantum Physics">
     <meta name="keywords" content="papers,blog,login">
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../../public/js/individual_ranking.js"></script>
 </head>
     
 <body>
@@ -39,16 +40,18 @@
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog/index" class="active">Blog</a></li>
+        <li><a href="/committee/index" class="active">Committee</a></li>
+        <li><a href="/summaries/index">Summaries</a></li>
+        <li><a href="/blog/index" id="blog_space">Blog</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
-              <div class="login_content">
+            <a href="/login/user" id="login_button" class="login_href">Login</a>
+            <div class="login_content">
                 <a href="/register/user">Register</a>
+            </div>
         </div>
     </ul>
 </nav>  
@@ -57,7 +60,7 @@
 <div align="middle" id="main_search">
 <form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
-<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+<button type="submit" value="Search" id="main_search_button"><img src="../../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
 </form>
 </div>
 </div>
@@ -65,60 +68,41 @@
     
 <!-- SPACING so that content appears below menu -->
 <b id="user_type"><%= JSON.stringify(user_type) %></b>
-<b id="err"><%= JSON.stringify(err) %></b>
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
+        
+<div id="blog_margin">
+<b id="committee_name"></b>
+<ul id="committee_list">
+</ul>
+</div>
 
-
-<div id="loginField">
-    </label>
-    <fieldset id="summary_body">
-    <legend class="form_legend"><h2>Write a summary</h2></legend>
-    <form class="loginForm" method="post" action="/submit_summary" >
-    <label for="paper_title">Paper Title</label>
-    <input name="paper_title" id="paper_title" type="text" size="15" /><br />
-    <label for="author_name">Author's Name</label>
-    <input name="author_name" id="author_name" type="text" size="15"/><br />
-    <label for="author_email">Email Address</label>
-    <input name="author_email" id="email" type="text" size="15" /><br />
-    <label for="summary">Summary</label>
-    <textarea name="summary" id="summary" placeholder="" style="height:200px"></textarea>
-    <input name="postButton" type="submit" value="Submit">
-</form></fieldset></div>
 
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
 
 <script type="text/javascript">
-
+    var url = window.location.href;
+    var end_of_str = url.length;
+    committee_name_id = url.slice(url.indexOf("/individual_ranking/") + 20, end_of_str);
+    committee_name = committee_name_id.slice(0, committee_name_id.indexOf("/"));
+    committee_name = committee_name.replace("_"," ");
+    $("#committee_name").html(committee_name);
+    $("#committee_name").css({"font-family":"arial", "font-size":"1.5em", "margin":"20px"});
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
     //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
-        //$("legend").remove();
+        $("legend").remove();
         $("#blog_form").remove();
         $("#logout").remove();
-        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
-        $("#post_question_button").remove();
-         //window.location.replace("http://localhost:3000/");
-        window.location.replace("/");
     } else {
         $(".login_href").attr("href","/login/logout_first");
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
-        res = $("#err").html();
-        res = res.replace(/\"/g, "");
-        if (res == "Contains empty fields"){
-            $("#paper_title").css({"border": "2px solid red"});
-            $("#author_name").css({"border": "2px solid red"});
-            $("#author_email").css({"border": "2px solid red"});
-            $("#summary").css({"border": "2px solid red"});
-        }
-
-        
         $("#login_to_blog").remove();
         //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
@@ -127,24 +111,21 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        //document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
-        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
-        if (user.indexOf(" ")!=0) {
-            $("#post_question_button").remove();
-        }
+        document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
     }
-    //SEARCH SCRIPT
+    
+    //SEARCH SCRIPT 
             
         $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
-                //If its an admin user then link home to admin home
+        
+        //If its an admin user then link home to admin home
     user_type = $("#user_type").html();
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
-
 
 </script>
 

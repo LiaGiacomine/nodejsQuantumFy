@@ -46,11 +46,14 @@
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog/index">Blog</a></li>
+        <li><a href="/committee/index">Committee</a></li>
+        <li><a href="/summaries/index">Summaries</a></li>
+        <li><a href="/blog/index" id="blog_space">Blog</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
-              <div class="login_content">
+            <a href="/login/user" id="login_button" class="login_href">Login</a>
+            <div class="login_content">
                 <a href="/register/user">Register</a>
+            </div>
         </div>
     </ul>
 </nav>  
@@ -186,18 +189,18 @@
 
     //AJAX TO DELETE COMMITTEE
     $("#delete_committee").click(function() {
-    $.ajax({
-    type: "POST",
-    url: "/delete/committee/" + committee_id,
-    dataType: "JSON", // data type expected from server
-    success: function () {
-        //Call function to add paper returned to page
-        },
-        error: function(err) {
-            console.log('Error: ' + err);
-        }
+        $.ajax({
+            type: "POST",
+            url: "/delete/committee/" + committee_id,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+                },
+                error: function(err) {
+                    console.log('Error: ' + err);
+                }
         });
-        location.reload();
+        window.location.replace("/admin/committee");
     });
 
     user_type = $("#user_type").html();

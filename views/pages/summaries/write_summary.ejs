@@ -44,11 +44,14 @@
     <ul>
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/blog/index" class="active">Blog</a></li>
+        <li><a href="/committee/index">Committee</a></li>
+        <li><a href="/summaries/index" class="active">Summaries</a></li>
+        <li><a href="/blog/index" id="blog_space">Blog</a></li>
         <div class="dropdown_menu_login">
-            <button class="login_button"><a href="/login/user" class="login_href">Login</a></button>
-              <div class="login_content">
+            <a href="/login/user" id="login_button" class="login_href">Login</a>
+            <div class="login_content">
                 <a href="/register/user">Register</a>
+            </div>
         </div>
     </ul>
 </nav>  
@@ -65,11 +68,28 @@
     
 <!-- SPACING so that content appears below menu -->
 <b id="user_type"><%= JSON.stringify(user_type) %></b>
+<b id="err"><%= JSON.stringify(err) %></b>
 <div id="blog_space"></div>
     
 <!-- ****** END OF HEADER ***** -->  
 
-<h2>Thank you!</h2><p>Your summary has been submitted.</p>
+
+<div id="loginField">
+    </label>
+    <fieldset id="summary_body">
+    <legend class="form_legend"><h2>Write a summary</h2></legend>
+    <form class="loginForm" method="post" action="/submit_summary" >
+    <label for="paper_title">Paper Title</label>
+    <input name="paper_title" id="paper_title" type="text" size="15" /><br />
+    <label for="author_name">Author's Name</label>
+    <input name="author_name" id="author_name" type="text" size="15"/><br />
+    <label for="author_email">Email Address</label>
+    <input name="author_email" id="email" type="text" size="15" /><br />
+    <label for="summary">Summary</label>
+    <textarea name="summary" id="summary" placeholder="" style="height:200px"></textarea>
+    <input name="postButton" type="submit" value="Submit">
+</form></fieldset></div>
+
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
 OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
@@ -79,18 +99,29 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     var user_welcome = $("#welcome_user").html();
     filter_user_welcome = user_welcome.replace(/\"/g, "");
     //IF USER HASNT LOGGED IN THEN SHOW SIGN UP BUTTON
-
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
-        $("legend").remove();
+        //$("legend").remove();
         $("#blog_form").remove();
         $("#logout").remove();
         //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
         $("#post_question_button").remove();
+         //window.location.replace("http://localhost:3000/");
+        window.location.replace("/");
     } else {
         $(".login_href").attr("href","/login/logout_first");
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT
+        res = $("#err").html();
+        res = res.replace(/\"/g, "");
+        if (res == "Contains empty fields"){
+            $("#paper_title").css({"border": "2px solid red"});
+            $("#author_name").css({"border": "2px solid red"});
+            $("#author_email").css({"border": "2px solid red"});
+            $("#summary").css({"border": "2px solid red"});
+        }
+
+        
         $("#login_to_blog").remove();
         //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
@@ -98,24 +129,31 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         //ALLOW USERS TO ADD COMMENTS
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
-
+        date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+        //document.getElementById("blog_form").action = "http://localhost:3000/blog/addpost/" + user + "/" + date;
+        //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
+        if (user.indexOf(" ")!=0) {
+            $("#post_question_button").remove();
+        }
     }
     //SEARCH SCRIPT
+            
         $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
-
-            //If its an admin user then link home to admin home
+                //If its an admin user then link home to admin home
     user_type = $("#user_type").html();
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
 
-        
 
 </script>
 
+<div class="page_bottom">
+<a href="#top">Back to top</a>
+</div>
 </div>
     
 </body>
