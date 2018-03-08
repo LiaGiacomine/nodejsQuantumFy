@@ -10,6 +10,7 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../public/js/blog_news.js" ></script>
 </head>
     
 <body>
@@ -19,7 +20,6 @@
 <div id="header">
 
 <!-- Title -->
-
 <div id="above_menu">
 <h2 id="title">QuantumFy</h2>
 
@@ -37,7 +37,6 @@
     </div>
 
     <!-- End of top section -->
-    
 <hr class="menu_spacing">
     
 <!-- Menu -->
@@ -46,8 +45,8 @@
         <li><a class="home_href" href="/">Home</a></li>
         <li><a href="/papers/index">Papers</a></li>
         <li><a href="/committee/index">Committee</a></li>
-        <li><a href="/summaries/index">Summaries</a></li>
-        <li><a href="/blog/index" class="active" id="blog_space">Blog</a></li>
+        <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
+        <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
         <div class="dropdown_menu_login">
             <a href="/login/user" id="login_button" class="login_href">Login</a>
             <div class="login_content">
@@ -73,17 +72,11 @@
     
 <!-- ****** END OF HEADER ***** -->  
 
-<div id="blog_sections">
-<a href="/blog/summaries"><section id="summaries">
-    <b>Summaries</b>
-</section></a>
-<a href="/blog/rankings"><section id="rankings">
-    <b>Rankings</b>
-</section></a>
-<a href="/blog/news"><section id="news">
-    <b>News</b>
-</section></a>
-</div>
+<section class="topic_section">
+    <div id="blog_table">
+    </div>
+</section>
+
 
 
 <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
@@ -97,29 +90,38 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     if (filter_user_welcome  == "Welcome ") {
         $("#welcome_user").remove();
         $("legend").remove();
+        $("#blog_form").remove();
         $("#logout").remove();
-    //IF USER HAS LOGGED IN
     } else {
-        $(".login_href").attr("href", "/login/logout_first");
+        $(".login_href").attr("href","/login/logout_first");
+        //IF USER IS LOGGED IN
+        //REMOVE LOGIN TO COMMENT
+        $("#login_to_blog").remove();
+        //ELSE SHOW "WELCOME USERNAME"
         $("#register").remove();
         $("#welcome_user").html(filter_user_welcome);
-      }
+        //ALLOW USERS TO ADD COMMENTS
+        user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
+        var d = new Date();
+        date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+        document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
+        
+    }
 
     //If its an admin user then link home to admin home
     user_type = $("#user_type").html();
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
-    
-    //SEARCH SCRIPT
-        $("#main_search_button").click(function(){
+
+    $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
-
 </script>
 
 </div>
 
+    
 </body>
 </html>

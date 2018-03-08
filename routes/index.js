@@ -220,6 +220,16 @@ module.exports = function(app) {
         next();
     });
 
+    app.get("/papers/from/:timeline", function(req, res, next){
+        res.render("pages/papers/papers_from",{
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
     app.get("/papers/search/:keyword", function(req, res, next){
         res.render("pages/papers/search",{
             session: req.session,
@@ -361,6 +371,9 @@ module.exports = function(app) {
         FUNCTIONS INVOLVING PAPER DATABASE
     */
 
+    //Returns the papers from the specified time
+    app.get("/paperdata/get_papers_from/:timeline", papers.papers_from);
+    
     //SEARCH FOR PAPERS
     app.get("/papers/paperdata/search/:keyword", papers.search);
 

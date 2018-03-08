@@ -40,6 +40,47 @@ exports.paperdata = function(req,res) {
     });
 }
 
+exports.papers_from = function(req,res,next) {
+
+    var timeline = req.params.timeline;
+
+    var d = new Date();
+
+    if (timeline == "yesterday") {
+        date = (d.getDate() - 1) + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+    } else if (timeline == "one_month") {
+        //If its january and looking for a month ago papers then look for ones in december of previous
+        //Otherwise leave is as month for previous month as its from 0-11 thus subtracts 1 already from stored val for date
+        if (d.getMonth == 0) {
+            date = "%-" + 12 + "-" + (d.getFullYear()-1) ;
+        } else {
+            date = "%-" + d.getMonth() + "-" + d.getFullYear();
+        }
+
+    } else if (timeline == "this_year") {
+        date = "%-%-" + d.getFullYear();
+    } else if (timeline == "last_years") {
+        date = "%-%-" + (d.getFullYear() -1);
+    }
+
+    var data = {
+        "Data": ""
+    };
+
+    query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ?";
+    //Selects all papers in the table in the order of most stars
+    db.query(query,date,function(err, rows, fields){
+    if(rows.length != 0){
+        data["Data"] = rows;
+        res.json(data);
+    }else{
+        data["Data"] = 'No data Found..';
+        res.json(data);
+    }
+    });
+
+}
+
 exports.individualpaper = function(req,res, next){
     //get the name of the paper
     var paperid = req.params.paperid;
@@ -133,7 +174,6 @@ exports.deletecommitteecomment = function(req,res){
     var username = req.params.username;
 
     query = "DELETE FROM committee_comments WHERE paper_id = " + paperid + " AND committee_id = " + committee_id + " AND username = \'" + username + "\'";
-    console.log(query);
     db.query(query, function(error, results, fields){
         if (error) {
             console.log("error occured", error);

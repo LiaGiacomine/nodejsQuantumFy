@@ -7,18 +7,25 @@ Author: Liandra Giacomine
 
 //GET THE NUMBER OF PAPERS TO ADD TO THE TABLE THUS THE NUMBER OF ROWS
 $(document).ready(function(){
-    //alert("in");
+    //GET PAPER ID
+    var url = window.location.href;
+    var end_of_str = url.length;
+    timeline = url.slice(url.indexOf("/from/") + 6, end_of_str);
+
     $.ajax({
         type: "GET",
-        url: "/paperdata",
+        url: "/paperdata/get_papers_from/" + timeline,
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)
             paper_count = Object.keys(data["Data"]).length;
-            //Call function to create table with papers in data object
-            JSON_to_table(paper_count, data);
-            //Syntax to get JSON objects:
-            //alert(data["Data"][1]["paper_title"]);
+            papers_exist = data["Data"];
+            if (papers_exist != "No data Found.."){
+                //Call function to create table with papers in data object
+                JSON_to_table(paper_count, data);
+                //Syntax to get JSON objects:
+                //alert(data["Data"][1]["paper_title"]);
+            }
         },
         error: function() {
             console.log('Error: ' + data);
@@ -32,7 +39,7 @@ $(document).ready(function(){
     var table = document.createElement("TABLE");
     table.style.border ="ridge";
     table.style.marginTop ="40px";
-    
+
     var tableHead = document.createElement("THEAD");
     var tr = document.createElement("TR");
     tableHead.appendChild(tr);

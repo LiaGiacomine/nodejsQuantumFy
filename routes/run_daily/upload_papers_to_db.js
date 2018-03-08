@@ -138,6 +138,10 @@ function addData(response_text) {
             //console.log(paper_description);
         //} 
 
+        var d = new Date();
+
+        date_retrieved = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
         //Add all row values to matrix to be inserted in the 9 columns of the table
         values[total_paper][1] = title;
         values[total_paper][2] = paper_description;
@@ -147,7 +151,7 @@ function addData(response_text) {
         values[total_paper][6] = 0;
         values[total_paper][7] = 0;
         values[total_paper][8] = 0;
-
+        values[total_paper][9] = date_retrieved;
         
        //Where to start from next
         start_from = response_text.indexOf(paper_title);
@@ -160,7 +164,7 @@ function addData(response_text) {
         db.connect(function(err) {
             if (err) throw err;
             console.log("Connected!");
-            var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, paper_comments, paper_likes, paper_stars) VALUES ?";
+            var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, paper_comments, paper_likes, paper_stars, date_retrieved) VALUES ?";
             db.query(sql,[values], function (err, result) {
               if (err) throw err;
               console.log("Result: " + result.affectedRows);
