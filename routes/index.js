@@ -350,7 +350,9 @@ module.exports = function(app) {
     */
 
     //Gets SUMMARIES FROM ADMIN DATABASE
-    app.get("/admin/show_summaries", admin.getsummaries);   
+    app.get("/admin/check_summaries", admin.getchecksummaries);
+
+    app.get("/summaries/author_summaries", admin.getauthorsummaries);   
 
     //Gets individual summary
     app.get("/admin/individual_summary/:summary_id", admin.individualsummary);
@@ -496,7 +498,7 @@ module.exports = function(app) {
 
     app.get("/blog/get_news", admin.getnews)
 
-    app.get("/blog/get_summaries", admin.getsummaries)
+    // app.get("/blog/get_summaries", admin.getsummaries)
 
 
 

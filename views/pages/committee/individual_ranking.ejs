@@ -74,7 +74,7 @@
         
 <div id="blog_margin">
 <b id="committee_name"></b>
-<ul id="committee_list">
+<ol id="committee_list">
 </ul>
 </div>
 
@@ -89,6 +89,7 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
     committee_name_id = url.slice(url.indexOf("/individual_ranking/") + 20, end_of_str);
     committee_name = committee_name_id.slice(0, committee_name_id.indexOf("/"));
     committee_name = committee_name.replace("_"," ");
+    committee_name = committee_name.replace("%20"," ");
     $("#committee_name").html(committee_name);
     $("#committee_name").css({"font-family":"arial", "font-size":"1.5em", "margin":"20px"});
     var user_welcome = $("#welcome_user").html();
@@ -111,7 +112,6 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         user = filter_user_welcome.slice(filter_user_welcome.indexOf(" ") + 1,filter_user_welcome.length)
         var d = new Date();
         date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
-        document.getElementById("blog_form").action = "/blog/addpost/" + user + "/" + date;
     }
     
     //SEARCH SCRIPT 
@@ -129,9 +129,6 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
 
 </script>
 
-<div class="page_bottom">
-<a href="#top">Back to top</a>
-</div>
 </div>
     
 </body>

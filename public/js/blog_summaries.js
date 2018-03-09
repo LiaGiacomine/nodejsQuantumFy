@@ -10,7 +10,7 @@ $(document).ready(function(){
     //alert("in");
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/blog/get_summaries",
+        url: "http://localhost:3000/summaries/author_summaries",
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)

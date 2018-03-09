@@ -209,7 +209,7 @@ body {
 }
 
 #admin_space {
-    height: 110px;
+    height: 145px;
 }
 
 #login_space {
@@ -752,7 +752,7 @@ td.table_link {
 }
 
 #home_papers .home_name {
-    color: #4CAF50;
+    color: lightslategray;
     font-weight: bold;
 }
 

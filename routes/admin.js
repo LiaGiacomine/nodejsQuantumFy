@@ -76,7 +76,23 @@ exports.submitsummary = function(req,res, next){
 }
 
 //DUE TO ENTRIES BEING AUTO INCREMENT, THE OLDEST WILL BE THE LOWEST NUMBERS THUS ASCENDING ORDER
-exports.getsummaries = function(req,res) {
+exports.getauthorsummaries = function(req,res) {
+    var data = {
+        "Data": ""
+    };
+    //Selects all papers in the table in the order of most stars
+    db.query("SELECT * FROM author_summaries ORDER BY summary_id ASC",function(err, rows, fields){
+    if(rows.length != 0){
+        data["Data"] = rows;
+        res.json(data);
+    }else{
+        data["Data"] = 'No data Found..';
+        res.json(data);
+    }
+    });
+}
+
+exports.getchecksummaries = function(req,res) {
     var data = {
         "Data": ""
     };

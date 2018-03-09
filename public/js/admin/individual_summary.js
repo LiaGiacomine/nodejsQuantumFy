@@ -48,12 +48,22 @@ $(document).ready(function(){
                 url: "/accept_summary/" + summaryid + "/"+ author_name + "/" + author_email + "/" + paper_title+ "/" + summary + "/" + date,
                 dataType: "JSON", // data type expected from server
                 success: function () {
-                    window.location.href("/admin/summaries");
                 },
                 error: function(err) {
                 }
-                
             });
+
+            $.ajax({
+                type: "POST",
+                url: "/delete_summary/" + summaryid,
+                dataType: "JSON", // data type expected from server
+                success: function () {
+                },
+                error: function(err) {
+                }
+            });
+
+            document.location.href = "/admin/summaries";
         });
 
         //IF DELETE BUTTON IS PRESSED REMOVE FROM DATABASE

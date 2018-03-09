@@ -59,7 +59,7 @@ exports.papers_from = function(req,res,next) {
 
     } else if (timeline == "this_year") {
         date = "%-%-" + d.getFullYear();
-    } else if (timeline == "last_years") {
+    } else if (timeline == "last_year") {
         date = "%-%-" + (d.getFullYear() -1);
     }
 
@@ -67,7 +67,7 @@ exports.papers_from = function(req,res,next) {
         "Data": ""
     };
 
-    query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ?";
+    query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ? ORDER BY paper_stars DESC";
     //Selects all papers in the table in the order of most stars
     db.query(query,date,function(err, rows, fields){
     if(rows.length != 0){
@@ -405,6 +405,7 @@ exports.checkstar = function(req,res, next){
     var data = {
         "Star": ""
     };
+    
     db.query("SELECT * FROM stars WHERE paper_id = ? AND username=?",[paperid,username],function(err, rows, fields){
         if(rows.length != 0){
             data["Star"] = rows;
@@ -424,7 +425,7 @@ exports.search = function(req,res, next){
     var data = {
         "Data": ""
     };
-    console.log(keyword);
+
     query = "SELECT * FROM paper_data WHERE paper_title LIKE \'%" + keyword +"%\' ORDER BY paper_id DESC";
     db.query(query,function(err, rows, fields){
         if(rows.length != 0){

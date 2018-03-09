@@ -40,12 +40,12 @@ $(document).ready(function(){
     }).done(function(data){
         if (data["Data"] != "No data Found.."){
             comment_count = Object.keys(data["Data"]).length;
-            $("#user_table_title").html("User comments: " + comment_count);
+            $("#user_table_title").html(comment_count + " user comments");
             addCommentsTable(data, comment_count,"user");
         } else {
-            $("#user_table_title").html("User comments: 0");
+            $("#user_table_title").html("");
         }
-        $("#user_table_title").css({"font-family":"Arial","font-size":"1.2em","margin-left":"15%","font-weight":"bold"});
+        $("#user_table_title").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"bold","color":"grey"});
     });
 
         //GET COMMITTEE COMMENTS MADE ABOUT PAPER
@@ -62,12 +62,12 @@ $(document).ready(function(){
         }).done(function(data){
             if (data["Data"] != "No data Found.."){
                 comment_count = Object.keys(data["Data"]).length;
-                $("#committee_table_title").html("Committee comments: " + comment_count);
+                $("#committee_table_title").html(comment_count + " committee comments");
                 addCommentsTable(data, comment_count,"committee");
             } else {
-                $("#committee_table_title").html("Committee comments: 0");
+                $("#committee_table_title").html("");
             }
-            $("#committee_table_title").css({"font-family":"Arial","font-size":"1.2em","margin-left":"15%","font-weight":"bold"});
+            $("#committee_table_title").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"bold","color":"grey"});
         });
     
      //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
@@ -271,7 +271,7 @@ $(document).ready(function(){
         $(".paper_title").html(paper_title);
         $(".paper_title").css({"font-family":"Arial","font-size":"2em","margin-left":"5%","color":"rgb(62, 163, 63)"});
         $(".paper_description").html(paper_description);
-        $(".paper_description").css({"font-family":"Arial","font-size":"1.3em","margin-left":"5%","margin-right":"10%","font-weight":"lighter"});
+        $(".paper_description").css({"font-family":"Arial","font-size":"1.1em","margin-left":"5%","margin-right":"10%","font-weight":"lighter"});
         $(".paper_type").html("Type: " + paper_type);
         $(".paper_type").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"lighter"});
         $(".paper_authors").html("Authors: "+ paper_authors);
@@ -279,6 +279,10 @@ $(document).ready(function(){
         $(".paper_pdf").html(paper_pdf);
         $(".paper_pdf").attr("href",paper_pdf);
         $(".paper_pdf").css({"font-family":"Arial","margin-left":"5%"});
+        $(".paper_like_sum").html("Likes: " + data["Data"][0]["paper_likes"]);
+        $(".paper_star_sum").html("Stars: " + data["Data"][0]["paper_stars"]);
+        $(".paper_like_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid lightblue", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
+        $(".paper_star_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid #F0E68C", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
         $(".paper_likes").html(paper_likes);
         //ADD CSS to position the elements
         $(".paper_likes").css({"position":"absolute","top":"50%","left":"50%", "transform":"translate(-50%,-50%)"});
@@ -293,7 +297,7 @@ $(document).ready(function(){
         var table = document.createElement("TABLE");
         table.style.width = "70%";
         //table.style.border ="ridge";
-        table.style.marginLeft = "15%";
+        table.style.marginLeft = "5%";
         var tableHead = document.createElement("THEAD");
         var tr = document.createElement("TR");
         tableHead.appendChild(tr);
@@ -321,6 +325,8 @@ $(document).ready(function(){
             
             //Add PAPER TITLE to ROW
             var td1 = document.createElement('TD');
+            td1.style.borderBottom = "1px solid grey"
+            td1.style.width = "50%"
             //td1.style.border = "1px solid #ddd";
             //Add paper title to column 1 in row
 

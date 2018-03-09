@@ -9,6 +9,49 @@
     <meta name="author" content="Liandra Giacomine">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/x-mathjax-config" >
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { availableFonts: ["TeX"] }
+        });
+        MathJax.Hub.Config({
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "a11y/accessibility-menu.js"],
+            TeX: {
+              extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+            }
+          });
+          MathJax.Hub.Config({
+            config: ["MMLorHTML.js"],
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "a11y/accessibility-menu.js"],
+            TeX: {
+              extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+            }
+          });
+          MathJax.Hub.Config({
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "a11y/accessibility-menu.js"],
+            TeX: {
+              extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+            }
+          });
+          MathJax.Hub.Config({
+            config: ["MMLorHTML.js"],
+            jax: ["input/TeX","input/MathML","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "a11y/accessibility-menu.js"],
+            TeX: {
+              extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+            }
+          });
+      </script>
+      <script type="text/javascript" async src="../../../public/js/MathJax-2.7.2/MathJax.js"></script>
     <script src="../../../public/js/individual_paper.js" ></script>
 </head>
 
@@ -81,6 +124,8 @@
     <h4 class="paper_type"></h4>
     <h4><a href="" class="paper_pdf"></a></h4>
     <h4 class="paper_description"></h4>
+    <h4 class="paper_like_sum"></h4>
+    <h4 class="paper_star_sum"></h4>
     <hr>
     <div class="container" style="height:50px;"><img id="likes" src="../../../public/img/beforelike.png" alt="Register" height="50" width="50"><div class="paper_likes"></div></div>
     
@@ -175,7 +220,7 @@
             
             }
 
-            $("#post_question").css("margin-top","50px");
+            $("#post_question").css({"margin-top":"50px","margin-left":"7%"});
 
         }
         //SEARCH SCRIPT 
@@ -184,16 +229,10 @@
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
-        
-
+    
     
     </script>
     
-    <h2></h2>
-        
-    <div class="page_bottom">
-    <a href="#top">Back to top</a>
-    </div>
-        
+
 </body>
 </html>

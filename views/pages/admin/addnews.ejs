@@ -90,7 +90,7 @@
     <input name="news_title" id="news_title" type="text" size="15" maxlength="30" /><br />
     <label for="news_description">Summary</label>
     <textarea  name="news_description" id="summary" placeholder="" style="height:200px"></textarea>
-    <input name="postButton" type="submit" value="Post">
+    <input id="postButton" name="postButton" type="submit" value="Post">
 </form></div>
 </div>
 
@@ -109,7 +109,7 @@
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);
         }
-            
+
         $("#main_search_button").click(function(){
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);

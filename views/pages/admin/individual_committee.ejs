@@ -83,8 +83,8 @@
 <!-- COMMITTEE Information/Add member section -->
 <h2 id="committee_a_name"></h2>
 <div id="committee_a_information">
-    <h4>Add member to committee:</h4>
-        <datalist id="datalist1">
+    <h4 style="font-weight: lighter; margin-bottom: 50px">Add member to committee:</h4>
+        <datalist id="datalist1" style="margin-left: 50px">
             <select id="all_members">
             </select>
         </datalist>
@@ -120,11 +120,11 @@
     committee_name =  committee_name.replace("_"," ");
     committee_id = committee_name_id.slice(committee_name_id.indexOf("/")+1, end_of_str);
     $("#committee_a_name").html(committee_name.toUpperCase());
-    $("#committee_a_name").css({"margin-left":"40%","margin-top":"25px","font-family":"Avenir-Black"});
+    $("#committee_a_name").css({"margin-left":"40%","margin-top":"25px","font-family":"Arial"});
     $("#committee_a_information").css({"margin-left":"40%","margin-top":"30px"});
-    $("#add_button").css({"padding":"5px","background-color":"violet","color":"white","margin-left":"20px","font-size":"1em"});
-    $("#delete_button").css({"padding":"5px","background-color":"black","color":"white","margin-left":"20px","font-size":"1em"});
-    $("#delete_committee").css({"padding":"5px","background-color":"red","color":"white","margin-left":"10px","margin-top":"15%","font-size":"1em"});
+    $("#add_button").css({"padding":"5px 10px","background-color":"blue","color":"white","margin-right":"50px","margin-top":"40px","font-size":"1em","font-family":"Arial"});
+    $("#delete_button").css({"padding":"5px 10px","background-color":"red","color":"white","font-size":"1em","font-family":"Arial"});
+    $("#delete_committee").css({"padding":"5px","background-color":"#D4AF37","color":"white","margin-top":"100px","font-size":"1em"});
     $("#committee_a_members").css({"margin-left":"43%","margin-top":"50px","text-decoration":"underline"});
     //AJAX TO ADD MEMBER TO COMMITTEE ON CLICKING "ADD" BUTTON
     $("#add_button").click(function() {

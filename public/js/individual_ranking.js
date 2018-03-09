@@ -58,7 +58,10 @@ $(document).ready(function(){
         li.style.marginBottom = "20px";
         paper_title = data["Data"][0]["paper_title"];
         topic_text = document.createTextNode(paper_title);
-        li.appendChild(topic_text);
+        a.appendChild(topic_text);
+        //Add link to paper
+        a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
+        li.appendChild(a);
         committee_list.appendChild(li);
        }
 
