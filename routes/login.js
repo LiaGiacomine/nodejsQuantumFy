@@ -3,7 +3,7 @@
 // LOGIN: CHECKS ENTERED INPUTS MATCH THE DATABASE
 // ================================================================
 var express = require("express");
-var bcrypt = require("bcryptjs");
+var bcrypt = require("bcrypt");
 var isInstitutionalEmail = require('is-institutional-email');
 var mysql = require('mysql');
 var router = express.Router();
@@ -39,17 +39,15 @@ exports.register_user = function(req,res) {
     var email = req.body.email;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
-    
+    var hash_password;
+    var new_user;
+
     if (isInstitutionalEmail(email)){
         user_type = 1;
     } else {
         user_type = 0;
     }
 
-    console.log(user_type);
-
-    var new_user = {"username": username, "email": email, "password":password, "user_type":user_type};
-    
     if (username == null || email == null || password == null || confirm_password == null) {
         res.render("pages/register/user", {
             session: req.session,
@@ -65,24 +63,29 @@ exports.register_user = function(req,res) {
         });
     }else {
         if(validateEmail(email)) {
-            db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
-                if (err) {
-                    console.log("error occured", err);
-                    res.send({
-                        "code": 400,
-                        "failed": "error ocurred"
-                    })
-                } else {
-                    console.log(req.session.user_type);
-                    console.log("solution is: ", results);
-                    res.render("pages/login/user", {
-                        session: req.session,
-                        user: req.session.username,
-                        user_type: req.session.user_type,
-                        err: "None"
+
+            bcrypt.hash(password, 9, function(err, hash) {
+                new_user = {"username": username, "email": email, "password":hash, "user_type":user_type};
+                    db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
+                        if (err) {
+                            console.log("error occured", err);
+                            res.send({
+                                "code": 400,
+                                "failed": "error ocurred"
+                            })
+                        } else {
+                            console.log(req.session.user_type);
+                            console.log("solution is: ", results);
+                            res.render("pages/login/user", {
+                                session: req.session,
+                                user: req.session.username,
+                                user_type: req.session.user_type,
+                                err: "None"
+                            });
+                        }
                     });
-                }
-            });
+                });
+    
         }else
             res.render("pages/register/user", {
                 session: req.session,
@@ -110,9 +113,8 @@ exports.register_author = function(req,res) {
         var password = req.body.password;
         var confirm_password = req.body.confirm_password;
         var user_type = 2;
+        var hash_password;
 
-        var new_user = {"username": forename + " " + surname, "email": email, "password":password, "user_type":user_type};
-        
         if (password!=confirm_password){
             res.render("pages/register/author", {
                 session: req.session,
@@ -121,22 +123,30 @@ exports.register_author = function(req,res) {
             });
         }else{
             if (isInstitutionalEmail(email)) {
-                db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
-                    if (err) {
-                        console.log("error occured", err);
-                        res.send({
-                            "code": 400,
-                            "failed": "error ocurred"
-                        })
-                    } else {
-                        console.log("solution is: ", results);
-                        res.render("pages/login/author", {
-                            session: req.session,
-                            user: req.session.username,
-                            user_type: req.session.user_type,
-                            err: "None"
-                        });
-                    }
+                //HASH PASSWORD
+                // var hash_password = bcrypt.hash(password, bcrypt.genSaltSync(9));
+                
+                //HASH PASSWORD
+                bcrypt.hash(password, 9, function(err, hash) {
+                    var new_user = {"username": forename + " " + surname, "email": email, "password":hash, "user_type":user_type};
+                
+                    db.query('INSERT INTO user_login SET ?', new_user, function(err, results, fields){
+                        if (err) {
+                            console.log("error occured", err);
+                            res.send({
+                                "code": 400,
+                                "failed": "error ocurred"
+                            })
+                        } else {
+                            console.log("solution is: ", results);
+                            res.render("pages/login/author", {
+                                session: req.session,
+                                user: req.session.username,
+                                user_type: req.session.user_type,
+                                err: "None"
+                            });
+                        }
+                    });
                 });
             } else {
                 res.render("pages/register/author", {
@@ -172,21 +182,35 @@ exports.userlogin = function(req,res){
     };
 
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type= " + user_type;
+    var sql = "SELECT * FROM user_login WHERE (username = \"" + username + "\" OR email = \"" + username + "\") AND (user_type= 0 OR user_type=1)";
+
     db.query(sql, function(err, rows, fields) {
         if(rows.length != 0){
             data["Data"] = rows;
-            req.session.username = email;
-            req.session.user_type = data["Data"][0]["user_type"];
-            req.session.committee = data["Data"][0]["committee"];
-            res.render("pages/login/loginSuccess",{                
-                session: req.session,
-                user: req.session.username,
-                user_type: req.session.user_type,
-                err: "None",
-                committee:  req.session.committee
+            //HASH PASSWORD
+            bcrypt.compare(password, data["Data"][0]["password"], function(err,result) {
+                if (result) {
+                    req.session.username = email;
+                    req.session.user_type = data["Data"][0]["user_type"];
+                    req.session.committee = data["Data"][0]["committee"];
+                    res.render("pages/login/loginSuccess",{            
+                        session: req.session,
+                        user: req.session.username,
+                        user_type: req.session.user_type,
+                        err: "None",
+                        committee:  req.session.committee
+                    });
+                } else{
+                    res.render("pages/login/user",{                
+                        session: req.session,
+                        user: req.session.username,
+                        user_type: req.session.user_type,
+                        err: "Wrong login",
+                        committee: req.session.committee
+                    });
+                }
             });
-        }else{
+        } else {
             res.render("pages/login/user",{                
                 session: req.session,
                 user: req.session.username,
@@ -194,8 +218,10 @@ exports.userlogin = function(req,res){
                 err: "Wrong login",
                 committee: req.session.committee
             });
-        }
-    });
+    }
+});
+
+
 }
 
 //USER TYPE IS 2 FOR AUTHORS
@@ -204,42 +230,49 @@ exports.authorlogin = function(req,res){
     var email= req.body.username;
     var password = req.body.password;
     var user_type = 2;
+
     var data = {
         "Data": ""
     };
+
     //var user = {"email": email, "password":password};
     var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type= " + user_type;
     console.log(sql);
     db.query(sql, function(err, rows, fields) {
         if (err) {
-            res.send({
-                "code":400,
-                "failed":"error ocurred"
-            });
-        }else{
-            if(rows.length != 0){
-                data["Data"] = rows;
-                req.session.username = email;
-                req.session.user_type = user_type;
-                req.session.committee = data["Data"][0]["committee"];
-                res.render("pages/login/loginSuccess",{                
-                    session: req.session,
-                    user: req.session.username,
-                    user_type: req.session.user_type,
-                    err: "None",
-                    committee: req.session.committee
+                res.send({
+                    "code":400,
+                    "failed":"error ocurred"
                 });
-            } else {
-                res.render("pages/login/user",{                
-                session: req.session,
-                user: req.session.username,
-                user_type: req.session.user_type,
-                err: "Wrong login",
-                committee: req.session.committee
-                });
+            }else{
+                if(rows.length != 0){
+                    data["Data"] = rows;
+                    //HASH PASSWORD
+                    bcrypt.compare(password, data["Data"][0]["password"], function(err,result) {
+                        if (result) {
+                            req.session.username = email;
+                            req.session.user_type = user_type;
+                            req.session.committee = data["Data"][0]["committee"];
+                            res.render("pages/login/loginSuccess",{                
+                                session: req.session,
+                                user: req.session.username,
+                                user_type: req.session.user_type,
+                                err: "None",
+                                committee: req.session.committee
+                            });
+                        } else {
+                            res.render("pages/login/user",{                
+                            session: req.session,
+                            user: req.session.username,
+                            user_type: req.session.user_type,
+                            err: "Wrong login",
+                            committee: req.session.committee
+                            });
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
 }
 
 //USER TYPE IS 4 FOR SUPER ADMIN AND 3 FOR NORMAL ADMIN
@@ -250,40 +283,44 @@ exports.adminlogin = function(req,res){
     var data = {
         "Data": ""
     };
+
     //var user = {"email": email, "password":password};
     var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type > 2";
-    console.log(sql);
     db.query(sql, function(err, rows, fields) {
         if (err) {
             res.send({
                 "code":400,
                 "failed":"error ocurred"
-            });
-        }else{
-
-            if(rows.length != 0){
-                data["Data"] = rows;
-                req.session.username = email;
-                req.session.user_type = data["Data"][0]["user_type"];
-                req.session.committee = data["Data"][0]["committee"];
-                res.render("pages/admin/index",{                
-                    session: req.session,
-                    user: req.session.username,
-                    user_type: req.session.user_type,
-                    err: "None",
-                    committee: req.session.committee
-                    });
-            } else {
-                res.render("pages/login/user",{                
-                session: req.session,
-                user: req.session.username,
-                user_type: req.session.user_type,
-                err: "Wrong login",
-                committee: req.session.committee
                 });
-            }
-        }
-    });
+            }else{
+                if(rows.length != 0){
+                    data["Data"] = rows;
+                    //HASH PASSWORD
+                    bcrypt.compare(password, data["Data"][0]["password"], function(err,result) {
+                        if (result) {
+                            req.session.username = email;
+                            req.session.user_type = data["Data"][0]["user_type"];
+                            req.session.committee = data["Data"][0]["committee"];
+                            res.render("pages/admin/index",{                
+                                    session: req.session,
+                                    user: req.session.username,
+                                    user_type: req.session.user_type,
+                                    err: "None",
+                                    committee: req.session.committee
+                                    });
+                        } else {
+                                res.render("pages/login/user",{                
+                                session: req.session,
+                                user: req.session.username,
+                                user_type: req.session.user_type,
+                                err: "Wrong login",
+                                committee: req.session.committee
+                                });
+                            }
+                        });
+                    }
+                }
+        });
 }
 
 exports.userlist = function(req,res){
