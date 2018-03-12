@@ -63,7 +63,7 @@ function addData(response_text) {
     var paper_amount = totalOfPapers(response_text);
     //Create matrix with the correct dimension for database
     for (var i=0; i < paper_amount;i++){
-        values.push(new Array(8).fill(0));
+        values.push(new Array(7).fill(0));
     }
 
     //Write a loop which finds and adds all titles of papers to the table 
@@ -148,23 +148,21 @@ function addData(response_text) {
         values[total_paper][3] = author;
         values[total_paper][4] = paper_pdf;
         values[total_paper][5] = type;
-        values[total_paper][6] = 0;
-        values[total_paper][7] = 0;
-        values[total_paper][8] = 0;
-        values[total_paper][9] = date_retrieved;
+        values[total_paper][6] = date_retrieved;
         
        //Where to start from next
         start_from = response_text.indexOf(paper_title);
         //author = "";
         total_paper = total_paper + 1;
-
+    
         }
 
         //After the loop gets all papers, connect and insert into database
         db.connect(function(err) {
             if (err) throw err;
             console.log("Connected!");
-            var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, paper_comments, paper_likes, paper_stars, date_retrieved) VALUES ?";
+            console.log(values);
+            var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, date_retrieved) VALUES ?";
             db.query(sql,[values], function (err, result) {
               if (err) throw err;
               console.log("Result: " + result.affectedRows);
@@ -228,7 +226,8 @@ var url = "https://arxiv.org/list/quant-ph/new";
 
 xmlhttp.onreadystatechange = function() {
 if (this.readyState == 4 && this.status == 200) {
-    var response_text = this.responseText;
+    response_text = this.responseText;
+    console.log(response_text);
     addData(response_text);
     }
 };

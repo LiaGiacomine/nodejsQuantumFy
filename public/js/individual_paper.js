@@ -9,7 +9,7 @@ $(document).ready(function(){
     //GET PAPER ID
     var url = window.location.href;
     var end_of_str = url.length;
-    paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
+    var paperid = url.slice(url.indexOf("/individual/") + 12, end_of_str);
     committee = $("#committee").html(); 
     //GET DATA ABOUT PAPER BY USING PAPER ID FOR QUERY
     $.ajax({
@@ -230,7 +230,7 @@ $(document).ready(function(){
                     url: "/papers/deletestar/" + committee + "/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
-                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                        $("#stars").attr("src","../../../public/img/beforestar.png");
                     },
                     error: function(err) {
                     }
@@ -243,7 +243,7 @@ $(document).ready(function(){
                     url: "/papers/deletestar/" + committee + "/" + paperid + "/" + user,
                     dataType: "JSON", // data type expected from server
                     success: function () {
-                        $("#likes").attr("src","../../../public/img/afterlike.png");
+                        $("#stars").attr("src","../../../public/img/beforestar.png");
                     },
                     error: function(err) {
                     }
@@ -279,16 +279,56 @@ $(document).ready(function(){
         $(".paper_pdf").html(paper_pdf);
         $(".paper_pdf").attr("href",paper_pdf);
         $(".paper_pdf").css({"font-family":"Arial","margin-left":"5%"});
-        $(".paper_like_sum").html("Likes: " + data["Data"][0]["paper_likes"]);
-        $(".paper_star_sum").html("Stars: " + data["Data"][0]["paper_stars"]);
-        $(".paper_like_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid lightblue", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
-        $(".paper_star_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid #F0E68C", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
-        $(".paper_likes").html(paper_likes);
+
+        //AJAX TO GET NUMBER OF LIKES AND STARS PAPER HAS
+        var total_likes;
+        $.ajax({
+            type: "GET",
+            url: "/papers/number_of_stars/" + paperid,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+            },
+            error: function() {
+                console.log('Error:');
+            }
+        }).done(function(paper_data){
+            //Call function to add paper returned to page
+            total_likes = paper_data["Data"][0]["total"];
+            type_of = "Stars";
+            addLikesStars(type_of, total_likes);
+        });
+
+        //AJAX TO GET NUMBER OF LIKES AND STARS PAPER HAS
+        var total_stars;
+        $.ajax({
+            type: "GET",
+            url: "/papers/number_of_likes/" + paperid,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+        },
+        error: function() {
+            console.log('Error:');
+        }
+        }).done(function(paper_data){
+            //Call function to add paper returned to page
+            total_stars = paper_data["Data"][0]["total"];
+            type_of = "Likes";
+            addLikesStars(type_of, total_stars);
+        });
+
+
+        $(".paper_Likes_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid lightblue", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
+        $(".paper_Stars_sum").css({"font-family":"Arial","font-size":"1.2em","margin-left":"5%","font-weight":"lighter","border-bottom":"6px solid #F0E68C", "background-color":"whitesmoke", "width": "100px","height": "35px", "text-align":"center", "font-weight":"bold"});
+        $(".paper_likes").html(total_likes);
         //ADD CSS to position the elements
         $(".paper_likes").css({"position":"absolute","top":"50%","left":"50%", "transform":"translate(-50%,-50%)"});
         $(".paper_likes").css("font-family","Arial");
         $(".container").css({"position":"relative", "text-align":"center","color":"black"});    
 
+    }
+
+    function addLikesStars(type_of, total) {
+        $(".paper_" + type_of + "_sum").html(" " + type_of + ": " + total);
     }
 
     function addCommentsTable(comments, comment_count,type){
@@ -337,6 +377,7 @@ $(document).ready(function(){
             p.appendChild(document.createTextNode(paper_comment));
             p.style.fontWeight = "lighter";
             p.style.fontFamily = "Arial";
+            p.style.fontSize = ".8em";
             td1.appendChild(p);
 
             committe_id = comments["Data"][row_count]["committee_id"];
@@ -373,6 +414,7 @@ $(document).ready(function(){
                         i2.style.fontWeight = "lighter";
                         i2.style.fontFamily = "Arial";
                         i2.style.marginLeft = "30px";
+                        i2.style.fontSize = ".8em";
                         td2.appendChild(i2);
                         // var p2 = document.createElement("P");
                         // p2.appendChild(document.createTextNode(data["Data"][0]["username"]));
@@ -387,6 +429,9 @@ $(document).ready(function(){
             } else {
                 var i = document.createElement("I");
                 i.appendChild(document.createTextNode(username));
+                //ADD LINK TO THEIR USER PAGE
+
+                i.style.fontSize = ".7em";
                 i.style.fontWeight = "bold";
                 td1.appendChild(i);
             }

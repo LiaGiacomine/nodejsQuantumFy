@@ -240,6 +240,20 @@ module.exports = function(app) {
         next();
     });
 
+    /*
+        USER PAGES
+    */
+
+    app.get("/user/index", function(req,res, next){
+        res.render("pages/user/index", {
+            session: req.session,
+            user: req.session.username,
+            user_type: req.session.user_type,
+            committee: req.session.committee
+        });
+        next();
+    });
+
 
     /*
         ADMIN PAGES
@@ -384,6 +398,12 @@ module.exports = function(app) {
     //outputted in the dynamic table 
     app.get("/paperdata",papers.paperdata);
 
+    //NUMBER OF LIKES
+    app.get("/papers/number_of_likes/:paper_id", papers.likes_total);
+
+    //NUMBER OF STARS
+    app.get("/papers/number_of_stars/:paper_id", papers.stars_total);
+
     //An  ajax call is made to this from the paper page using the individial_paper script
     //to get the json response contains all the information stored in the db about the paper 
     app.get("/papers/get_individual_data/:paperid", papers.individualpaper);
@@ -433,7 +453,23 @@ module.exports = function(app) {
     //DELETE STAR
     app.post("/papers/deletestar/:committee_id/:paperid/:username", papers.deletestar);
     
-        
+    /* 
+     for user page, using PAPER DB
+    */
+
+    //CHECK LIKES GIVEN BY USER
+    app.get("/paper/likes/by/:username", papers.likes_by_user);
+    
+    //CHECK STARS GIVEN BY USER
+    app.get("/paper/stars/by/:username", papers.stars_by_user);
+    
+   //CHECK USER COMMENTS MADE BY USER
+    app.get("/paper/user/comments/by/:username", papers.comments_by_user);
+   
+    //CHECK COMMITTEE COMMENTS MADE BY USER
+   app.get("/paper/committee/comments/by/:username", papers.committee_comments_by_user);
+   
+    
     /*
         FUNCTIONS INVOLVING COMMITTEE DATABASE
     */

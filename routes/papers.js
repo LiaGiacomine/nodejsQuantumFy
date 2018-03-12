@@ -29,7 +29,7 @@ exports.paperdata = function(req,res) {
         "Data": ""
     };
     //Selects all papers in the table in the order of most stars
-    db.query("SELECT * FROM paper_data ORDER BY paper_stars DESC",function(err, rows, fields){
+    db.query("SELECT * FROM paper_data ORDER BY paper_id DESC",function(err, rows, fields){
     if(rows.length != 0){
         data["Data"] = rows;
         res.json(data);
@@ -67,7 +67,7 @@ exports.papers_from = function(req,res,next) {
         "Data": ""
     };
 
-    query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ? ORDER BY paper_stars DESC";
+    query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ? ORDER BY paper_id DESC";
     //Selects all papers in the table in the order of most stars
     db.query(query,date,function(err, rows, fields){
     if(rows.length != 0){
@@ -299,7 +299,7 @@ exports.checklike = function(req,res, next){
     db.query("SELECT * FROM likes WHERE paper_id = ? AND username=?",[paperid,username],function(err, rows, fields){
         if(rows.length != 0){
             data["Like"] = rows;
-            console.log(data["Like"]);
+            //console.log(data["Like"]);
             res.json(data);
         }else{
             data["Like"] = 'Like does not exist';
@@ -409,7 +409,7 @@ exports.checkstar = function(req,res, next){
     db.query("SELECT * FROM stars WHERE paper_id = ? AND username=?",[paperid,username],function(err, rows, fields){
         if(rows.length != 0){
             data["Star"] = rows;
-            console.log(data["Star"]);
+            //console.log(data["Star"]);
             res.json(data);
         }else{
             data["Star"] = "Star does not exist";
@@ -430,7 +430,7 @@ exports.search = function(req,res, next){
     db.query(query,function(err, rows, fields){
         if(rows.length != 0){
             data["Data"] = rows;
-            console.log(data["Data"]);
+            //console.log(data["Data"]);
             res.json(data);
         }else{
             data["Data"] = 'Star does not exist';
@@ -453,7 +453,7 @@ exports.committee_ranking = function(req,res, next){
     db.query(query,committee_id,function(err, rows, fields){
         if(rows.length != 0){
             data["Data"] = rows;
-            console.log(data["Data"]);
+            //console.log(data["Data"]);
             res.json(data);
         }else{
             res.json(data);
@@ -461,4 +461,135 @@ exports.committee_ranking = function(req,res, next){
         });
 }
 
+exports.likes_total = function(req,res, next){
+    //get paper id and username
+    var paper_id = req.params.paper_id;
+    //console.log(paper_id);
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
 
+    query = "SELECT paper_id, COUNT(*) As total FROM likes WHERE paper_id = ?";
+
+    db.query(query,paper_id,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Data"]);
+            res.json(data);
+        }else{
+            res.json(data);
+        }
+        });
+}
+
+exports.stars_total = function(req,res, next){
+    //get paper id and username
+    var paper_id = req.params.paper_id;
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+
+    query = "SELECT paper_id, COUNT(*) As total FROM stars WHERE paper_id = ?";
+
+    db.query(query,paper_id,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Data"]);
+            res.json(data);
+        }else{
+            res.json(data);
+        }
+        });
+}
+
+    /*
+        FOR THE USER PAGE
+    */
+
+//LIKES GIVEN BY USER
+exports.likes_by_user = function(req,res, next){
+    //get paper id and username
+    var username = req.params.username;
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+        
+    db.query("SELECT * FROM likes WHERE username = ? ",username,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Star"]);
+            res.json(data);
+        }else{
+            data["Data"] = "Like does not exist";
+            res.json(data);
+        }
+        });
+}
+
+//STARS GIVEN BY USER
+exports.stars_by_user = function(req,res, next){
+    //get paper id and username
+    var username = req.params.username;
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+        
+    db.query("SELECT * FROM stars WHERE username=?",username,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Star"]);
+            res.json(data);
+        }else{
+            data["Data"] = "Star does not exist";
+            res.json(data);
+        }
+        });
+}  
+
+//COMMENTS MADE BY USER
+exports.comments_by_user = function(req,res, next){
+    //get paper id and username
+    var username = req.params.username;
+
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+        
+    db.query("SELECT * FROM user_comments WHERE username= ?",username,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Star"]);
+            res.json(data);
+        }else{
+            data["Data"] = "Comment does not exist";
+            res.json(data);
+        }
+        });
+}  
+
+//COMMITTEE COMMENTS MADE BY USER
+exports.committee_comments_by_user = function(req,res, next){
+    //get paper id and username
+    var username = req.params.username;
+
+    //Store JSON result to be extracted in data
+    var data = {
+        "Data": ""
+    };
+        
+    db.query("SELECT * FROM committee_comments WHERE username= ?",username,function(err, rows, fields){
+        if(rows.length != 0){
+            data["Data"] = rows;
+            //console.log(data["Star"]);
+            res.json(data);
+        }else{
+            data["Data"] = "Comment does not exist";
+            res.json(data);
+        }
+        });
+}  

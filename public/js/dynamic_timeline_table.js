@@ -102,11 +102,11 @@ $(document).ready(function(){
         //Add PAPER TITLE to ROW
         //Eventually make the like and star a page where you can see who
         //Has liked the paper
-        var p3 = document.createElement("P");
-        paper_likes = data["Data"][row_count]["paper_likes"];
-        paper_stars = data["Data"][row_count]["paper_stars"];
-        p3.appendChild(document.createTextNode("LIKES: " + paper_likes + " STARS: " + paper_stars));
-        td1.appendChild(p3);
+        // var p3 = document.createElement("P");
+        // paper_likes = data["Data"][row_count]["paper_likes"];
+        // paper_stars = data["Data"][row_count]["paper_stars"];
+        // p3.appendChild(document.createTextNode("LIKES: " + paper_likes + " STARS: " + paper_stars));
+        // td1.appendChild(p3);
         row.appendChild(td1);
         
         //Next row

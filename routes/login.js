@@ -236,7 +236,7 @@ exports.authorlogin = function(req,res){
     };
 
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type= " + user_type;
+    var sql = "SELECT * FROM user_login WHERE (username = \"" + username + "\" OR email = \"" + username + "\") AND user_type= 2";
     console.log(sql);
     db.query(sql, function(err, rows, fields) {
         if (err) {
@@ -285,7 +285,7 @@ exports.adminlogin = function(req,res){
     };
 
     //var user = {"email": email, "password":password};
-    var sql = "SELECT * FROM user_login WHERE (username=\"" + username + "\" OR email=\"" + username + "\") AND password=\"" + password + "\"" + " AND user_type > 2";
+    var sql = "SELECT * FROM user_login WHERE (username = \"" + username + "\" OR email = \"" + username + "\") AND user_type > 2";
     db.query(sql, function(err, rows, fields) {
         if (err) {
             res.send({

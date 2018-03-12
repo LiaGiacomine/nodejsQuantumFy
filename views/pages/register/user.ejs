@@ -20,7 +20,7 @@
     
 <!-- Title -->
 <div id="above_menu">
-<h2 id="title">QuantumFy</h2>
+    <h2 id="title">QuantumFy</h2>
     <!-- Welcome/Register Section -->
     
     <div align="right" id="top">
@@ -38,19 +38,20 @@
     
 <!-- Menu -->
 <nav class="menu">
-    <ul>
-        <li><a class="home_href" href="/">Home</a></li>
-        <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/committee/index">Committee</a></li>
-        <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
-        <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
-        <div class="dropdown_menu_login">
-            <a href="/login/user" id="login_button" class="login_href">Login</a>
-            <div class="login_content">
-                <a href="/register/user">Register</a>
+        <ul>
+            <li><a class="home_href" href="/">Home</a></li>
+            <li><a href="/papers/index">Papers</a></li>
+            <li><a href="/committee/index">Committee</a></li>
+            <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
+            <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
+            <div class="dropdown_menu_login">
+                <a href="/login/user" id="login_button" class="login_href">Login</a>
+                <div class="login_content">
+                    <a href="/register/user">Register</a>
+                </div>
             </div>
-        </div>
-    </ul>
+            <li class="user_page_link"><a href="/user/index" class="user_page_link">User</a></li>
+        </ul>
 </nav>  
 <!-- Search Bar -->
     
@@ -115,7 +116,9 @@
             $("#welcome_user").remove();
             $("#logout").remove();
          //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
+         $(".user_page_link").remove();
+    } else {
+        $(".dropdown_menu_login").remove();
             $(".login_href").attr("href","/login/logout_first");
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);

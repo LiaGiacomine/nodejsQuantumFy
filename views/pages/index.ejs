@@ -41,20 +41,21 @@
     
 <!-- Menu -->
 <nav class="menu">
-    <ul>
-        <li><a class="home_href" href="/">Home</a></li>
-        <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/committee/index">Committee</a></li>
-        <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
-        <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
-        <div class="dropdown_menu_login">
-            <a href="/login/user" id="login_button" class="login_href">Login</a>
-            <div class="login_content">
-                <a href="/register/user">Register</a>
+        <ul>
+            <li><a class="home_href" href="/">Home</a></li>
+            <li><a href="/papers/index">Papers</a></li>
+            <li><a href="/committee/index">Committee</a></li>
+            <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
+            <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
+            <div class="dropdown_menu_login">
+                <a href="/login/user" id="login_button" class="login_href">Login</a>
+                <div class="login_content">
+                    <a href="/register/user">Register</a>
+                </div>
             </div>
-        </div>
-    </ul>
-</nav>  
+            <li class="user_page_link"><a href="/user/index" class="user_page_link">User</a></li>
+        </ul>
+    </nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -104,7 +105,7 @@
     </div>
     <p class="home_name">Star a paper if you are a committee member</p>
     <div class="header_description">
-    <p>Committee members can <i style="color:green;">star</i> a paper, which defines their ranking</p>
+    <p>Committee members can <i style="color:green;">star</i> a paper, which defines their <a href="/committee/index" style="color: green">ranking</a></p>
     </div>
     <!-- <div class="header_images">
     <img class="homepage_img" src="../../public/img/like.png" alt="table">
@@ -126,9 +127,6 @@
     </div>
 </div>
 
-<div class="page_bottom">
-<a href="#top">Back to top</a>
-</div>
 
     <!-- Show section according with if user if logged in -->
     <script type="text/javascript">
@@ -139,7 +137,9 @@
             $("#welcome_user").remove();
             $("#logout").remove();
          //IF USER IS LOGGED IN SHOW WELCOME AND LOGOUT OPTION
-        } else {
+         $(".user_page_link").remove();
+    } else {
+        $(".dropdown_menu_login").remove();
             $(".login_href").attr("href","/login/logout_first");
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);
@@ -150,6 +150,12 @@
             var keyword = $("#main_search_box").val();
             window.open("/papers/search/" + keyword);
         });
+
+    //If its an admin user then link home to admin home
+    user_type = $("#user_type").html();
+    if (user_type > 2) {
+        $(".home_href").attr("href", "/admin/index");
+    }
 
     </script>
 

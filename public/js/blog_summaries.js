@@ -62,26 +62,32 @@ $(document).ready(function(){
         var p1 = document.createElement("P");
         paper_title = data["Data"][row_count]["paper_title"];
         p1.appendChild(document.createTextNode(paper_title));
+        p1.style.marginLeft = "100px";
         p1.style.fontWeight = "bold";
         // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
         // a.style.color = "black";
         //a.appendChild(p1);
         td1.appendChild(p1);
+
         //DESCRIPTION from query
         summary = data["Data"][row_count]["summary"];
         var p2 = document.createElement("P"); 
+        p2.style.marginRight = "100px";
+        p2.style.marginLeft = "100px";
         p2.appendChild(document.createTextNode(summary));
         td1.appendChild(p2);
         
         
         //Add EMAIL AND DATE
-        var i = document.createElement("i");
+        var i = document.createElement("I");
         var br = document.createElement("BR");
-        author_email = data["Data"][row_count]["author_email"];
+        author_name = data["Data"][row_count]["author_name"];
         date = data["Data"][row_count]["date"];
-        i.appendChild(document.createTextNode("Email: " + author_email));
-        i.appendChild(br);
-        i.appendChild(document.createTextNode("Date-Added: " + date));
+        i.style.fontSize = ".9em";
+        i.appendChild(document.createTextNode("Written by " + author_name + " on " + date));
+        // i.appendChild(br);
+        // i.appendChild(document.createTextNode("Date-Added: " + date));
+        i.style.marginLeft = "100px";
         td1.appendChild(i);
         row.appendChild(td1);
         

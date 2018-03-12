@@ -20,8 +20,7 @@
 
 <!-- Title -->
 <div id="above_menu">
-<h2 id="title">QuantumFy</h2>
-
+    <h2 id="title">QuantumFy</h2>
     <!-- Welcome/Register Section -->
     
     
@@ -39,22 +38,22 @@
 <hr class="menu_spacing">
     
 <!-- Menu -->
-    
 <nav class="menu">
-    <ul>
-        <li><a class="home_href" href="/">Home</a></li>
-        <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/committee/index">Committee</a></li>
-        <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
-        <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
-        <div class="dropdown_menu_login">
-            <a href="/login/user" id="login_button" class="login_href">Login</a>
-            <div class="login_content">
-                <a href="/register/user">Register</a>
+        <ul>
+            <li><a class="home_href" href="/">Home</a></li>
+            <li><a href="/papers/index">Papers</a></li>
+            <li><a href="/committee/index">Committee</a></li>
+            <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
+            <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
+            <div class="dropdown_menu_login">
+                <a href="/login/user" id="login_button" class="login_href">Login</a>
+                <div class="login_content">
+                    <a href="/register/user">Register</a>
+                </div>
             </div>
-        </div>
-    </ul>
-</nav>  
+            <li class="user_page_link"><a href="/user/index" class="user_page_link">User</a></li>
+        </ul>
+    </nav>  
 <!-- Search Bar -->
     
 <div align="middle" id="main_search">
@@ -90,7 +89,9 @@ OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
         $("#logout").remove();
         //IF ITS NOT AN AUTHOR DONT SHOW WRITE SUMMARY OPTION
         $("#post_question_button").remove();
+        $(".user_page_link").remove();
     } else {
+        $(".dropdown_menu_login").remove();
         $(".login_href").attr("href","/login/logout_first");
         //IF USER IS LOGGED IN
         //REMOVE LOGIN TO COMMENT

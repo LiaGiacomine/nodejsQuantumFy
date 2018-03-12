@@ -65,8 +65,7 @@
     
 <!-- Title -->
 <div id="above_menu">
-<h2 id="title">QuantumFy</h2>
-    <!-- Welcome/Register Section -->
+    <h2 id="title">QuantumFy</h2> <!-- Welcome/Register Section -->
     
     
     <div align="right" id="top">
@@ -86,20 +85,21 @@
     
 <!-- Menu -->
 <nav class="menu">
-    <ul>
-        <li><a class="home_href" href="/">Home</a></li>
-        <li><a href="/papers/index">Papers</a></li>
-        <li><a href="/committee/index">Committee</a></li>
-        <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
-        <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
-        <div class="dropdown_menu_login">
-            <a href="/login/user" id="login_button" class="login_href">Login</a>
-            <div class="login_content">
-                <a href="/register/user">Register</a>
+        <ul>
+            <li><a class="home_href" href="/">Home</a></li>
+            <li><a href="/papers/index">Papers</a></li>
+            <li><a href="/committee/index">Committee</a></li>
+            <li><a href="/summaries/index" class="within_menuspace_s">Summaries</a></li>
+            <li><a href="/blog/index" class="within_menuspace_b">Blog</a></li>
+            <div class="dropdown_menu_login">
+                <a href="/login/user" id="login_button" class="login_href">Login</a>
+                <div class="login_content">
+                    <a href="/register/user">Register</a>
+                </div>
             </div>
-        </div>
-    </ul>
-</nav>  
+            <li class="user_page_link"><a href="/user/index" class="user_page_link">User</a></li>
+        </ul>
+    </nav>  
 
 <!-- Search Bar -->
         
@@ -124,8 +124,8 @@
     <h4 class="paper_type"></h4>
     <h4><a href="" class="paper_pdf"></a></h4>
     <h4 class="paper_description"></h4>
-    <h4 class="paper_like_sum"></h4>
-    <h4 class="paper_star_sum"></h4>
+    <h4 class="paper_Likes_sum"></h4>
+    <h4 class="paper_Stars_sum"></h4>
     <hr>
     <div class="container" style="height:50px;"><img id="likes" src="../../../public/img/beforelike.png" alt="Register" height="50" width="50"><div class="paper_likes"></div></div>
     
@@ -183,7 +183,9 @@
                 alert("Log in to star");
             });
 
-        } else {
+            $(".user_page_link").remove();
+    } else {
+        $(".dropdown_menu_login").remove();
             $(".login_href").attr("href","/login/logout_first");
             var user_type = $("#user_type").html();
             user_type = user_type.slice(user_type.indexOf("Welcome ",user_type.length));
