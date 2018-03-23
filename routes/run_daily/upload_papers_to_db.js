@@ -157,15 +157,13 @@ function addData(response_text) {
     
         }
 
-        //After the loop gets all papers, connect and insert into database
+            //After the loop gets all papers, connect and insert into database
         db.connect(function(err) {
-            if (err) throw err;
-            console.log("Connected!");
-            console.log(values);
-            var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, date_retrieved) VALUES ?";
+        if (err) throw err;
+        var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, date_retrieved) VALUES ?";
             db.query(sql,[values], function (err, result) {
-              if (err) throw err;
-              console.log("Result: " + result.affectedRows);
+                if (err) throw err;
+                console.log("Result: " + result.affectedRows);
             });
         });
 

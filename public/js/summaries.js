@@ -1,6 +1,6 @@
 /*
     Makes Ajax call to script which connects with db to
-    return all the news submitted by admin
+    return all the summaries submitted by authors
 
     Author: Liandra Giacomine
 */
@@ -10,13 +10,16 @@ $(document).ready(function(){
     //alert("in");
     $.ajax({
         type: "GET",
-        url: "/blog/get_news",
+        url: "http://localhost:3000/summaries/author_summaries",
         dataType: "JSON", // data type expected from server
         success: function (data) {
             //Get size of JSON object (number of papers)
-            news_count = Object.keys(data["Data"]).length;
+            summary_count = Object.keys(data["Data"]).length;
             //Call function to create table with papers in data object
-            addNews(news_count, data);
+            summaries_exist = data["Data"];
+            if (summaries_exist != "No data Found.."){
+                addSummaries(summary_count, data);
+            }
             //Syntax to get JSON objects:
         },
         error: function() {
@@ -24,11 +27,12 @@ $(document).ready(function(){
         }
     });
 
-    function addNews(news_count, data){
+    function addSummaries(paper_count, data){
     //  Create table in specified division
-    var myTableDiv = document.getElementById("blog_table");
+    var myTableDiv = document.getElementById("summaries_table");
     var table = document.createElement("TABLE");
-    table.style.width = "90%";
+    table.style.width = "100%";
+    myTableDiv.style.marginLeft = "0%";
     //table.style.border ="ridge";
 
     var tableHead = document.createElement("THEAD");
@@ -42,7 +46,7 @@ $(document).ready(function(){
 
     var row_count = 0;
 
-    while (row_count != news_count) {
+    while (row_count != paper_count) {
         
         //Create ROW
         var row = document.createElement("TR");
@@ -56,29 +60,33 @@ $(document).ready(function(){
         // var a = document.createElement("A");
         // td1.appendChild(a);
         var p1 = document.createElement("P");
-        title = data["Data"][row_count]["title"];
-        p1.appendChild(document.createTextNode(title));
+        paper_title = data["Data"][row_count]["paper_title"];
+        p1.appendChild(document.createTextNode(paper_title));
+        p1.style.marginLeft = "50px";
         p1.style.fontWeight = "bold";
-        p1.style.fontFamily = "arial";
-        td1.appendChild(p1);
         // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
         // a.style.color = "black";
         //a.appendChild(p1);
+        td1.appendChild(p1);
 
         //DESCRIPTION from query
-        description = data["Data"][row_count]["description"];
+        summary = data["Data"][row_count]["summary"];
         var p2 = document.createElement("P"); 
-        p2.appendChild(document.createTextNode(description));
-        p2.style.fontFamily = "arial";
+        p2.style.marginRight = "100px";
+        p2.style.marginLeft = "50px";
+        p2.appendChild(document.createTextNode(summary));
         td1.appendChild(p2);
         
-        
         //Add EMAIL AND DATE
-        var i = document.createElement("i");
+        var i = document.createElement("I");
+        var br = document.createElement("BR");
+        author_name = data["Data"][row_count]["author_name"];
         date = data["Data"][row_count]["date"];
-        i.style.fontFamily = "arial";
-        i.style.fontSize = ".7em";
-        i.appendChild(document.createTextNode("Date-Added: " + date));
+        i.style.fontSize = ".9em";
+        i.appendChild(document.createTextNode("Written by " + author_name + " on " + date));
+        // i.appendChild(br);
+        // i.appendChild(document.createTextNode("Date-Added: " + date));
+        i.style.marginLeft = "50px";
         td1.appendChild(i);
         row.appendChild(td1);
         

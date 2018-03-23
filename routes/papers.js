@@ -46,8 +46,11 @@ exports.papers_from = function(req,res,next) {
 
     var d = new Date();
 
+    var date;
+
     if (timeline == "yesterday") {
         date = (d.getDate() - 1) + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+        //If its the first day of the month, look for the last day the previous
     } else if (timeline == "one_month") {
         //If its january and looking for a month ago papers then look for ones in december of previous
         //Otherwise leave is as month for previous month as its from 0-11 thus subtracts 1 already from stored val for date
@@ -56,7 +59,6 @@ exports.papers_from = function(req,res,next) {
         } else {
             date = "%-" + d.getMonth() + "-" + d.getFullYear();
         }
-
     } else if (timeline == "this_year") {
         date = "%-%-" + d.getFullYear();
     } else if (timeline == "last_year") {
@@ -70,13 +72,13 @@ exports.papers_from = function(req,res,next) {
     query = "SELECT * FROM paper_data WHERE date_retrieved LIKE ? ORDER BY paper_id DESC";
     //Selects all papers in the table in the order of most stars
     db.query(query,date,function(err, rows, fields){
-    if(rows.length != 0){
-        data["Data"] = rows;
-        res.json(data);
-    }else{
-        data["Data"] = 'No data Found..';
-        res.json(data);
-    }
+        if(rows.length != 0){
+            data["Data"] = rows;
+            res.json(data);
+        }else{
+            data["Data"] = 'No data Found..';
+            res.json(data);
+        }
     });
 
 }

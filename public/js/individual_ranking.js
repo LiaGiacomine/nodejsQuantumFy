@@ -7,6 +7,7 @@ $(document).ready(function(){
     //Get comments for table from ajax call which will return
     //all the comments where paper_id equals this paper_id
     //AND EVENTUALLY USER WHO COMMENTED
+    var number_of_likes;
     var url = window.location.href;
     var end_of_str = url.length;
     committee_name_id = url.slice(url.indexOf("/individual_ranking/") + 20, end_of_str);
@@ -14,8 +15,6 @@ $(document).ready(function(){
     committee_id = committee_name_id.slice(committee_name_id.indexOf("/")+1,committee_name_id.length);
     
     //Number of likes and stars paper has from ajax
-    var number_of_likes;
-    var number_of_stars;
     
     //GET RANKING OF PAPERS BY SPECIFIED COMMITTEE
     $.ajax({
@@ -39,8 +38,12 @@ $(document).ready(function(){
     function getRanking(data, paper_count){
      
         for (i=0;i<paper_count;i++){
+
             paper_id = data["Data"][i]["paper_id"];
 
+            const number_of_stars = data["Data"][i]["total"];
+
+            
             //AJAX TO GET NUMBER OF LIKES PAPER HAS
             $.ajax({
                 type: "GET",
@@ -49,22 +52,8 @@ $(document).ready(function(){
                 success: function () {
                 }
             }).done(function(paper_likes){
-                total_stars = paper_likes["Data"][0]["total"];
-                setNumberOfLikes(total_stars);
-            });
-
-
-            //AJAX TO GET NUMBER OF STARS PAPER HAS
-            $.ajax({
-                type: "GET",
-                url: "/papers/number_of_stars/" + paper_id,
-                dataType: "JSON", // data type expected from server
-                success: function () {
-                }
-            }).done(function(paper_stars){
-                //Call function to add paper returned to page
-                total_stars = paper_stars["Data"][0]["total"];
-                setNumberOfStars(total_stars);
+                total_likes = paper_likes["Data"][0]["total"];
+                number_of_likes = total_likes;
             });
 
             //GET DATA ON EACH INDIVIDUAL PAPER, THUS TITLE, LINK..
@@ -77,24 +66,17 @@ $(document).ready(function(){
                 error: function() {
                     console.log('Error:');
                 }
-            }).done(function(data){
-                addPaperToPage(data);
-                
+                }).done(function(data){
+                    addPaperToPage(data, number_of_stars);
             });
+
         }
     }
 
 
-    function setNumberOfLikes(total_likes){
-        number_of_likes = total_likes;
-    }
-
-    function setNumberOfStars(total_stars){
-        number_of_stars = total_stars;
-    }
-
-    function addPaperToPage(data){
+    function addPaperToPage(data, stars){
         
+
         var committee_list = document.getElementById("committee_list");
         committee_list.style.borderLeft = "10px solid grey";
         committee_list.style.borderRight = "10px solid grey";
@@ -139,7 +121,7 @@ $(document).ready(function(){
         li.appendChild(img_star);
 
         var b2 = document.createElement("B");
-        b2.appendChild(document.createTextNode(number_of_stars));
+        b2.appendChild(document.createTextNode(stars));
         b2.style.marginLeft = "4px";
         li.appendChild(b2);
 

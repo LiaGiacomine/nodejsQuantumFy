@@ -22,7 +22,7 @@
     
 <!-- Title -->
 <div id="above_menu">
-    <h2 id="title">QuantumFy</h2> <!-- Welcome/Register Section -->
+    <h2 id="title">QuantumFy</h2><!-- Welcome/Register Section -->
     
     
     <div align="right" id="top">
@@ -71,33 +71,27 @@
 <div id="admin_space"></div>
 
 <div class="admin-menu">
-        <a href="/admin/index">Home</a>
-        <a class="admin_menu" href="/admin/committee">Committee</a>
-        <a class="admin_menu" href="/admin/summaries">Summaries</a>
-        <a class="admin_menu" href="/admin/news" id="active">News</a>
-        <a class="admin_menu" href="/admin/manage_admin">Admin</a>
-        <a class="admin_menu" href="/logout">Log out</a>
+    <a href="/admin/index">Home</a>
+    <a class="admin_menu" href="/admin/committee" >Committee</a>
+    <a class="admin_menu" href="/admin/summaries">Summaries</a>
+    <a class="admin_menu" href="/admin/blog" id="active">Blog</a>
+    <a class="admin_menu" href="/admin/manage_admin">Admin</a>
+    <a class="admin_menu" href="/logout">Log out</a>
 </div>
 
 
 <!-- CONTENT -->
 <!-- CONTENT -->
 <div id="admin_sections">
-<div id="loginField">
-    <legend class="form_legend"><h2>Post to blog</h2></legend>
-    <form class="loginForm" method="post" action="/admin/postnews" >
-    <label for="news_title">News Title</label>
-    <input name="news_title" id="news_title" type="text" size="15" maxlength="30" /><br />
-    <label for="news_description">Summary</label>
-    <textarea  name="news_description" id="summary" placeholder="" style="height:200px"></textarea>
-    <input id="postButton" name="postButton" type="submit" value="Post">
-</form></div>
-</div>
+        <a href="/admin/addblog">
+        <section id="admin_news">
+            <b>Add News</b><img id="admin_add_committee" src="../../public/img/add_sign.png" alt="Register" height="50" width="50">
+        </section></a>
+    </div>
 
-
-    <!-- Show section according with if user if logged in -->
-    <script type="text/javascript">
-        var user_welcome = $("#welcome_user").html();
+        <!-- SEARCH SCRIPT -->
+        <script>
+            var user_welcome = $("#welcome_user").html();
         filter_user_welcome = user_welcome.replace(/\"/g, "");
         //IF USER IS NOT LOGGED IN SHOW BUTTON
         if (filter_user_welcome  == "Welcome ") {
@@ -111,25 +105,22 @@
             $("#register").remove();
             $("#welcome_user").html(filter_user_welcome);
         }
+            $("#main_search_button").click(function(){
+                var keyword = $("#main_search_box").val();
+                window.open("/papers/search/" + keyword);
+            });
+            
+            user_type = $("#user_type").html();
 
-        $("#main_search_button").click(function(){
-            var keyword = $("#main_search_box").val();
-            window.open("/papers/search/" + keyword);
-        });
-        
-        user_type = $("#user_type").html();
-
-        if (user_type < 3) {
-            window.location = "/logout";
+            if (user_type < 3) {
+                window.location = "/logout";
         }
-
             //If its an admin user then link home to admin home
     if (user_type > 2) {
         $(".home_href").attr("href", "/admin/index");
     }
 
-        
-    </script>
+        </script>
     
 </body>
 </html>

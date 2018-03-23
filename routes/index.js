@@ -289,8 +289,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/admin/news", function(req,res, next){
-        res.render("pages/admin/news", {
+    app.get("/admin/blog", function(req,res, next){
+        res.render("pages/admin/blog", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -387,16 +387,16 @@ module.exports = function(app) {
         FUNCTIONS INVOLVING PAPER DATABASE
     */
 
+    //An  ajax call is made to this from the paper page using dynamic_table script
+    //to get the json response which is all the papers in order to be
+    //outputted in the dynamic table 
+    app.get("/paperdata",papers.paperdata);
+
     //Returns the papers from the specified time
     app.get("/paperdata/get_papers_from/:timeline", papers.papers_from);
     
     //SEARCH FOR PAPERS
     app.get("/papers/paperdata/search/:keyword", papers.search);
-
-    //An  ajax call is made to this from the paper page using dynamic_table script
-    //to get the json response which is all the papers in order to be
-    //outputted in the dynamic table 
-    app.get("/paperdata",papers.paperdata);
 
     //NUMBER OF LIKES
     app.get("/papers/number_of_likes/:paper_id", papers.likes_total);
