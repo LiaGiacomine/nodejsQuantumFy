@@ -56,7 +56,8 @@ $(document).ready(function(){
         var td1 = document.createElement('TD');
         //td1.style.border = "2px solid gray"
         td1.style.borderBottom = "1px solid #ddd";
-
+        td1.style.border = "1px solid gray";
+        td1.style.padding = "25px";
 
          //ADD TITLE
         // var a = document.createElement("A");
@@ -65,17 +66,16 @@ $(document).ready(function(){
         paper_title = data["Data"][row_count]["paper_title"];
         p1.appendChild(document.createTextNode(paper_title));
         p1.style.marginLeft = "50px";
+        p1.style.fontSize = "1.3em";
         p1.style.fontWeight = "bold";
-        // a.href = "http://localhost:3000/admin/individual/" + data["Data"][row_count]["summary_id"];
-        // a.style.color = "black";
-        //a.appendChild(p1);
         td1.appendChild(p1);
 
         //Add summary 
         summary = data["Data"][row_count]["summary"];
         var p2 = document.createElement("P"); 
-        p2.style.marginRight = "100px";
+        p2.style.marginRight = "50px";
         p2.style.marginLeft = "50px";
+        p2.style.fontSize = "1.1em";
         p2.appendChild(document.createTextNode(summary));
         td1.appendChild(p2);
         
@@ -85,13 +85,12 @@ $(document).ready(function(){
         author_name = data["Data"][row_count]["author_name"];
         date = data["Data"][row_count]["date"];
         i.style.fontSize = ".9em";
+        i.style.color = "grey";
         i.appendChild(document.createTextNode("Written by " + author_name + " on " + date));
-        // i.appendChild(br);
         // i.appendChild(document.createTextNode("Date-Added: " + date));
         i.style.marginLeft = "50px";
         td1.appendChild(i);
         row.appendChild(td1);
-        
         //Next row
         row_count = row_count + 1;
 

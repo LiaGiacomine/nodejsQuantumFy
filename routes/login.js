@@ -340,6 +340,23 @@ exports.userlist = function(req,res){
     });
 }
 
+exports.adminlist = function(req,res){
+    var data = {
+        "Data": ""
+    };
+    //var user = {"email": email, "password":password};
+    var sql = "SELECT * FROM user_login WHERE user_type = 3";
+    db.query(sql, function (err, rows, fields) {
+        if(rows.length != 0){
+            data["Data"] = rows;
+            res.json(data);
+        }else{
+            data["Data"] = 'No data Found..';
+            res.json(data);
+        }
+    });
+}
+
 exports.add_committee = function(req,res){
 
     var username = req.params.username;

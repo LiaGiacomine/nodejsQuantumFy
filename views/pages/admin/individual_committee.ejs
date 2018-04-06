@@ -120,6 +120,7 @@
     committee_name_id = url.slice(url.indexOf("/manage_committee/") + 18, end_of_str);
     committee_name = committee_name_id.slice(0,committee_name_id.indexOf("/"));
     committee_name =  committee_name.replace("_"," ");
+    committee_name =  committee_name.replace("%20"," ");
     committee_id = committee_name_id.slice(committee_name_id.indexOf("/")+1, end_of_str);
     $("#committee_a_name").html(committee_name.toUpperCase());
     $("#committee_a_name").css({"margin-left":"40%","margin-top":"25px","font-family":"Arial"});
@@ -131,66 +132,68 @@
     //AJAX TO ADD MEMBER TO COMMITTEE ON CLICKING "ADD" BUTTON
     $("#add_button").click(function() {
         member = $("#all_members").val();
-        $.ajax({
-        type: "POST",
-        url: "/committee/addmember/" + committee_id + "/" + member,
-        dataType: "JSON", // data type expected from server
-        success: function () {
-            //Call function to add paper returned to page
-        },
-        error: function(err) {
-            console.log('Error: ' + err);
-        }
-        });
+        if (confirm("Are you sure you would like to add " + member + " to the admin list?")) {
+            $.ajax({
+            type: "POST",
+            url: "/committee/addmember/" + committee_id + "/" + member,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+            },
+            error: function(err) {
+                console.log('Error: ' + err);
+            }
+            });
 
-        $.ajax({
-        type: "POST",
-        url: "/user/add/committee/" + committee_id + "/" + member,
-        dataType: "JSON", // data type expected from server
-        success: function () {
-            //Call function to add paper returned to page
-        },
-        error: function(err) {
-            console.log('Error: ' + err);
+            $.ajax({
+            type: "POST",
+            url: "/user/add/committee/" + committee_id + "/" + member,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+            },
+            error: function(err) {
+                console.log('Error: ' + err);
+            }
+            });
         }
-        });
-
-        location.reload();
+        window.location.reload(true);
     });
 
     //AJAX TO DELETE MEMBER FROM COMMITTEE ON CLICKING "DELETE" BUTTON
     $("#delete_button").click(function() {
-    
         member = $("#all_members").val();
-        $.ajax({
-        type: "POST",
-        url: "/committee/delete/" + committee_id + "/" + member,
-        dataType: "JSON", // data type expected from server
-        success: function () {
-            //Call function to add paper returned to page
-        },
-        error: function(err) {
-            console.log('Error: ' + err);
+        if (confirm("Are you sure you would like to remove " + member + " from the admin list?")) {
+            $.ajax({
+            type: "POST",
+            url: "/committee/delete/" + committee_id + "/" + member,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+            },
+            error: function(err) {
+                console.log('Error: ' + err);
+            }
+            });
+        
+            $.ajax({
+            type: "POST",
+            url: "/user/delete/committee/" + member,
+            dataType: "JSON", // data type expected from server
+            success: function () {
+                //Call function to add paper returned to page
+            },
+            error: function(err) {
+                console.log('Error: ' + err);
+            }
+            })
         }
-        });
-
-        $.ajax({
-        type: "POST",
-        url: "/user/delete/committee/" + member,
-        dataType: "JSON", // data type expected from server
-        success: function () {
-            //Call function to add paper returned to page
-        },
-        error: function(err) {
-            console.log('Error: ' + err);
-        }
-        });
-
-        location.reload();
+        window.location.reload(true);
     });
 
     //AJAX TO DELETE COMMITTEE
     $("#delete_committee").click(function() {
+        if (confirm("Are you sure you would like to delete this committee?")) {
         $.ajax({
             type: "POST",
             url: "/delete/committee/" + committee_id,
@@ -202,6 +205,7 @@
                     console.log('Error: ' + err);
                 }
         });
+        }
         window.location.replace("/admin/committee");
     });
 

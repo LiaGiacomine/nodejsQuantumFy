@@ -86,9 +86,9 @@
 
 <!-- ****** END OF HEADER ***** -->  
 <div id="login_type_section">
-    <button class="login_type_button" id="button_active" ><a id="user_button" href="/login/user">User</a></button>
-    <button class="login_type_button"><a id="author_button" href="/login/author">Author</a></button>
-    <button class="login_type_button"><a id="admin_button" href="/login/admin">Admin</a></button>
+    <a id="user_button" href="/login/user"><button class="login_type_button" id="button_active">User</button></a>
+    <a id="author_button" href="/login/author"><button class="login_type_button">Author</button></a>
+    <a id="admin_button" href="/login/admin"><button class="login_type_button">Admin</button></a>
 </div>
 
 <br><hr><br>
@@ -102,7 +102,6 @@
 <label for="password">Password:</label>
 <input id="password" type="password" name="password" size="15" maxlength="30" /><br><br>
 <input type="submit" name="loginButton" value="Login">
-</form></fieldset></div>
 
 <div id="popup" class="overlay">
     <div class="popup">
@@ -114,10 +113,12 @@
     </div>
 </div>
 
-<p id="wrong_login"><%= JSON.stringify(err) %><p></p>
+<p id="wrong_login"><%= JSON.stringify(err) %></p>
     
-<h5>Or <a href="/register">register</a> now if you are not yet a member</h5>
-
+<h5>Or <a href="/register/user">register</a> now if you are not yet a member</h5>
+</form>
+</fieldset>
+</div>
 
 <script>
     //If form hasnt yet been filled and sent

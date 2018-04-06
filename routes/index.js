@@ -500,6 +500,9 @@ module.exports = function(app) {
     //GET LIST OF MEMBERS
     app.get("/user_list", login.userlist);
     
+    //GET LIST OF ADMIN
+    app.get("/admin_list", login.adminlist);
+    
     //REGISTER USER
     app.post("/register_user", login.register_user);
     

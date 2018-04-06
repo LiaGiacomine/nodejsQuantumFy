@@ -124,8 +124,8 @@ body {
     text-align: center;
 }
 
-#committee_a_information { 
-    margin-top: 200px;
+#committee_a_information {
+    margin-top: 50px;
     margin-left: 40%;
 }
 
@@ -808,7 +808,7 @@ td.table_link {
     text-align: center;
     text-decoration: none;
     outline: none;
-    color: #fff;
+    color: black;
     background-color: whitesmoke;
     border: none;
     border-radius: 10px;
@@ -832,7 +832,7 @@ td.table_link {
 .login_type_button:hover { box-shadow: 0 9px olivedrab;}
       
 #button_active {
-    margin-left: 50px;
+    margin-left: 60px;
     display: inline-block;
     padding: 15px 25px;
     font-size: 24px;
@@ -840,28 +840,13 @@ td.table_link {
     text-align: center;
     text-decoration: none;
     outline: none;
-    color: rgb(108, 137, 235);
+    color: rgb(4, 49, 23);
     background-color: whitesmoke;
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px olivedrab;
 }
 
-#user_button {
-    color: black;
-    text-decoration: none;
-    font-family: 'Arial', sans-serif;
-}
-#author_button {
-    color: black;
-    text-decoration: none;
-    font-family: 'Apple-Chancery', sans-serif;
-}
-#admin_button {
-    color: black;
-    text-decoration: none;
-    font-family: 'Arial-Black', sans-serif;
-}
 /* Login form */
 
 legend.form_legend {
@@ -1013,6 +998,30 @@ legend.form_legend h2{
     border-radius: 4px;
     background-color: #f8f8f8;
     resize: none;
+}
+
+#summary_desc {
+    margin-left:15%;
+    font-family: "Baskerville";
+    font-size:2em;
+    color:grey;
+}
+
+#summary_intro img{
+    margin-left:20%;
+    width: 60%;
+}
+@media screen and (min-width: 1000px) {
+
+    #summary_desc {
+        margin-left:25%;
+    }
+
+    #summary_intro img{
+        margin-left:25%;
+        width: 44%;
+    }
+
 }
 
 #summary_body {

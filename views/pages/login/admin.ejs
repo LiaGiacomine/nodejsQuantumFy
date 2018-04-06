@@ -87,9 +87,9 @@
 
 <!-- ****** END OF HEADER ***** -->  
 <div id="login_type_section">
-    <button class="login_type_button"><a id="user_button" href="/login/user">User</a></button>
-    <button class="login_type_button"><a id="author_button" href="/login/author">Author</a></button>
-    <button class="login_type_button" id="button_active"><a id="admin_button" href="/login/admin">Admin</a></button>
+    <a id="user_button" href="/login/user"><button class="login_type_button">User</button></a>
+    <a id="author_button" href="/login/author"><button class="login_type_button">Author</button></a>
+    <a id="admin_button" href="/login/admin"><button class="login_type_button" id="button_active">Admin</button></a>
 </div>
 
 <br><hr><br>
@@ -117,7 +117,7 @@
 
 <p id="wrong_login"><%= JSON.stringify(err) %><p></p>
     
-<h5>Or <a href="/register">register</a> now if you are not yet a member</h5>
+<h5>Or <a href="/register/user">register</a> now if you are not yet a member</h5>
 </form>
 </fieldset>
 </div>
