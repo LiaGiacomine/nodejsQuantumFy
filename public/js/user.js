@@ -86,6 +86,9 @@ $(document).ready(function(){
 
         var p = document.createElement("p");
         topic_title = document.createTextNode("You have liked the following papers:");
+        p.style.fontFamily = "Arial";
+        p.style.textDecoration = "underline";
+        p.style.marginLeft = "15px";
         p.appendChild(topic_title);
         likes_div.appendChild(p);
 
@@ -110,6 +113,9 @@ $(document).ready(function(){
             var a = document.createElement("A");
             var br = document.createElement("BR");
             a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
+            a.style.marginLeft = "15px";
+            a.style.textDecoration = "none";
+            a.style.color = "green";
             paper_title = data["Data"][0]["paper_title"];
             topic_text = document.createTextNode(paper_title);
             a.appendChild(topic_text);
@@ -126,6 +132,9 @@ $(document).ready(function(){
         stars_div = document.getElementById("stars_by_user");
         
         var p = document.createElement("p");
+        p.style.fontFamily = "Arial";
+        p.style.textDecoration = "underline";
+        p.style.marginLeft = "15px";
         topic_title = document.createTextNode("You have given a star to the following papers:");
         p.appendChild(topic_title);
         stars_div.appendChild(p);
@@ -151,11 +160,14 @@ $(document).ready(function(){
             var a = document.createElement("A");
             var br = document.createElement("BR");
             a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
+            a.style.marginLeft = "15px";
+            a.style.textDecoration = "none";
+            a.style.color = "green";
             paper_title = data["Data"][0]["paper_title"];
             topic_text = document.createTextNode(paper_title);
             a.appendChild(topic_text);
+            a.appendChild(br);
             stars_div.appendChild(a);
-            stars_div.appendChild(br);
         }
 
         }
@@ -165,40 +177,52 @@ $(document).ready(function(){
     // LINK TO PAPERS USER HAS COMMENTED ON
     function addComments(data, comment_count){
         comments_div = document.getElementById("comments_by_user");
-
         var p = document.createElement("p");
+        p.style.fontFamily = "Arial";
+        p.style.textDecoration = "underline";
+        p.style.marginLeft = "15px";
         topic_title = document.createTextNode("You have commented on the following papers:");
         p.appendChild(topic_title);
         comments_div.appendChild(p);
 
+        paper_id_list = [];
+
         for (i=0; i < comment_count;i++) {
             //GET DATA ON EACH INDIVIDUAL PAPER, THUS TITLE, LINK..
-            $.ajax({
-                type: "GET",
-                url: "/papers/get_individual_data/" + data["Data"][i]["paper_id"],
-                dataType: "JSON", // data type expected from server
-                success: function () {
-            },
-            error: function() {
-                console.log('Error:');
+            paper_id = data["Data"][i]["paper_id"];
+            //If the user has commented twice, do not show the paper twice
+            if (paper_id_list.indexOf(paper_id) == -1) { 
+                $.ajax({
+                    type: "GET",
+                    url: "/papers/get_individual_data/" + paper_id,
+                    dataType: "JSON", // data type expected from server
+                    success: function () {
+                },
+                error: function() {
+                    console.log('Error:');
+                    }
+                }).done(function(data){
+                    addPaperCommentToPage(data);
+                });
+                //Add the paper_id to the list in order to check for occurrence > 1
+                paper_id_list += paper_id;
+
+                function addPaperCommentToPage(data){
+
+                    //ADD PAPER TITLE TO LIKE SECTION
+                    var a = document.createElement("A");
+                    var br = document.createElement("BR");
+                    a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
+                    a.style.marginLeft = "15px";
+                    a.style.textDecoration = "none";
+                    a.style.color = "green";
+                    paper_title = data["Data"][0]["paper_title"];
+                    topic_text = document.createTextNode(paper_title);
+                    a.appendChild(topic_text);
+                    comments_div.appendChild(br);
+                    comments_div.appendChild(a);
                 }
-            }).done(function(data){
-                addPaperCommentToPage(data);
-            });
-
-        function addPaperCommentToPage(data){
-
-            //ADD PAPER TITLE TO LIKE SECTION
-            var a = document.createElement("A");
-            var br = document.createElement("BR");
-            a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
-            paper_title = data["Data"][0]["paper_title"];
-            topic_text = document.createTextNode(paper_title);
-            a.appendChild(topic_text);
-            comments_div.appendChild(a);
-            comments_div.appendChild(br);
-        }
-
+            }
         }
     }        
 

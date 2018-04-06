@@ -273,9 +273,9 @@ exports.deleteusercomment = function(req,res){
     
     var paperid = req.params.paperid;
     var username = req.params.username;
+    var comment = req.params.comment;
 
-
-    db.query('DELETE FROM user_comments WHERE paper_id = ? AND username = ?',[paperid,username], function(error, results, fields){
+    db.query('DELETE FROM user_comments WHERE paper_id = ? AND username = ? AND paper_comments = ?',[paperid,username, comment], function(error, results, fields){
         if (error) {
             console.log("error occured", error);
             res.send({

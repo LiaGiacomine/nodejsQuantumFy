@@ -48,28 +48,32 @@ $(document).ready(function(){
         $("#user_table_title").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"bold","color":"grey"});
     });
 
-        //GET COMMITTEE COMMENTS MADE ABOUT PAPER
-        $.ajax({
-            type: "GET",
-            url: "/papers/get_paper_comments/committee/" + paperid,
-            dataType: "JSON", // data type expected from server
-            success: function () {
-                //Call function to add paper returned to page
-            },
-            error: function() {
-                console.log('Error: ' + paper_comments);
-            }
-        }).done(function(data){
-            if (data["Data"] != "No data Found.."){
-                comment_count = Object.keys(data["Data"]).length;
-                $("#committee_table_title").html(comment_count + " committee comments");
-                addCommentsTable(data, comment_count,"committee");
-            } else {
-                $("#committee_table_title").html("");
-            }
-            $("#committee_table_title").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"bold","color":"grey"});
-        });
-    
+    //GET COMMITTEE COMMENTS MADE ABOUT PAPER
+     $.ajax({
+        type: "GET",
+        url: "/papers/get_paper_comments/committee/" + paperid,
+        dataType: "JSON", // data type expected from server
+        success: function () {
+            //Call function to add paper returned to page
+        },
+        error: function() {
+            console.log('Error: ' + paper_comments);
+        }
+    }).done(function(data){
+        if (data["Data"] != "No data Found.."){
+            comment_count = Object.keys(data["Data"]).length;
+            $("#committee_table_title").html(comment_count + " committee comments");
+            addCommentsTable(data, comment_count,"committee");
+        } else {
+            $("#committee_table_title").html("");
+        }
+        $("#committee_table_title").css({"font-family":"Arial","font-size":"1em","margin-left":"5%","font-weight":"bold","color":"grey"});
+    });
+
+    // ================================================================
+    // Colour-change on hovering if they have not liked/stared the paper
+    // ================================================================
+
      //ON HOVER CHANGE COLOUR OF LIKE or STAR TO INDICATE POSSIBILITY OF CLICK
     function allowHover(attr){
         var extension = "png";
@@ -252,7 +256,9 @@ $(document).ready(function(){
             });
         }
     }
-
+    // ================================================================
+    // ADD PAPER DATA AND STYLE
+    // ================================================================
 
     function addToPage(data){
         //Get all components from db
@@ -331,7 +337,12 @@ $(document).ready(function(){
         $(".paper_" + type_of + "_sum").html(" " + type_of + ": " + total);
     }
 
-    function addCommentsTable(comments, comment_count,type){
+    // ================================================================
+    // ADD USER AND COMMITTEE COMMENTS
+    // ================================================================
+
+
+    function addCommentsTable(comments, comment_count, type){
         //  Create table in specified division
         var myTableDiv = document.getElementById("paper_comments_table_" + type);
         var table = document.createElement("TABLE");
@@ -341,15 +352,6 @@ $(document).ready(function(){
         var tableHead = document.createElement("THEAD");
         var tr = document.createElement("TR");
         tableHead.appendChild(tr);
-
-        //Create table headers
-
-        //Table header
-        // var th= document.createElement("TH");
-        // th.style.backgroundColor = "lightgrey";
-        // // var thdata = document.createTextNode("Comments");
-        // th.appendChild(thdata);
-        // table.appendChild(th);
 
         //Add table body
         var tableBody = document.createElement("TBODY");
@@ -365,8 +367,8 @@ $(document).ready(function(){
             
             //Add PAPER TITLE to ROW
             var td1 = document.createElement('TD');
-            td1.style.borderBottom = "1px solid grey"
-            td1.style.width = "50%"
+            td1.style.borderBottom = "1px solid grey";
+            td1.style.width = "50%";
             //td1.style.border = "1px solid #ddd";
             //Add paper title to column 1 in row
 
@@ -382,46 +384,40 @@ $(document).ready(function(){
 
             committe_id = comments["Data"][row_count]["committee_id"];
             username = comments["Data"][row_count]["username"];
-            //Attach name of user who wrote the comment
+            
             if (type == "committee") {
-                // var i = document.createElement("I");
-                // //i.appendChild(document.createTextNode(committe_id));
-                // i.style.fontWeight = "lighter";
-                // i.style.fontFamily = "Arial";
-                // td1.appendChild(i);
 
                 $.ajax({
                     type: "GET",
                     url: "/papers/get_author_reply/" + paperid + "/" + username + "/" + paper_comment,
                     dataType: "JSON", // data type expected from server
                     success: function (data) {
-                        //Create ROW
-                        var row2 = document.createElement("TR");
-                        tableBody.appendChild(row2);
-            
-                        //Add AUTHORS REPLY TO COMMITTEE COMMENT
-                        var td2 = document.createElement('TD');
-                        //td2.style.border = "1px solid #ddd";
-                        var p = document.createElement("P");
-                        p.style.fontFamily = "Arial";
-                        p.style.fontWeight = "lighter";
-                        p.style.fontSize = ".8em";
-                        p.style.marginLeft = "30px";
-                        p.appendChild(document.createTextNode(data["Data"][0]["username"] + "'s reply to committee"));
-                        td2.appendChild(p);
-                        var i2 = document.createElement("I");
-                        i2.appendChild(document.createTextNode(data["Data"][0]["reply"]));
-                        i2.style.fontWeight = "lighter";
-                        i2.style.fontFamily = "Arial";
-                        i2.style.marginLeft = "30px";
-                        i2.style.fontSize = ".8em";
-                        td2.appendChild(i2);
-                        // var p2 = document.createElement("P");
-                        // p2.appendChild(document.createTextNode(data["Data"][0]["username"]));
-                        // p2.style.fontFamily = "Arial";
-                        // p2.style.marginLeft = "30px";
-                        // td2.appendChild(p2);
+                        //IF REPLY EXISTS THEN SHOW IT
+                        if (data["Data"]!="No data Found..") {
+                    
+                            var row2 = document.createElement("TR");
+                            tableBody.appendChild(row2);
+                
+                            //Add AUTHORS REPLY TO COMMITTEE COMMENT
+                            var td2 = document.createElement('TD');
+                            //td2.style.border = "1px solid #ddd";
+                            var p = document.createElement("P");
+                            p.style.fontFamily = "Arial";
+                            p.style.fontWeight = "lighter";
+                            p.style.fontSize = ".7em";
+                            p.style.color = "grey";
+                            p.style.marginLeft = "30px";
+                            p.appendChild(document.createTextNode(data["Data"][0]["username"] + "'s reply to committee"));
+                            td2.appendChild(p);
+                            var i2 = document.createElement("I");
+                            i2.appendChild(document.createTextNode(data["Data"][0]["reply"]));
+                            i2.style.fontWeight = "lighter";
+                            i2.style.fontFamily = "Arial";
+                            i2.style.marginLeft = "30px";
+                            i2.style.fontSize = ".8em";
+                            td2.appendChild(i2);
                         tableBody.appendChild(td2);
+                        }
                     },
                     error: function(err) {
                     }
@@ -436,9 +432,9 @@ $(document).ready(function(){
                 td1.appendChild(i);
             }
 
-            //If user is admin allow to delete user comments
             user_type = $("#user_type").html();
-            if (user_type==3 && type=="user"){
+            //If user is admin type 3 allow to delete user comments
+            if ((user_type==3 || user_type==4) && type=="user"){
                 //Link TITLE to PDF
                 var del_button = document.createElement("input");
                 del_button.type = "button";
@@ -454,7 +450,7 @@ $(document).ready(function(){
                     if (confirm("Press OK to confirm delete")) {
                         $.ajax({
                             type: "POST",
-                            url: "/papers/deleteusercomment/" + paperid + "/" + username,
+                            url: "/papers/deleteusercomment/" + paperid + "/" + username + "/" + paper_comment,
                             dataType: "JSON", // data type expected from server
                             success: function () {
                             },
@@ -466,6 +462,8 @@ $(document).ready(function(){
                 };
 
                 td1.appendChild(del_button);
+
+            //If user is admin type 4 allow to delete committee comments
             } else if (user_type==4 && type=="committee") {
                 //Link TITLE to PDF
                 var del_button = document.createElement("input");
@@ -493,12 +491,14 @@ $(document).ready(function(){
                     }
                 }
                 td1.appendChild(del_button);
+
+            //If user is an author
             } else if (user_type==2 && type=="committee"){
                 //Link TITLE to PDF
                 var reply_button = document.createElement("input");
                 reply_button.type = "button";
                 reply_button.value = "REPLY";
-                reply.style.fontFamily = "Arial";
+                reply_button.style.fontFamily = "Arial";
                 reply_button.id = "reply_comment";
                 reply_button.style.marginLeft = "20px";
                 reply_button.style.marginTop = "10px";

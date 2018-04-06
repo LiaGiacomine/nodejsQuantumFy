@@ -22,7 +22,7 @@ module.exports = function(app) {
 
     /*
         RENDER ALL PAGES:
-        HTML, CSS, JS
+        HTML
     */
 
     app.get("/", function(req,res, next){
@@ -319,8 +319,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/admin/addnews", function(req,res, next){
-        res.render("pages/admin/addnews", {
+    app.get("/admin/addblog", function(req,res, next){
+        res.render("pages/admin/addblog", {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -418,7 +418,7 @@ module.exports = function(app) {
     app.post("/papers/addusercomment/:paperid/:username", papers.addusercomment);
     
     //DELETE COMMITTEE COMMENT
-    app.post("/papers/deleteusercomment/:paperid/:username", papers.deleteusercomment);
+    app.post("/papers/deleteusercomment/:paperid/:username/:comment", papers.deleteusercomment);
     
     //ADD COMMITTEE COMMENT
     app.post("/papers/addcommitteecomment/:paperid/:committee_id/:username", papers.addcommitteecomment);

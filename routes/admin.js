@@ -210,7 +210,7 @@ exports.postnews = function(req,res, next){
         } else {
             console.log("solution is: ", rows);
             //This reloads the page after the comment has been added
-            res.redirect("/admin/news");
+            res.redirect("/admin/blog");
         }
     });
 }

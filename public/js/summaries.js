@@ -54,7 +54,9 @@ $(document).ready(function(){
         
         //Add PAPER TITLE to ROW
         var td1 = document.createElement('TD');
+        //td1.style.border = "2px solid gray"
         td1.style.borderBottom = "1px solid #ddd";
+
 
          //ADD TITLE
         // var a = document.createElement("A");
@@ -69,7 +71,7 @@ $(document).ready(function(){
         //a.appendChild(p1);
         td1.appendChild(p1);
 
-        //DESCRIPTION from query
+        //Add summary 
         summary = data["Data"][row_count]["summary"];
         var p2 = document.createElement("P"); 
         p2.style.marginRight = "100px";
@@ -77,7 +79,7 @@ $(document).ready(function(){
         p2.appendChild(document.createTextNode(summary));
         td1.appendChild(p2);
         
-        //Add EMAIL AND DATE
+        //Add Author's name AND date written
         var i = document.createElement("I");
         var br = document.createElement("BR");
         author_name = data["Data"][row_count]["author_name"];
