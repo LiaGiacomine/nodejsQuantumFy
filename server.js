@@ -15,7 +15,7 @@ var app = express();
 // database every day at 12:30
 // ================================================================
 var load_papers = require('./routes/run_daily/upload_papers_to_db');
-cron.schedule('55 13 * * *', function(){
+cron.schedule('43 14 * * *', function(){
   load_papers();
 });
 

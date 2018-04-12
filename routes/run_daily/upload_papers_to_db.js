@@ -163,7 +163,7 @@ function addData(response_text) {
         var sql = "INSERT INTO paper_data (paper_id, paper_title, paper_description, paper_authors, paper_pdf, paper_type, date_retrieved) VALUES ?";
             db.query(sql,[values], function (err, result) {
                 if (err) throw err;
-                console.log("Result: " + result.affectedRows);
+                //console.log("Result: " + result.affectedRows);
             });
         });
 
@@ -225,7 +225,7 @@ var url = "https://arxiv.org/list/quant-ph/new";
 xmlhttp.onreadystatechange = function() {
 if (this.readyState == 4 && this.status == 200) {
     response_text = this.responseText;
-    console.log(response_text);
+    //console.log(response_text);
     addData(response_text);
     }
 };

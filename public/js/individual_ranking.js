@@ -78,15 +78,15 @@ $(document).ready(function(){
         
 
         var committee_list = document.getElementById("committee_list");
-        committee_list.style.borderLeft = "10px solid grey";
-        committee_list.style.borderRight = "10px solid grey";
+        committee_list.style.borderLeft = "10px solid rgb(63, 228, 106)";
+        committee_list.style.borderRight = "10px solid rgb(63, 228, 106)";
         var li = document.createElement("LI");
         var a = document.createElement("A");
         var br = document.createElement("BR");
         li.style.fontFamily = "arial";
-        li.style.marginBottom = "20px";
-        li.style.marginRight = "3%";
+        li.style.marginBottom = "30px";
         li.style.backgroundColor = "rgba(223, 223, 223, 0.25)";
+        //li.style.backgroundColor = "rgba(63, 228, 106,0.1)";
         paper_title = data["Data"][0]["paper_title"];
 
         //ADD TITLE
@@ -96,7 +96,8 @@ $(document).ready(function(){
 
         //Add paper LINK 
         a.href = "/papers/individual/" + data["Data"][0]["paper_id"];
-        a.style.textDecoration = "none";
+        //a.style.textDecoration = "none";
+        a.style.color = "black";
         li.appendChild(a);
         li.appendChild(br);
 

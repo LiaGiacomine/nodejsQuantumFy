@@ -106,7 +106,7 @@
     <div align="middle" id="main_search">
     <form action="search.php" method="get">
     <input type="search" name="search" id="main_search_box" placeholder="Search..." />
-    <button type="submit" value="Search" id="main_search_button"><img src="../../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+    <button type="submit" value="Search" id="main_search_button"><img src="../../../public/img/search_button.svg" alt="Search Button" height="15" width="15"></button>
     </form>
     </div>
     </div>
@@ -115,6 +115,7 @@
     <!-- SPACING so that content appears below menu -->
     <b id="user_type"><%= JSON.stringify(user_type) %></b>
     <b id="committee"><%= JSON.stringify(committee) %></b>
+    <b id="err"><%= JSON.stringify(err) %></b>
     <div id="paper_space"></div>
         
     <!-- ****** END OF HEADER ***** --> 
@@ -151,16 +152,7 @@
 
     </div>
 
-    <!-- <div id="popup" class="overlay">
-            <div class="popup">
-                <h2>Incorrect Username or Password</h2>
-                <a class="close" href="#popup">×</a>
-                <div class="content">
-                   Try again
-                </div>
-            </div>
-        </div> -->
-
+    
     <!-- IF USER HAS LOGGED IN ALLOW COMMENTING AND WELCOME THEM
         OTHERWISE SHOW THE SIGN UP BUTTON AND LOG IN TO COMMENT -->
 

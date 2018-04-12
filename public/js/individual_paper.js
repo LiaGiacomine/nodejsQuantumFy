@@ -382,14 +382,15 @@ $(document).ready(function(){
             p.style.fontSize = ".8em";
             td1.appendChild(p);
 
-            committe_id = comments["Data"][row_count]["committee_id"];
+            comment_id = comments["Data"][row_count]["comment_id"];
+            committee_id = comments["Data"][row_count]["committee_id"];
             username = comments["Data"][row_count]["username"];
             
             if (type == "committee") {
 
                 $.ajax({
                     type: "GET",
-                    url: "/papers/get_author_reply/" + paperid + "/" + username + "/" + paper_comment,
+                    url: "/papers/get_author_reply/" + comment_id,
                     dataType: "JSON", // data type expected from server
                     success: function (data) {
                         //IF REPLY EXISTS THEN SHOW IT
@@ -450,7 +451,7 @@ $(document).ready(function(){
                     if (confirm("Press OK to confirm delete")) {
                         $.ajax({
                             type: "POST",
-                            url: "/papers/deleteusercomment/" + paperid + "/" + username + "/" + paper_comment,
+                            url: "/papers/deleteusercomment/" + paperid + "/" + comment_id,
                             dataType: "JSON", // data type expected from server
                             success: function () {
                             },
@@ -480,7 +481,7 @@ $(document).ready(function(){
                     if (confirm("Press OK to confirm delete")) {
                         $.ajax({
                             type: "POST",
-                            url: "/papers/deletecommitteecomment/" + paperid + "/" + committe_id + "/" + username,
+                            url: "/papers/deletecommitteecomment/" + paperid + "/" + comment_id,
                             dataType: "JSON", // data type expected from server
                             success: function () {
                             },
@@ -512,7 +513,7 @@ $(document).ready(function(){
                         if (confirm("Please confirm you would like to send this reply")) {
                             $.ajax({
                                 type: "POST",
-                                url: "/papers/author_reply/" + paperid + "/" + committe_id + "/" + username + "/" + paper_comment + "/" + reply,
+                                url: "/papers/author_reply/" + paperid + "/" + username + "/" + comment_id + "/" + reply,
                                 dataType: "JSON", // data type expected from server
                                 success: function () {
                                 },

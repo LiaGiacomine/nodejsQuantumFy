@@ -31,7 +31,7 @@ body {
 #logout i {
     font-size: 1em;
     font-weight: bold;
-    order: 1px solid gray;
+    border: 1px solid gray;
     color: red;
     font-family: "Arial";
     margin: 5px;
@@ -491,20 +491,14 @@ hr {
     margin: 10px;
     width: 80%;
     height: 25px;
-    color: orange;
     font-size: 1em;
     border: 2px double groove;
     border-radius: 20px;
-    -webkit-appearance: none;
+    /* -webkit-appearance: none; */
     font-family: 'Avenir-Black', sans-serif;
     background-color: white;
    
 }
-
-#main_search input[type=search]{
-    color: black;
-}
-
 
 #main_search_button {
     background-color: white;
@@ -661,35 +655,6 @@ body {
       text-align: left;
     }
   }
-
-
-
-/* Layout of tables  */
-/* 
-td.table_link {
-    min-width: 450px;
-    max-width: 750px;
-    text-align: left;
-    padding: 20px;
-    margin:20px;
-    border: 50px;
-    
-}
-
-.table {
-    width: 500px;
-    min-height: 200px;
-    overflow: scroll;
-}
-
-.table th {
-    color: black;
-}
-
-.table tr {
-    color: black;
-}  */
-
 
 
 /* HOME PAGE DESIGN */

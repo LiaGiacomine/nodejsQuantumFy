@@ -11,22 +11,34 @@ $(document).ready(function(){
 
     var url = window.location.href;
     var end_of_str = url.length;
-    keyword = url.slice(url.indexOf("/search/") + 8, end_of_str);  
-    $.ajax({
-        type: "GET",
-        url: "/papers/paperdata/search/" + keyword,
-        dataType: "JSON", // data type expected from server
-        success: function (data) {
-            //Get size of JSON object (number of papers)
-            paper_count = Object.keys(data["Data"]).length;
-            //Call function to create table with papers in data object
-            paperSearch(paper_count, data);
-            //Syntax to get JSON objects:
-        },
-        error: function() {
-            console.log('Error: ' + data);
-        }
-    });
+    var keyword = url.slice(url.indexOf("/search/") + 8, end_of_str);
+    keyword = keyword.replace(/%20/g, " ");
+
+    if (keyword == null) {
+        $(".section_title").html("Please enter a valid input");
+    } else {
+        $.ajax({
+            type: "GET",
+            url: "/papers/paperdata/search/" + keyword,
+            dataType: "JSON", // data type expected from server
+            success: function (data) {
+                //Get size of JSON object (number of papers)
+                paper_count = Object.keys(data["Data"]).length;
+                //Call function to create table with papers in data object
+                if (data["Data"] != "Keyword not found") {
+                    paperSearch(paper_count, data);
+                    $(".section_title").html("Below are the papers containing \"" + keyword + "\"");
+                } else {
+                    $(".section_title").html("No papers with \"" + keyword + "\"");
+                }
+                //Syntax to get JSON objects:
+            },
+            error: function() {
+                console.log('Error: ' + data);
+            }
+        });
+    }
+
 
     function paperSearch(paper_count, data){
 
@@ -34,7 +46,8 @@ $(document).ready(function(){
     var myTableDiv = document.getElementById("paper_main_table");
     var table = document.createElement("TABLE");
     table.style.border ="ridge";
-
+    table.style.marginTop ="40px";
+    
     var tableHead = document.createElement("THEAD");
     var tr = document.createElement("TR");
     tableHead.appendChild(tr);
@@ -43,15 +56,23 @@ $(document).ready(function(){
 
     //TITLE
     var th1 = document.createElement("TH");
-    th1.style.backgroundColor = "lightblue";
     var th1data = document.createTextNode("Title");
     th1.appendChild(th1data);
+    th1.style.paddingBottom = "12px";
+    th1.style.paddingTop = "8px";
+    th1.style.textAlign = "center";
+    th1.style.backgroundColor = "#4CAF50";
+    th1.style.color = "white";
+    th1.style.fontSize = "1.5em";
+    th1.style.fontFamily = "Arial";
     table.appendChild(th1);
 
 
     //Add table body
     var tableBody = document.createElement("TBODY");
     table.appendChild(tableBody);
+    table.style.marginLeft = "10%";
+    table.style.width = "80%";
 
     row_count = 0;
 
@@ -65,8 +86,7 @@ $(document).ready(function(){
         //Add PAPER TITLE to ROW
         var td1 = document.createElement('TD');
         td1.style.border = "1px solid #ddd";
-        //Add paper title to column 1 in row
-
+        td1.style.padding = "8px";
         //Link TITLE to PDF
         var a = document.createElement("A");
         td1.appendChild(a);
@@ -75,7 +95,10 @@ $(document).ready(function(){
         paper_title = data["Data"][row_count]["paper_title"];
         p1.appendChild(document.createTextNode(paper_title));
         p1.style.fontWeight = "bold";
-        a.href = "http://localhost:3000/papers/individual/" + data["Data"][row_count]["paper_id"];
+        a.href = "/papers/individual/" + data["Data"][row_count]["paper_id"];
+        a.style.color = "black";
+        //a.style.textDecoration = "none";
+        a.style.fontSize = "1.2em";
         a.appendChild(p1);
         
         //DESCRIPTION from query
@@ -87,11 +110,11 @@ $(document).ready(function(){
         //Add PAPER TITLE to ROW
         //Eventually make the like and star a page where you can see who
         //Has liked the paper
-        var b = document.createElement("B");
-        paper_likes = data["Data"][row_count]["paper_likes"];
-        paper_stars = data["Data"][row_count]["paper_stars"];
-        b.appendChild(document.createTextNode("Likes: " + paper_likes + " Stars: " + paper_stars));
-        td1.appendChild(b);
+        // var p3 = document.createElement("P");
+        // paper_likes = data["Data"][row_count]["paper_likes"];
+        // paper_stars = data["Data"][row_count]["paper_stars"];
+        // p3.appendChild(document.createTextNode("LIKES: " + paper_likes + " STARS: " + paper_stars));
+        // td1.appendChild(p3);
         row.appendChild(td1);
         
         //Next row

@@ -6,7 +6,6 @@ var admin = require('./admin');
 var login = require('./login');
 var committee = require('./committee');
 var papers = require('./papers');
-var blog = require('./blog');
 
 //Set up connection with database
 var db = mysql.createConnection({
@@ -30,7 +29,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -45,7 +45,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -55,7 +56,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -69,7 +71,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -176,7 +179,7 @@ module.exports = function(app) {
 
     app.get("/register/user", function(req,res, next){
         res.render("pages/register/user", {
-            err: "none",
+            err: "None",
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -187,7 +190,7 @@ module.exports = function(app) {
 
     app.get("/register/author", function(req,res, next){
         res.render("pages/register/author", {
-            err: "none",
+            err: "None",
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
@@ -205,7 +208,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -215,7 +219,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -225,7 +230,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -235,7 +241,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -249,7 +256,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -264,7 +272,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -274,7 +283,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -284,7 +294,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -294,7 +305,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -304,7 +316,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -314,7 +327,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -324,7 +338,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -334,7 +349,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -344,7 +360,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -354,7 +371,8 @@ module.exports = function(app) {
             session: req.session,
             user: req.session.username,
             user_type: req.session.user_type,
-            committee: req.session.committee
+            committee: req.session.committee,
+            err: "None"
         });
         next();
     });
@@ -389,7 +407,7 @@ module.exports = function(app) {
 
     //An  ajax call is made to this from the paper page using dynamic_table script
     //to get the json response which is all the papers in order to be
-    //outputted in the dynamic table 
+    //outputted in the dynamic table
     app.get("/paperdata",papers.paperdata);
 
     //Returns the papers from the specified time
@@ -418,19 +436,19 @@ module.exports = function(app) {
     app.post("/papers/addusercomment/:paperid/:username", papers.addusercomment);
     
     //DELETE COMMITTEE COMMENT
-    app.post("/papers/deleteusercomment/:paperid/:username/:comment", papers.deleteusercomment);
+    app.post("/papers/deleteusercomment/:paperid/:comment_id", papers.deleteusercomment);
     
     //ADD COMMITTEE COMMENT
     app.post("/papers/addcommitteecomment/:paperid/:committee_id/:username", papers.addcommitteecomment);
     
     //DELETE COMMITTEE COMMENT
-    app.post("/papers/deletecommitteecomment/:paperid/:committee_id/:username", papers.deletecommitteecomment);
+    app.post("/papers/deletecommitteecomment/:paperid/:comment_id", papers.deletecommitteecomment);
     
     //ADD AUTHOR REPLY
-    app.post("/papers/author_reply/:paperid/:comittee_id/:username/:paper_comments/:reply", papers.addauthorreply);
+    app.post("/papers/author_reply/:paperid/:username/:comment_id/:reply", papers.addauthorreply);
     
     //GET AUTHOR REPLY
-    app.get("/papers/get_author_reply/:paperid/:username/:paper_comments", papers.getauthorreply);
+    app.get("/papers/get_author_reply/:comment_id", papers.getauthorreply);
     
     //CHECK LIKE EXISTS
     app.get("/papers/does_like_exist/:paperid/:username", papers.checklike);

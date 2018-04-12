@@ -15,7 +15,6 @@ var db = mysql.createConnection({
     database : "arxiv_papers"
 });
 
-
 db.connect(function(err){
 if(!err) {
     console.log("Database is connected");
@@ -142,40 +141,42 @@ exports.getcommitteecomments = function(req,res, next){
 
 exports.addcommitteecomment = function(req,res){
     
-//Get the values entered in register form
-var committee_id = req.params.committee_id;
-var comment = req.body.post_comment;
-var paperid = req.params.paperid;
-var username = req.params.username;
+    //Get the values entered in register form
+    var committee_id = req.params.committee_id;
+    var comment = req.body.post_comment;
+    var paperid = req.params.paperid;
+    var username = req.params.username;
 
-var new_comment = {"paper_id": parseInt(paperid),"committee_id": parseInt(committee_id) ,"username":username,"paper_comments": comment};
+    var new_comment = {"paper_id": parseInt(paperid),"committee_id": parseInt(committee_id) ,"username":username,"paper_comments": comment};
 
-db.query('INSERT INTO committee_comments SET ?', new_comment, function(error, results, fields){
-    if (error) {
-        console.log("error occured", error);
-        res.send({
-            "code": 400,
-            "failed": "error ocurred"
+    if (comment!=""){
+        db.query('INSERT INTO committee_comments SET ?', new_comment, function(error, results, fields){
+            if (error) {
+                console.log("error occured", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                console.log("solution is: ", results);
+                //This reloads the page after the comment has been added
+                res.redirect("/papers/individual/" + paperid.toString());
+            }
         });
-    } else {
-        console.log("solution is: ", results);
-        //This reloads the page after the comment has been added
-        res.redirect("/papers/individual/" + paperid.toString());
+    }else {
+        res.send({
+            "Unpermitted Action" : "You cannot post an empty comment!"
+        });
     }
-});
 
-req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
-
-
-var errors = req.validationErrors();
 }
 
 exports.deletecommitteecomment = function(req,res){
+    
     var paperid = req.params.paperid;
-    var committee_id = req.params.committee_id;
-    var username = req.params.username;
+    var comment_id = req.params.comment_id;
 
-    query = "DELETE FROM committee_comments WHERE paper_id = " + paperid + " AND committee_id = " + committee_id + " AND username = \'" + username + "\'";
+    query = "DELETE FROM committee_comments WHERE comment_id = " + comment_id;
     db.query(query, function(error, results, fields){
         if (error) {
             console.log("error occured", error);
@@ -195,40 +196,44 @@ exports.addauthorreply = function(req,res){
 
     //Get the reply entered in prompt
     var paperid = req.params.paperid;
-    var commitee_id = req.params.commitee_id;
+    var comment_id = req.params.comment_id;
     var reply = req.params.reply;
     var username = req.params.username;
-    var paper_comments = req.params.paper_comments;
 
-    var new_reply = {"paper_id": parseInt(paperid),"username":username,"paper_comments": paper_comments,"reply": reply};
+    var new_reply = {"paper_id": parseInt(paperid),"username":username,"committee_c_id": comment_id,"reply": reply};
 
-    db.query('INSERT INTO authors_reply SET ?', new_reply, function(error, results, fields){
-        if (error) {
-            console.log("error occured", error);
-            res.send({
-                "code": 400,
-                "failed": "error ocurred"
-            });
-        } else {
-            console.log("solution is: ", results);
-            //This reloads the page after the comment has been added
-            res.redirect("/papers/individual/" + paperid.toString());
-        }
-    });
+    if (reply!=""){
+        db.query('INSERT INTO authors_reply SET ?', new_reply, function(error, results, fields){
+            if (error) {
+                console.log("error occured", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                console.log("solution is: ", results);
+                //This reloads the page after the comment has been added
+                res.redirect("/papers/individual/" + paperid.toString());
+            }
+        });
+    } else {
+        res.send({
+            "Unpermitted Action" : "You cannot post an empty comment!"
+        });
+    }
 
 }
 
 exports.getauthorreply = function(req,res, next){
     //get the name of the paper
-    var paperid = req.params.paperid;
-    var username = req.params.username;
-    var paper_comments = req.params.paper_comments;
+    var comment_id = req.params.comment_id;
+
     //Store JSON result to be extracted in data
     var data = {
         "Data": ""
     };
 
-    query = "SELECT * FROM authors_reply WHERE paper_id = " + paperid + " AND username = \'" + username + "\' AND paper_comments = \'" + paper_comments + "\'";
+    query = "SELECT * FROM authors_reply WHERE committee_c_id = " + comment_id;
     db.query(query,function(err, rows, fields){
         if(rows.length != 0){
             data["Data"] = rows;
@@ -249,33 +254,33 @@ exports.addusercomment = function(req,res){
 
     var new_comment = {"paper_id": parseInt(paperid),"username":username,"paper_comments": comment};
 
-    db.query('INSERT INTO user_comments SET ?', new_comment, function(error, results, fields){
-        if (error) {
-            console.log("error occured", error);
-            res.send({
-                "code": 400,
-                "failed": "error ocurred"
-            });
-        } else {
-            console.log("solution is: ", results);
-            //This reloads the page after the comment has been added
-            res.redirect("/papers/individual/" + paperid.toString());
-        }
-    });
-
-    req.checkBody('post_comment', 'You can not enter a blank commment').notEmpty();
-
-
-    var errors = req.validationErrors();
+    if (comment!=""){
+        db.query('INSERT INTO user_comments SET ?', new_comment, function(error, results, fields){
+            if (error) {
+                console.log("error occured", error);
+                res.send({
+                    "code": 400,
+                    "failed": "error ocurred"
+                });
+            } else {
+                console.log("solution is: ", results);
+                //This reloads the page after the comment has been added
+                res.redirect("/papers/individual/" + paperid.toString());
+            }
+        }); 
+    } else {
+        res.send({
+            "Unpermitted Action" : "You cannot post an empty comment!"
+        });
+    }
 }
 
 exports.deleteusercomment = function(req,res){
     
     var paperid = req.params.paperid;
-    var username = req.params.username;
-    var comment = req.params.comment;
+    var comment_id = req.params.comment_id;
 
-    db.query('DELETE FROM user_comments WHERE paper_id = ? AND username = ? AND paper_comments = ?',[paperid,username, comment], function(error, results, fields){
+    db.query('DELETE FROM user_comments WHERE comment_id = ?',[comment_id], function(error, results, fields){
         if (error) {
             console.log("error occured", error);
             res.send({
@@ -428,14 +433,14 @@ exports.search = function(req,res, next){
         "Data": ""
     };
 
-    query = "SELECT * FROM paper_data WHERE paper_title LIKE \'%" + keyword +"%\' ORDER BY paper_id DESC";
+    query = "SELECT * FROM paper_data WHERE paper_title LIKE \'%" + keyword + "%\' OR paper_description LIKE \'%" + keyword +"%\' ORDER BY paper_id DESC";
     db.query(query,function(err, rows, fields){
         if(rows.length != 0){
             data["Data"] = rows;
             //console.log(data["Data"]);
             res.json(data);
         }else{
-            data["Data"] = 'Star does not exist';
+            data["Data"] = 'Keyword not found';
             res.json(data);
         }
         });

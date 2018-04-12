@@ -59,7 +59,7 @@
 <div align="middle" id="main_search">
 <form method="get">
 <input type="search" name="search" id="main_search_box" placeholder="Search..." />
-<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Register" height="15" width="15"></button>
+<button type="submit" value="Search" id="main_search_button"><img src="../../public/img/search_button.svg" alt="Search Button" height="15" width="15"></button>
 </form>
 </div>
     
@@ -130,7 +130,7 @@
     //If form hasnt yet been filled and sent
     res = $("#callback").html();
     res = res.replace(/\"/g, "");
-    if (res == "none"){
+    if (res == "None"){
         $("#popup").remove();
         $("#callback").remove();
     } else if (res == "Email does not exist"){

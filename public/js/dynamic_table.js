@@ -82,7 +82,7 @@ $(document).ready(function(){
         p1.style.fontWeight = "bold";
         a.href = "/papers/individual/" + data["Data"][row_count]["paper_id"];
         a.style.color = "black";
-        a.style.textDecoration = "none";
+        //a.style.textDecoration = "none";
         a.style.fontSize = "1.2em";
         a.appendChild(p1);
         
