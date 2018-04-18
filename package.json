@@ -28,6 +28,7 @@
     "mathjax-node": "^2.0.1",
     "mysql": "^2.15.0",
     "node-cron": "^1.2.1",
+    "nodemailer": "^4.6.4",
     "path": "^0.12.7",
     "requirejs": "^2.3.5",
     "socket.io": "^2.0.4",
