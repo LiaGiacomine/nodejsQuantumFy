@@ -28,10 +28,10 @@ body {
 
 /****LOG OUT *****/
 
-#logout i {
+#logout strong {
     font-size: 1em;
     font-weight: bold;
-    border: 1px solid gray;
+    border-bottom: 1px solid gray;
     color: red;
     font-family: "Arial";
     margin: 5px;
@@ -183,7 +183,7 @@ body {
     top: 20px;
     right: 30px;
     transition: all 200ms;
-    font-size: 30px;
+    font-size: 1em;
     font-weight: bold;
     text-decoration: none;
     color: #333;
@@ -209,15 +209,15 @@ body {
 }
 
 #admin_space {
-    height: 145px;
+    height: 150px;
 }
 
 #login_space {
-    height: 160px;
+    height: 190px;
 }
 
 #register_space {
-    height: 140px;
+    height: 190px;
 }
 
 #blog_space {
@@ -229,7 +229,7 @@ body {
 }
 
 #paper_space {
-    height: 190px;
+    height: 210px;
 }
 
 /* HEADER */
@@ -313,7 +313,7 @@ hr {
     background:white;
 }
 
-#register i {
+#register_text {
     font-weight: bold;
     font-size: 1.5em;
     color:rgb(0, 89, 255);
@@ -607,7 +607,7 @@ body {
     font-family: "Arial";
     padding: 17px 4.5%;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1em;
   }
 
   .topnav a {
@@ -618,7 +618,7 @@ body {
     text-align: center;
     padding: 15px 3%;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 1em;
   }
   
   .topnav a:hover {
@@ -742,15 +742,8 @@ body {
 
 #home_papers .homepage_img {
     display: block;
-    margin: 50px auto;
-    width: 400px;
-}
-
-@media screen and (min-width: 900px) {
-
-    #home_papers .homepage_img {
-        width: 600px;
-    }
+    margin: 5% auto;
+    width: 80%;
 }
 
 #home_papers .home_header {
@@ -768,7 +761,7 @@ body {
     margin-left: 50px;
     display: inline-block;
     padding: 15px 25px;
-    font-size: 24px;
+    font-size: 1.2em;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -779,20 +772,17 @@ body {
     border-radius: 10px;
     box-shadow: 0 9px grey;
 }
-#login_type_section {
-    margin-left: 1%;
-}
 
-@media screen and (min-width:800px){
+/* @media screen and (min-width:800px){ */
     #login_type_section {
-        width: 900px;
+        width: 100%;
         margin-left: 28%;
-        top: 50%;
-        left: 50%;
+        /* top: 50%;
+        left: 50%; */
         padding: 10px;
         border: 1px solid white;
     }
-}
+/* } */
       
 .login_type_button:hover { box-shadow: 0 9px olivedrab;}
       
@@ -816,7 +806,7 @@ body {
 
 legend.form_legend {
     background-color: whitesmoke;
-    width: 450px;
+    width: 90%;
     border-radius: 10px;
     padding: 1px 10px;
     margin-left: 10px;
@@ -835,8 +825,8 @@ legend.form_legend h2{
 #loginField fieldset {
     width: 100px;
     margin-left: 30%;
-    top: 50%;
-    left: 50%;
+    /* top: 50%;
+    left: 50%; */
     padding: 20px;
     border: 1px solid white;
 }
@@ -853,10 +843,13 @@ legend.form_legend h2{
 
 @media screen and (max-width: 800px) {
    #loginField fieldset {
-    margin-left: 10%;
-    padding: 10px;
-    border: 1px solid white;
-}}
+    margin-left: 5%;
+}
+#login_type_section {
+    margin-left: 2%;
+}
+
+}
 
 
 #loginField form {

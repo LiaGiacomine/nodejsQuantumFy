@@ -9,7 +9,7 @@ $(document).ready(function(){
     //AND EVENTUALLY USER WHO COMMENTED
     $.ajax({
         type: "GET",
-        url: "http://localhost:3000/committee_data",
+        url: "/committee_data",
         dataType: "JSON", // data type expected from server
         success: function () {
             //Call function to add paper returned to page
